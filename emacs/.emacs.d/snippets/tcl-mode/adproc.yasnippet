@@ -1,0 +1,12 @@
+# key: adproc
+# name: Ad Proc
+# --
+ad_proc -${1:public} $2 { } {
+
+    $3
+
+    @author `user-full-name` <`user-mail-address`>
+    @creation-date `(format-time-string "%Y-%m-%d")`
+} {
+    $0
+}

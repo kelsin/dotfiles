@@ -1,0 +1,7 @@
+# key: from
+# name: From
+# --
+if header :contains "From" "$1" {
+  fileinto "$2";
+  stop;
+           }
