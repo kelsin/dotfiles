@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/kelsin/dotfiles/issues"
   },
-  "homepage": "https://github.com/kelsin/dotfiles#readme"
+  "homepage": "https://github.com/kelsin/dotfiles#readme",
+  "dependencies": {
+    "bunyan": "^1.8.0",
+    "gulp": "^3.9.1"
+  }
 }
