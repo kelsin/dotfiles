@@ -11,7 +11,7 @@ Dotfiles for Christopher Giroir <kelsin@valefor.com>
 ## Goals
 
 * Able to bootstrap a new Mac machine or Linux server easily with no
-  dependencies other than `curl`.
+  dependencies other than `curl` or `wget`.
 * Not having to keep entire home directory in git (as I used to do)
 * Keeping external dependencies and custom scripts to a minimum
 
