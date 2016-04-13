@@ -1,0 +1,11 @@
+Config { font = "xft:DejaVu Sans Mono for Powerline:size=12"
+       , bgColor = "black"
+       , fgColor = "grey"
+       , position = TopW L 100
+       , commands = [ Run Date "%m-%d-%y %H:%M" "date" 100
+                    , Run StdinReader
+                    ]
+       , sepChar = "%"
+       , alignSep = "}{"
+       , template = "%StdinReader% }{ <fc=#5eb1ff>%date%</fc> "
+       }
