@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
 # Update App Store apps
 sudo softwareupdate -i -a
@@ -6,12 +6,11 @@ sudo softwareupdate -i -a
 # Update Homebrew (Cask) & packages
 brew update
 brew upgrade
-brew bundle --global install
+brew bundle --file=$DOTFILES/Brewfile
 brew cleanup
 
 # Update npm & packages
-npm install npm -g
-npm update -g
+update-node
 
 # Update Ruby & gems
 update-ruby
