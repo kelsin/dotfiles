@@ -1,0 +1,95 @@
+######################################################################
+# Keybindings
+######################################################################
+Key bracketleft A 4 Move screen 0 50-50w 50-50w Warp
+Key bracketright A 4 Move screen 1 50-50w 50-50w Warp
+
+Key V A 4 Popup MenuMoveWindow
+
+# Menus
+Key Return A 4 Popup MenuFocus
+Key Menu A N Popup MenuMain
+Key U A 4 Popup MenuMain
+
+# Desktop Movement
+Key F A 4 FuncGotoDeskPage 1 $[page.nx] $[page.ny]
+Key B A 4 FuncGotoDeskPage -1 $[page.nx] $[page.ny]
+Key F A S4 FuncMoveToDeskPage 1 $[page.nx] $[page.ny]
+Key B A S4 FuncMoveToDeskPage -1 $[page.nx] $[page.ny]
+
+#Key P A 4 FuncMoveDeskUp
+#Key N A 4 FuncMoveDeskDown
+#Key F A 4 FuncMoveDeskForward
+#Key B A 4 FuncMoveDeskBack
+
+# Console
+Key Escape A 4 FvwmConsole
+
+# Terminal
+Key T A 4 Exec xterm
+
+# File Management
+Key H A 4 Exec exec nautilus --no-desktop
+Key H A S4 Exec exec thunar
+
+# Window Control
+Key M A 4 Maximize 100 100
+Key G A 4 Maximize grow grow
+Key C A 4 Iconify
+Key S A 4 Stick
+Key W A 4 Close
+Key W A S4 Destroy
+Key R A 4 Resize
+Key V A 4 Move
+
+# Scroll between windows on this page
+# Key N A 4 Function FuncFocus CurrentPage
+# Key P A 4 Function FuncFocusPrev CurrentPage
+
+Key I A 4 Module FvwmIdent
+
+# Page movement
+Key 1 A 4 GotoPage 0 0
+Key 2 A 4 GotoPage 1 0
+Key 3 A 4 GotoPage 0 1
+Key 4 A 4 GotoPage 1 1
+
+Key 1 A S4 MoveToPage 0 0
+Key 2 A S4 MoveToPage 1 0
+Key 3 A S4 MoveToPage 0 1
+Key 4 A S4 MoveToPage 1 1
+
+# some simple default key bindings:
+Key Next         A       SCM     Next [*] Focus
+Key Prior        A       SCM     Prev [*] Focus
+
+# Window List
+Key Tab A M WindowList Root c c CurrentDesk, NoGeometry, ShowPage, IconifiedAtEnd, SortByResource, SelectOnRelease
+
+######################################################################
+# Mouse
+######################################################################
+# Root Window
+Mouse 1 R A Menu MenuMain Nop
+Mouse 3 R A WindowList
+
+# Title Bar Buttons
+Mouse 1 1 N Close
+Mouse 1 2 N Maximize
+Mouse 2 2 N Maximize grow grow
+Mouse 3 2 N Maximize 0 100
+Mouse 2 1 N Destroy
+
+# Window Parts
+Mouse 1 F       A       FuncFvwmResizeOrRaise
+Mouse 1 TS      A       FuncFvwmMoveOrRaise
+Mouse 1 I       A       FuncFvwmMoveOrIconify
+Mouse 2 I       A       Iconify
+Mouse 2 FST     A       Menu MenuFvwmWindowOps2 Nop
+Mouse 3 TSIF    A       RaiseLower
+
+# Scrolling
+Mouse 1 A 4 Scroll reverse
+
+# Focus
+Mouse 2 A 4 Popup MenuFocus

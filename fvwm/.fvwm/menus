@@ -1,0 +1,87 @@
+######################################################################
+# Menus
+######################################################################
+DestroyMenu MenuMain
+AddToMenu   MenuMain
++ "Berklee" Title
++ "&Terminal"   Exec exec xterm
++ "&Emacs"      Exec exec emacs
++ "&Firefox"    Exec exec firefox
++ "Epip&hany"   Exec exec epiphany
++ "&Pidgin"     Exec exec pidgin
++ "&Sonata"     Exec exec sonata
++ ""            Nop
++ "&Accessories" Popup MenuAccessories
++ "&Berklee"     Popup MenuBerklee
++ "&Graphics"    Popup MenuGraphics
++ ""            Nop
++ "F&ocus"      Popup MenuFocus
++ "E&xit"       Popup MenuExit
+
+DestroyMenu MenuGraphics
+AddToMenu   MenuGraphics
++ "&Gimp"     Exec exec gimp
++ "&Inkscape" Exec exec inkscape
+
+DestroyMenu MenuAccessories
+AddToMenu   MenuAccessories
++ "&Binary Clock" Exec exec xterm -e ./src/lisp/binary-clock.lisp -t Clock --geometry=15x5
++ "&Calculator"   Exec exec gnome-calculator
++ "&Screenshot"   Exec exec gnome-screenshot -w -d 2 -e shadow
+
+DestroyMenu MenuBerklee
+AddToMenu   MenuBerklee
++ "&Parallels" Exec exec parallels
+
+DestroyMenu MenuExit
+AddToMenu   MenuExit
++ "&Lock Screen"        Exec exec xlock
++ "&Quit"               Quit
++ "&Restart"            Restart
+
+DestroyMenu MenuFocus
+AddToMenu   MenuFocus
++ "Focus"               Title
++ "&Terminal"           Function FuncFocusAll CurrentDesk, "xterm"
++ "&Emacs"              Function FuncFocus "Emacs"
++ "&Firefox"            Function FuncFocus CurrentDesk, "Firefox"
++ "Epip&hany"           Function FuncFocus CurrentDesk, "Epiphany"
++ "Pidgin Ch&at"        Function FuncFocus "Pidgin", !"Buddy List"
++ "Pidgin &Buddy List"  Function FuncFocus "Buddy List"
++ "&Sonata"             Function FuncFocus "Sonata"
+
+# The window Ops menus exhibit a different HotKey style.
+# There are 2 versions of the WindowOps Menu, meant to be bound to different
+# things.  Here is the "common" part:
+DestroyFunc FuncFvwmWindowCommon
+AddToFunc FuncFvwmWindowCommon
++ I AddToMenu $0 "$[gt.&Move]"              Move
++ I AddToMenu $0 "$[gt.&Resize]"            Resize
++ I AddToMenu $0 "$[gt.R&aise]"             Raise
++ I AddToMenu $0 "$[gt.&Lower]"             Lower
++ I AddToMenu $0 "$[gt.(De)&Iconify]"       Iconify
++ I AddToMenu $0 "$[gt.(Un)&Stick]"         Stick
++ I AddToMenu $0 "$[gt.(Un)Ma&ximize]"      Maximize
++ I AddToMenu $0 ""                 Nop
++ I AddToMenu $0 "$[gt.&Delete]"            Delete
++ I AddToMenu $0 "$[gt.&Close]"             Close
++ I AddToMenu $0 "$[gt.Destroy]"            Destroy
++ I AddToMenu $0 ""                 Nop
+
+# First windowops menu, bound to:
+# mouse 2 on root
+# Root menu
+DestroyMenu MenuFvwmWindowOps
+AddToMenu MenuFvwmWindowOps     "$[gt.Window Ops]"    Title
+FuncFvwmWindowCommon MenuFvwmWindowOps
++ "$[gt.Re&fresh Window]" RefreshWindow
+
+# Second windowops menu, bound to:
+# any mouse on titlebar button 1
+# mouse 2 on frame, side or titlebar
+DestroyMenu MenuFvwmWindowOps2
+AddToMenu MenuFvwmWindowOps2
+FuncFvwmWindowCommon MenuFvwmWindowOps2
++ Scroll&Bar       Module FvwmScroll 2 2
++ "&$[gt.Print]"           FuncFvwmPrint
++ "$[gt.Print Re&verse]" FuncFvwmPrintReverse

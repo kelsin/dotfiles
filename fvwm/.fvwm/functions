@@ -1,0 +1,109 @@
+######################################################################
+# Functions
+######################################################################
+DestroyFunc FuncFocusPrev
+AddToFunc   FuncFocusPrev
++ I Prev ($*) FlipFocus
++ I Current (Iconic) Iconify
++ I Prev ($*) WarpToWindow 50 50
+
+DestroyFunc FuncFocus
+AddToFunc   FuncFocus
++ I Next ($*) FlipFocus
++ I Current (Iconic) Iconify
++ I Next ($*) WarpToWindow 50 50
+
+DestroyFunc FuncFocusAll
+AddToFunc   FuncFocusAll
++ I All ($*) Raise
++ I FuncFocus $*
+
+DestroyFunc FuncFocusWindow
+AddToFunc   FuncFocusWindow
++ I FlipFocus
++ I WarpToWindow 50 50
+
+DestroyFunc FuncDisplayMessage
+AddToFunc   FuncDisplayMessage
++ I Exec exec gnome-osd-client "<span font_desc='Bitstream Vera Sans' weight='bold' foreground='#ffffff'>$0</span>"
+
+DestroyFunc FuncMoveToDeskPage
+AddToFunc   FuncMoveToDeskPage
++ I MoveToDesk $0
++ I MoveToPage $1 $2
++ I FuncGotoToDeskPage $*
+
+DestroyFunc FuncGotoDeskPage
+AddToFunc   FuncGotoDeskPage
++ I GotoDesk $0
++ I GotoPage $1 $2
++ I FuncDisplayMessage "Desk $[desk.n] Page $[page.nx] $[page.ny]"
+
+DestroyFunc FuncMoveDeskUp
+AddToFunc   FuncMoveDeskUp
++ I All (!Sticky) Move w+0 w+100
+
+DestroyFunc FuncMoveDeskDown
+AddToFunc   FuncMoveDeskDown
++ I All (!Sticky) Move w+0 w-100
+
+DestroyFunc FuncMoveDeskForward
+AddToFunc   FuncMoveDeskForward
++ I All (!Sticky) Move w-100 w+0
+
+DestroyFunc FuncMoveDeskBack
+AddToFunc   FuncMoveDeskBack
++ I All (!Sticky) Move w+100 w+0
+
+DestroyFunc FuncFvwmMailXmh
+AddToFunc FuncFvwmMailXmh
++ I Next [$0] Iconify false
++ I Next [$0] Focus
++ I None [$0] Exec $0 $1
+
+DestroyFunc FuncFvwmMoveOrRaise
+AddToFunc FuncFvwmMoveOrRaise
++ I Raise
++ M Move
++ D Lower
+
+DestroyFunc FuncFvwmMaximize
+AddToFunc FuncFvwmMaximize
++ M Maximize   0 100
++ H Maximize   0 100
++ C Maximize   0  80
++ D Maximize 100 100
+
+DestroyFunc FuncFvwmMoveOrIconify
+AddToFunc FuncFvwmMoveOrIconify
++ I Raise
++ M Move
++ D Iconify
+
+DestroyFunc FuncFvwmResizeOrRaise
+AddToFunc FuncFvwmResizeOrRaise
++ I Raise
++ M Resize
++ D Lower
+
+DestroyFunc FuncFvwmPrint
+AddToFunc FuncFvwmPrint
++ I Raise
++ I Exec xdpr -id $w
+
+DestroyFunc FuncFvwmPrintReverse
+AddToFunc FuncFvwmPrintReverse
++ I Raise
++ I Exec xdpr 1/2 -h -rv -id $w
+
+DestroyFunc FuncFvwmFocusPolicyChange
+AddToFunc FuncFvwmFocusPolicyChange
++ I Style * $0
++ I Recapture
+
+DestroyFunc WindowListFunc
+AddToFunc   WindowListFunc
++ I Iconify Off
++ I FlipFocus
++ I Raise
++ I WarpToWindow 50 50

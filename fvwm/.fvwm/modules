@@ -1,0 +1,56 @@
+######################################################################
+# Module Config
+######################################################################
+DestroyModuleConfig MainBar: *
+*MainBar: Geometry 208x800-0+0
+*MainBar: Frame 0
+*MainBar: Rows 8
+*MainBar: Columns 2
+*MainBar: (2x1, Swallow (Close, SwallowNew) "Clock" `Exec exec gnome-terminal -e ./src/lisp/binary-clock.lisp -t Clock --geometry=11x3`)
+*MainBar: (2x1, Swallow (Close, SwallowNew) "xclock" `Exec exec xclock -bg '#333333' -fg white -face 'Bitstream Vera Sans Mono:size=12' -digital -padding 4 -strftime '%d %b %Y %H:%M'`)
+*MainBar: (2x1, Frame 0, Swallow (NoClose,UseOld) "stalonetray" "Exec exec stalonetray --parent-bg --icon-size 28 --icon-gravity N")
+#*MainBar: (2x1, Swallow (NoClose,UseOld,SwallowNew) "trayer" "Exec exec trayer --SetDockType false --widthtype request --heighttype pixel --height 24 --transparent true --alpha 200")
+*MainBar: (2x3, Swallow (Close) "Icons" "")
+*MainBar: (2x2, Swallow (Close) "FvwmPager" "FvwmPager *")
+
+DestroyModuleConfig FvwmEvent-NewWindow: *
+*FvwmEvent-NewWindow: Cmd Function
+*FvwmEvent-NewWindow: add_window FuncFocusWindow
+
+# 0 is the Desk Manager
+# 1 is the Terminal Manager
+# 2 is the Other Manager
+DestroyModuleConfig FvwmIconMan: *
+*FvwmIconMan: Font "xft:Bitstream Vera Sans:size=10"
+*FvwmIconMan: NumManagers 3
+*FvwmIconMan: Resolution global
+*FvwmIconMan: Sort name
+
+*FvwmIconMan: 0 Title "Desktop"
+*FvwmIconMan: 0 ShowOnlyIcons false
+*FvwmIconMan: 0 Resolution desk
+*FvwmIconMan: 0 DrawIcons true 
+
+*FvwmIconMan: 1 Title "Terminals"
+*FvwmIconMan: 1 Show resouce=gnome-terminal
+*FvwmIconMan: 1 ShowOnlyIcons false
+*FvwmIconMan: 1 Resolution desk
+*FvwmIconMan: 1 DrawIcons false
+
+*FvwmIconMan: 2 Title "Icons"
+*FvwmIconMan: 2 DontShow resource=gnome-terminal
+*FvwmIconMan: 2 ShowOnlyIcons true
+*FvwmIconMan: 2 Resolution desk
+*FvwmIconMan: 2 DrawIcons true
+
+DestroyModuleConfig FvwmPager: *
+*FvwmPager: MiniIcons
+*FvwmPager: UseSkipList
+
+DestroyModuleConfig FvwmGtk: *
+*FvwmGtk: RCFile "/home/cgiroir/.gtkrc-2.0"
+*FvwmGtk: Dialog Desktop-Name-Dialog "Set Desktop Name" center
+*FvwmGtk: Box
+*FvwmGtk: Entry Desktop-Name-Dialog-Name "$$[desk.name$$[desk.n]]" -- focus
+*FvwmGtk: Button "Ok" "DesktopName $$[desk.n] $(Desktop-Name-Dialog-Name)" close -- default
+*FvwmGtk: EndBox

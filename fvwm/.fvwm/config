@@ -1,0 +1,105 @@
+######################################################################
+# Christopher Giroir <kelsin@valefor.com>
+######################################################################
+
+EdgeResistance 250
+EdgeScroll 0 0
+ClickTime 750
+
+XineramaPrimaryScreen 1
+Xinerama on
+
+IgnoreModifiers L25
+DeskTopSize 2x2
+MenuStyle * Fvwm, MenuColorset 3
+MenuStyle * Font "xft:Bitstream Vera Sans:size=10"
+
+######################################################################
+# Colorsets
+######################################################################
+Colorset   1 bg #121212, sh #A9C69B, hi #A9C69B, VGradient 16 #265B23 #0F240E
+Colorset   2 bg #265B23, sh #A9C69B, hi #A9C69B, VGradient 16 #1B1E20 #06090B
+Colorset   3 bg #225420, fg #bbbbbb, sh #232323, fgsh #555555, hi #3A6838
+Colorset   4 bg #337F31, fg #ffffff, sh #232323, fgsh #999999, hi #3A6838
+
+ColormapFocus FollowsMouse
+
+######################################################################
+# Styles
+######################################################################
+Style * Font "Shadow=1:xft:Bitstream Vera Sans:size=10"
+Style * IconFont "xft:Bitstream Vera Sans:size=10"
+Style * Colorset 3, HilightColorset 4
+Style * BorderWidth 2, HandleWidth 2
+Style * Icon unknown1.xpm, Color lightgrey/dimgrey
+Style * MWMFunctions, MWMDecor, HintOverride
+Style * DecorateTransient, NoPPosition
+Style * IconBox 0 -10 -280 -1
+Style * FocusFollowsMouse
+Style * TileCascadePlacement
+Style * StippledTitleOff
+Style * StartsOnScreen c
+Style * EdgeMoveDelay 250
+Style * EdgeMoveResistance 10
+
+TitleStyle AllActive Colorset 1
+TitleStyle AllInactive Colorset 2
+BorderStyle -- flat
+TitleStyle -- flat
+TitleStyle Height 20
+
+# ButtonStyle 1 ActiveUp Vector 16 \
+# 	26x34@0 66x74@0 62x74@0 22x34@0 62x34@4 22x74@0 18x74@0 62x34@0 \
+# 	30x30@4 70x70@3 66x70@3 26x30@3 34x30@3 74x70@3 70x30@4 30x70@3 -- Flat
+# ButtonStyle 1 ActiveDown Vector 8 \
+# 	26x34@4 66x74@3 62x74@3 22x34@3 30x34@3 70x74@3 66x34@4 26x74@3 -- Flat
+# ButtonStyle 1 Inactive Vector 16 \
+# 	26x34@0 66x74@0 62x74@0 22x34@0 62x34@4 22x74@0 18x74@0 62x34@0 \
+# 	30x30@4 70x70@3 66x70@3 26x30@3 34x30@3 74x70@3 70x30@4 30x70@3 -- Flat
+
+ButtonStyle 1 MiniIcon -- Flat
+
+ButtonStyle 2 ActiveUp Vector 25 \
+	22x34@0 22x42@0 62x42@0 62x44@0 22x44@0 22x74@0 62x74@0 62x42@0 \
+	26x34@0 26x42@0 66x42@0 66x44@0 26x44@0 26x74@0 66x74@0 66x42@0 \
+	30x30@4 30x70@3 70x70@3 70x30@3 30x30@3 30x34@3 70x34@3 \
+	70x38@3 30x38@3 -- Flat
+ButtonStyle 2 ActiveDown Vector 9 \
+	26x34@4 26x74@3 66x74@3 66x34@3 26x34@3 26x38@3 66x38@3 \
+	66x42@3 26x42@3 -- Flat
+ButtonStyle 2 InactiveUp Vector 25 \
+	22x34@0 22x42@0 62x42@0 62x44@0 22x44@0 22x74@0 62x74@0 62x42@0 \
+	26x34@0 26x42@0 66x42@0 66x44@0 26x44@0 26x74@0 66x74@0 66x42@0 \
+	30x30@4 30x70@3 70x70@3 70x30@3 30x30@3 30x34@3 70x34@3 \
+	70x38@3 30x38@3 -- Flat
+
+ButtonStyle All -- UseTitleStyle
+
+# Styles for various Fvwm modules:
+Style Fvwm*       NoTitle,  Sticky, WindowListSkip
+Style Fvwm*       BorderWidth 2, CirculateSkipIcon, CirculateSkip
+Style FvwmPager   StaysOnTop
+Style FvwmBanner  StaysOnTop
+
+Read "bindings"
+Read "menus"
+Read "functions"
+Read "buttons"
+Read "modules"
+
+######################################################################
+# Startup Function
+######################################################################
+DestroyFunc StartFunction
+AddToFunc   StartFunction
++ I Module FvwmAnimate
++ I Module FvwmBanner
++ I Module FvwmCommandS
++ I Module FvwmGtk
++ I Module FvwmIconMan
++ I Module FvwmEvent FvwmEvent-NewWindow
++ I Module FvwmButtons MainBar
++ I Exec exec gnome-settings-daemon
++ I Exec exec gnome-volume-manager
++ I Exec exec nm-applet
++ I Exec exec gnome-do

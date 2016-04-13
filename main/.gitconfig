@@ -1,0 +1,45 @@
+[color]
+    diff = auto
+    status = auto
+    branch = auto
+    ui = auto
+[push]
+    default = upstream
+[alias]
+    aa = add -A
+    d = diff -b
+    dc = diff --cached -b
+    marked-unchanged = !git ls-files -v | grep ^[a-z]
+    mu = !git ls-files -v | grep ^[a-z]
+    br = branch
+    ba = branch -a
+    brm = merge --no-ff --log --no-commit
+    pr = remote prune
+    pro = remote prune origin
+    st = status
+    co = checkout
+    oc = checkout
+    sub = submodule
+    subrm = submodule deinit
+    l = log --graph --decorate --oneline
+    ls = log --graph --decorate --oneline --stat
+    la = log --graph --decorate --oneline --all
+    lsa = log --graph --decorate --oneline --stat --all
+    rmerge = merge --no-ff --no-commit
+[status]
+    relativePaths = false
+[github]
+    user = Kelsin
+[diff "ruby"]
+    funcname = ^ *\\(\\(class\\|module\\|def\\) .*\\)
+[branch]
+    autosetuprebase = always
+[core]
+    autocrlf = input
+    excludesfile = ~/.gitignore
+[filter "lfs"]
+    clean = git-lfs clean %f
+    smudge = git-lfs smudge %f
+    required = true
+[include]
+    path = .gitconfig.user

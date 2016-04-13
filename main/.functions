@@ -1,0 +1,14 @@
+# Set Title
+function set-title {
+    case $TERM in
+        screen*)
+        printf "\ek$*\e\\"
+        ;;
+        xterm*)
+        printf "\033]0;$*\007"
+        ;;
+        cygwin*)
+        printf "\033]0;$*\007"
+        ;;
+    esac
+}

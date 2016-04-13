@@ -1,0 +1,96 @@
+# Sudo
+alias _='sudo'
+alias please='sudo'
+
+# Pretty Clear
+alias clear='clear && toilet -f future $USER 2>/dev/null | lolcat 2>/dev/null'
+
+# Make sure ls has colors and defaults to -h
+alias ls='ls -h'
+alias la='ls -lah'
+
+# Mac
+alias o='open'
+alias pbc='pbcopy'
+alias pbp='pbpaste'
+
+# File Download
+alias get='curl --continue-at - --location --progress-bar --remote-name --remote-time'
+
+# Resource Usage
+alias df='df -kh'
+alias du='du -kh'
+
+# Use HTop
+alias top=htop
+
+# Git
+alias gitk='gitk --all &'
+
+# QuickMug
+alias qm='~/.rbenv/shims/quickmug'
+alias gitx='open -a gitx .'
+
+# Docker
+alias d='docker'
+alias dm='docker-machine'
+alias dc='docker-compose'
+alias dme='eval $(docker-machine env)'
+
+# AWS
+alias ebe='eb printenv | grep \= | sort'
+
+# Grep Colors
+alias grep='grep --color=auto'
+
+# VPN
+alias vpn='set-title VPN;sudo openconnect --user=cgiroir --authgroup=Blizzard_Development vpn.connect.blizzard.com'
+
+# Cask Install
+alias cask-install='curl -fsSkL https://raw.github.com/cask/cask/master/go | python'
+
+# Our Home
+alias home='set-title Kelsin;ssh -Y -p 2223 kelsin.is-a-geek.com'
+
+# Giroir Home
+alias giroir='set-title Giroir;ssh -Y giroir.homelinux.com'
+
+# Linode
+alias zealot='set-title zealot;ssh -Y zealot.kelsin.net'
+alias lish-zealot='set-title lish:zealot;ssh -Y -t kelsin@lish-dallas.linode.com zealot'
+
+# Brew
+alias brews='brew list -1'
+alias bubo='brew update && brew outdated'
+alias bubc='brew upgrade && brew cleanup'
+alias bubu='bubo && bubc'
+
+# Bundler
+alias bi='bundle install --without production'
+alias bu='bundle update'
+alias be='bundle exec'
+
+# Java and Maven setup
+alias dep='mvn dependency:list'
+alias dept='mvn dependency:tree'
+alias snaps='dep | grep ^\\[INFO\.*SNAPSHOT | grep -v Building\ '
+alias clean='mvn clean'
+alias ctest='clean test'
+alias mtest='mvn test'
+alias ccom='clean compile'
+alias mcom='mvn compile'
+alias cpkg='clean package'
+alias mpkg='mvn package'
+alias crun='cpkg cargo:run'
+alias mrun='mpkg cargo:run'
+alias run='mvn cargo:run'
+alias cin='clean install'
+alias min='mvn install'
+alias mda='mvn dependency:analyze'
+alias mup='mvn -N versions:update-child-modules'
+alias mwi='cpkg war:inplace'
+alias mwe='cpkg war:exploded'
+alias startup='set-title tomcat;cd $CATALINA_HOME/bin;./catalina.sh jpda run'
+
+# Tmux
+alias mux=tmuxinator
