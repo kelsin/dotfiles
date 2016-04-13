@@ -1,0 +1,30 @@
+#!/bin/sh
+
+case $1 in
+  mac)
+    ;;
+  server)
+    ;;
+  *)
+    echo "Invalid package list"
+    exit 1
+esac
+
+# First install brew on a mac
+if [[ "$OSTYPE" == darwin* ]]; then
+  which brew &>/dev/null || \
+    /usr/bin/ruby -e \
+    "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+  # Install git and stow
+  brew install git stow
+fi
+
+# Now that git is available let's check out our dotfiles
+[ -d ~/.dotfiles ] || git clone git@github.com:kelsin/dotfiles.git ~/.dotfiles
+
+# Stow install our apps
+~/.dotfiles/install $1
+
+# Run the update
+~/bin/update

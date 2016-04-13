@@ -26,12 +26,12 @@ sh](http://pubs.opengroup.org/onlinepubs/009695399/utilities/sh.html) and
 On a mac laptop:
 
 ```sh
-curl -o- https://raw.githubusercontent.com/kelsin/dotfiles/master/bootstrap | sh mac
+curl -o- https://raw.githubusercontent.com/kelsin/dotfiles/master/bootstrap | sh -s mac
 ```
 
 On a server:
 ```sh
-curl -o- https://raw.githubusercontent.com/kelsin/dotfiles/master/bootstrap | sh server
+curl -o- https://raw.githubusercontent.com/kelsin/dotfiles/master/bootstrap | sh -s server
 ```
 
 If you need to use wget the commands become:
