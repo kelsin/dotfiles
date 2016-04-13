@@ -34,6 +34,13 @@ On a server:
 curl -o- https://raw.githubusercontent.com/kelsin/dotfiles/master/bootstrap | sh server
 ```
 
+If you need to use wget the commands become:
+
+```sh
+wget -O - https://raw.githubusercontent.com/kelsin/dotfiles/master/bootstrap | sh mac
+wget -O - https://raw.githubusercontent.com/kelsin/dotfiles/master/bootstrap | sh server
+```
+
 ### Installing
 
 The bootstrap will run an install initially for you, but at that point you can
