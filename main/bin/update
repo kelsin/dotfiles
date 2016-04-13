@@ -14,7 +14,4 @@ npm install npm -g
 npm update -g
 
 # Update Ruby & gems
-gem update —system
-gem update
-gem install bundler
-bundler install --gemfile ~/.Gemfile
+update-ruby

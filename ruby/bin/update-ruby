@@ -12,6 +12,10 @@ chruby ruby
 # Make sure .ruby-version file is setup
 echo $RUBY_VERSION > $DOTFILES/ruby/.ruby-version
 
+# Update gems
+gem update --system
+gem update
+
 # Make sure bundler is installed
 gem install bundler
 
