@@ -1,0 +1,26 @@
+#!/usr/bin/env zsh
+
+MAC_PACKAGES=( emacs main node ruby tmux vim zsh )
+SERVER_PACKAGES=( bash main screen tmux )
+
+STOW_DIR=$0:A:h
+
+pushd $STOW_DIR > /dev/null
+
+case $1 in
+  mac)
+    for package in $MAC_PACKAGES; do
+      stow -R $package &> /dev/null
+    done
+    ;;
+  server)
+    for package in $SERVER_PACKAGES; do
+      stow -R $package &> /dev/null
+    done
+    ;;
+  *)
+    echo "Invalid group"
+    ;;
+esac
+
+popd
