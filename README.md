@@ -6,7 +6,7 @@
 |_|\_\___|_|___/_|_| |_|
 ```
 
-Dotfiles for Christopher "kelsin" Giroir <kelsin@valefor.com>
+Dotfiles for Christopher `kelsin` Giroir <kelsin@valefor.com>
 
 ## Usage
 
