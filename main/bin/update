@@ -10,7 +10,7 @@ brew bundle --file=$DOTFILES/Brewfile
 brew cleanup
 
 # Update npm & packages
-update-node
+[[ $+commands["update-node"] ]] && update-node
 
 # Update Ruby & gems
-update-ruby
+[[ $+commands["update-ruby"] ]] && update-ruby
