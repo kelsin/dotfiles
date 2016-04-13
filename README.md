@@ -54,6 +54,10 @@ commands.
 # Install the bash package
 stow bash
 
+# Reinstall the bash package
+# this removes old symlinks as well as places new ones
+stow -R bash
+
 # Remove the bash package
 stow -D bash
 
