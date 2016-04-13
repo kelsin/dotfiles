@@ -1,10 +1,10 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
 # Install the latest stable version of ruby possible
 ruby-install ruby --latest --no-reinstall
 
 # Update chruby with new rubies
-. `brew --prefix`/share/chruby/chruby.sh
+. $DOTFILES/ruby/.zsh/chruby.zsh
 
 # Change this shell to latest version
 chruby ruby
