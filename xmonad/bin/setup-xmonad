@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Make sure you have latest ghc installed and working along with
+# cabal_install. This might not be needed eventually but currently it requires
+# installing ghc6 for bootstrapping purposes:
+
+# sudo aptitude -y ghc6 libgmp3-dev libgmpxx4ldbl libncurses5-dev libreadline5-dev libxft2-dev zlib1g-dev
+
+# Once that is done you can install cabal_install using it's bootstrap script
+
+# Then finally:
+cabal update
+cabal upgrade
+cabal install xmonad
+cabal --flags="use_xft with_utf8" --ghc-options="-XPostfixOperators" install xmonad-contrib

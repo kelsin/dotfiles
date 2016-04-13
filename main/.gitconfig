@@ -36,7 +36,7 @@
     autosetuprebase = always
 [core]
     autocrlf = input
-    excludesfile = ~/.gitignore
+    excludesfile = ~/.gitconfig.ignore
 [filter "lfs"]
     clean = git-lfs clean %f
     smudge = git-lfs smudge %f

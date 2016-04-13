@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+# Update App Store apps
+sudo softwareupdate -i -a
+
+# Update Homebrew (Cask) & packages
+brew update
+brew upgrade
+brew bundle --global install
+brew cleanup
+
+# Update npm & packages
+npm install npm -g
+npm update -g
+
+# Update Ruby & gems
+gem update —system
+gem update
+gem install bundler
+bundler install --gemfile ~/.Gemfile

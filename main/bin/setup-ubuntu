@@ -1,0 +1,17 @@
+#!/bin/sh
+
+echo "Setting up programs"
+sudo aptitude -y install nmap texlive-full traceroute
+
+echo "Version Control"
+sudo aptitude -y install git-core
+
+echo "Editors"
+sudo aptitude -y install emacs vim-full
+
+echo "Programming"
+sudo aptitude -y install autoconf automake build-essential irb libx11-dev libxinerama-dev ncurses-term
+
+echo "Emacs keybindings in GTK Apps"
+gconftool-2 --set /desktop/gnome/interface/gtk_key_theme Emacs --type string
+
