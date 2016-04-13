@@ -1,0 +1,19 @@
+{
+  "name": "@kelsin/dotfiles",
+  "version": "1.0.0",
+  "description": "NPM Dependencies for my dotfiles",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kelsin/dotfiles.git"
+  },
+  "author": "Christopher Giroir <kelsin@valefor.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kelsin/dotfiles/issues"
+  },
+  "homepage": "https://github.com/kelsin/dotfiles#readme"
+}
