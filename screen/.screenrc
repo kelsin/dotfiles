@@ -1,0 +1,26 @@
+vbell off
+startup_message off
+defscrollback 10000
+escape ^zz
+autodetach on
+zombie kr
+shell "-bash"
+shelltitle "Term"
+
+# Allow scrolling
+termcapinfo xterm* ti@:te@
+
+# Erase background with current bg color
+# defbce "on" 
+
+# Emacs keys in copy mode
+markkeys "h=^B:l=^F:$=^E"
+
+# Trying to get xterm to show status
+termcapinfo xterm* 'hs:ts=\E]0;:fs=\007'
+
+# Caption line (window status)
+caption always "%{=b}%{dw}%-Lw%?%F%{dr}%:%{dw}%?%n*%f %t%{-}%+Lw"
+
+# Hardstatus line (screen status)
+hardstatus alwayslastline "%{=b}%{dw}%{dg}${USER}%{-}@%{db}%H%{-} %l %-=%{dy}%C%a %LD, %LM %d %Y"

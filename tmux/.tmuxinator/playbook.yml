@@ -1,0 +1,8 @@
+# ~/.tmuxinator/playbook.yml
+
+name: playbook
+root: ~/src/playbook
+
+windows:
+  - editor: vim site.yml
+  - terminal:
