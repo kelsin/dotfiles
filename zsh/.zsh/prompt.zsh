@@ -40,7 +40,7 @@ git_branch() {
         if [ -n "$(git ls-files --others --exclude-standard)" ]; then
           branch_symbol="%F{yellow}`echo -e '\u2605'`%f"
         else
-          branch_symbol="%F{green}`echo -e '\u2714'`%f"
+          branch_symbol="%F{green}`echo -e '\u2713'`%f"
         fi
       else
         branch_symbol="%F{blue}`echo -e '\u271a'`%f"
