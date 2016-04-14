@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-git_symbol=`echo -e '\u21d2'`
+git_symbol=`echo -e '\u21e8'`
 node_symbol=`echo -e '\u2b21'`
 ruby_symbol=`echo -e '\u25b3'`
 
