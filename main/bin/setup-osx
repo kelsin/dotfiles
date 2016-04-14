@@ -566,9 +566,9 @@ defaults write com.apple.mail SpellCheckingBehavior -string "NoSpellCheckingEnab
 defaults write com.apple.terminal StringEncodings -array 4
 
 # Setup default Terminal setup
-# open Tomorrow\ Night.terminal
-defaults write com.apple.Terminal 'Default Window Settings' -string 'Tomorrow Night'
-defaults write com.apple.Terminal 'Startup Window Settings' -string 'Tomorrow Night'
+open $DOTFILES/kelsin.terminal
+defaults write com.apple.Terminal 'Default Window Settings' -string 'kelsin'
+defaults write com.apple.Terminal 'Startup Window Settings' -string 'kelsin'
 
 # Enable “focus follows mouse” for Terminal.app and all X11 apps
 # i.e. hover over a window and start typing in it without clicking first
