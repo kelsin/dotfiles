@@ -20,6 +20,6 @@ else
   } &!
 
   if (( $+commands[figlet] && $+commands[lolcat] )); then
-    toilet -f future $USER | lolcat
+    figlet $USER | lolcat
   fi
 fi

@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-git_symbol=`echo -e '\u21e8'`
+git_symbol=`echo -e '\u21d2'`
 node_symbol=`echo -e '\u2b21'`
 ruby_symbol=`echo -e '\u25b3'`
 
@@ -67,4 +67,4 @@ export PROMPT="$prompt_username%(?.%F{magenta}.%F{red})❯%f "
 export PROMPT2="%F{cyan}%_❯%f "
 export PROMPT3="%F{cyan}?❯%f "
 export PROMPT4="%F{red}+%N:%i❯%f "
-export RPROMPT="%F{red}$ruby_symbol%f \${RUBY_VERSION:-none} %F{green}$node_symbol%f \${\${NVM_BIN:-/a/none/a}:h:t:s/v/} %F{blue}$git_symbol%f \${vcs_info_msg_0_:-none}"
+export RPROMPT="%F{red}$ruby_symbol%f \${RUBY_VERSION:-system} %F{green}$node_symbol%f \${\${NVM_BIN:-/a/system/a}:h:t:s/v/} %F{blue}$git_symbol%f \${vcs_info_msg_0_:-none}"
