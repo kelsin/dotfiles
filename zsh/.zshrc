@@ -10,6 +10,10 @@
 # Emacs Keybindings
 bindkey -e
 
+# Bash style word jumping
+autoload -U select-word-style
+select-word-style bash
+
 # Environment
 zplug "sorin-ionescu/prezto", of:"modules/environment/init.zsh"
 
