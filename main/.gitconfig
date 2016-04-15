@@ -35,7 +35,6 @@
 [branch]
     autosetuprebase = always
 [core]
-    autocrlf = input
     excludesfile = ~/.gitconfig.ignore
 [filter "lfs"]
     clean = git-lfs clean %f
