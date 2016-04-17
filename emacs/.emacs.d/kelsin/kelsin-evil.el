@@ -36,9 +36,6 @@
 ;; Evil Commentary
 (evil-commentary-mode 1)
 
-;; Evil Jumper
-(evil-jumper-mode 1)
-
 ;; Evil Matchit
 (global-evil-matchit-mode 1)
 

@@ -25,6 +25,9 @@
 
 ;;; Code:
 
+;; Fast startup (tramp bug)
+(setq tramp-ssh-controlmaster-options "")
+
 ;; Many things require the cl libraries
 (require 'cl)
 
