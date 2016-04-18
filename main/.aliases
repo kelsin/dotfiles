@@ -31,6 +31,9 @@ alias gitk='gitk --all &'
 alias qm='~/.rbenv/shims/quickmug'
 alias gitx='open -a gitx .'
 
+# Ember
+alias em='ember'
+
 # Docker
 alias d='docker'
 alias dm='docker-machine'
