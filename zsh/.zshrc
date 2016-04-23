@@ -3,10 +3,6 @@
 [ -d ~/.zplug ] || git clone https://github.com/b4b4r07/zplug ~/.zplug
 . ~/.zplug/zplug
 
-# Functions and Aliases
-[ -f ~/.functions ] && . ~/.functions
-[ -f ~/.aliases ] && . ~/.aliases
-
 # Emacs Keybindings
 bindkey -e
 
@@ -16,12 +12,6 @@ select-word-style bash
 
 # Environment
 zplug "sorin-ionescu/prezto", of:"modules/environment/init.zsh"
-
-# Dircolors
-[ $+commands[gdircolors] ] && eval $(gdircolors ~/.dircolors)
-
-# Lesspipe
-[ $+commands[lesspipe.sh] ] && eval $(lesspipe.sh)
 
 # History
 zplug "sorin-ionescu/prezto", of:"modules/history/init.zsh"
@@ -34,6 +24,25 @@ fpath=("`brew --prefix`/share/zsh/site-functions" $fpath)
 zplug "sorin-ionescu/prezto", of:"modules/completion/init.zsh"
 zplug "tmuxinator/tmuxinator", of:"completion/tmuxinator.zsh"
 
+# Dircolors
+[ $+commands[gdircolors] ] && eval $(gdircolors ~/.dircolors)
+
+# Lesspipe
+[ $+commands[lesspipe.sh] ] && eval $(lesspipe.sh)
+
+# Highlighting
+zplug "zsh-users/zsh-syntax-highlighting", nice:10
+
+# Install plugins if there are plugins that have not been installed
+zplug check || zplug install
+
+# Load Plugins
+zplug load
+
+# Functions and Aliases
+[ -f ~/.functions ] && . ~/.functions
+[ -f ~/.aliases ] && . ~/.aliases
+
 # Load my local plugins
 for script in ~/.zsh/**/*.zsh; do
   . $script
@@ -45,12 +54,3 @@ if [ -d ~/blizzard/src/configs ]; then
     . $script
   done
 fi
-
-# Highlighting
-zplug "zsh-users/zsh-syntax-highlighting", nice:10
-
-# Install plugins if there are plugins that have not been installed
-zplug check || zplug install
-
-# Load Plugins
-zplug load
