@@ -42,3 +42,5 @@
     required = true
 [include]
     path = .gitconfig.user
+[credential]
+	helper = osxkeychain

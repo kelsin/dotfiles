@@ -16,6 +16,7 @@ brew 'git'
 brew 'git-lfs'
 brew 'global', args: ['with-pygments', 'with-ctags']
 brew 'htop-osx'
+brew 'httpie'
 brew 'hub'
 brew 'imagemagick'
 brew 'lesspipe', args: ['with-syntax-highlighting']

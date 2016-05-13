@@ -39,9 +39,6 @@
 ;; Evil Matchit
 (global-evil-matchit-mode 1)
 
-;; Evil Search Highlights
-(global-evil-search-highlight-persist t)
-
 ;; bind evil-args text objects
 (define-key evil-inner-text-objects-map "i" 'evil-inner-arg)
 (define-key evil-outer-text-objects-map "a" 'evil-outer-arg)

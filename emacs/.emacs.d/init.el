@@ -104,8 +104,9 @@
 
 ;; Load Theme and Font
 (setq-default line-spacing 3)
-(add-to-list 'default-frame-alist '(font . "Input Mono-16"))
-(load-theme 'smyx 't)
+(add-to-list 'default-frame-alist '(font . "Monaco-16"))
+(add-to-list 'custom-theme-load-path "~/blizzard/src/blizzard-colors/emacs")
+(load-theme 'blizzard 't)
 
 ;; Diminish
 (require 'diminish)
