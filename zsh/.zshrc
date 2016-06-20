@@ -54,3 +54,6 @@ if [ -d ~/blizzard/src/configs ]; then
     . $script
   done
 fi
+
+# added by travis gem
+[ -f /Users/cgiroir/.travis/travis.sh ] && source /Users/cgiroir/.travis/travis.sh
