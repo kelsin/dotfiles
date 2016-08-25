@@ -34,6 +34,9 @@ alias gitx='open -a gitx .'
 # Ember
 alias em='ember'
 
+# Kubectl
+alias k='kubectl'
+
 # Docker
 alias d='docker'
 alias dm='docker-machine'
