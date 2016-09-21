@@ -36,6 +36,9 @@
 ;; Never us dialog windows
 (setq use-dialog-box nil)
 
+;; Set Shell to bash
+(setq shell-file-name "/bin/bash")
+
 ;; UTF-8
 (prefer-coding-system 'utf-8)
 (set-default-coding-systems 'utf-8)
