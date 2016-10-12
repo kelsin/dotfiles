@@ -71,6 +71,12 @@ alias bubo='brew update && brew outdated'
 alias bubc='brew upgrade && brew cleanup'
 alias bubu='bubo && bubc'
 
+# Ember
+alias em='ember'
+alias ems='ember serve'
+alias emt='ember test'
+alias emb='ember build'
+
 # Bundler
 alias bi='bundle install --without production'
 alias bu='bundle update'
