@@ -11,7 +11,7 @@ case $1 in
 esac
 
 # First install brew on a mac
-if [[ "$OSTYPE" == darwin* ]]; then
+if [ `uname` = "Darwin" ]; then
   which brew &>/dev/null || \
     /usr/bin/ruby -e \
     "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
