@@ -66,8 +66,10 @@ function __kelsin_prompt {
 export PROMPT_COMMAND=__kelsin_prompt
 
 # chruby
-. `brew --prefix`/share/chruby/chruby.sh
-. `brew --prefix`/share/chruby/auto.sh
+if which brew > /dev/null; then
+  . `brew --prefix`/share/chruby/chruby.sh
+  . `brew --prefix`/share/chruby/auto.sh
+fi
 
 # NVM
 export NVM_DIR="$HOME/.nvm"
