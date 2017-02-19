@@ -41,6 +41,7 @@ brew 'zsh'
 
 cask '1password'
 # cask 'battle-net'
+cask 'cisco-spark'
 cask 'discord'
 cask 'doxie'
 cask 'dropbox'
