@@ -1,7 +1,7 @@
 # ZPlug Setup
 # https://github.com/b4b4r07/zplug
 [ -d ~/.zplug ] || git clone https://github.com/b4b4r07/zplug ~/.zplug
-. ~/.zplug/zplug
+. ~/.zplug/init.zsh
 
 # Emacs Keybindings
 bindkey -e
@@ -11,18 +11,18 @@ autoload -U select-word-style
 select-word-style bash
 
 # Environment
-zplug "sorin-ionescu/prezto", of:"modules/environment/init.zsh"
+zplug "sorin-ionescu/prezto", use:"modules/environment/init.zsh"
 
 # History
-zplug "sorin-ionescu/prezto", of:"modules/history/init.zsh"
+zplug "sorin-ionescu/prezto", use:"modules/history/init.zsh"
 
 # Directory
-zplug "sorin-ionescu/prezto", of:"modules/directory/init.zsh"
+zplug "sorin-ionescu/prezto", use:"modules/directory/init.zsh"
 
 # Completion
 fpath=("`brew --prefix`/share/zsh/site-functions" $fpath)
-zplug "sorin-ionescu/prezto", of:"modules/completion/init.zsh"
-zplug "tmuxinator/tmuxinator", of:"completion/tmuxinator.zsh"
+zplug "sorin-ionescu/prezto", use:"modules/completion/init.zsh"
+zplug "tmuxinator/tmuxinator", use:"completion/tmuxinator.zsh"
 
 # Dircolors
 [ $+commands[gdircolors] ] && eval $(gdircolors ~/.dircolors)
@@ -31,7 +31,7 @@ zplug "tmuxinator/tmuxinator", of:"completion/tmuxinator.zsh"
 [ $+commands[lesspipe.sh] ] && eval $(lesspipe.sh)
 
 # Highlighting
-zplug "zsh-users/zsh-syntax-highlighting", nice:10
+zplug "zsh-users/zsh-syntax-highlighting", defer:2
 
 # Install plugins if there are plugins that have not been installed
 zplug check || zplug install

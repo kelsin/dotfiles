@@ -53,10 +53,15 @@
 ; (persp-mode)
 ; (require 'persp-projectile)
 
+;; FlyCheck
+(require 'flycheck)
+(global-flycheck-mode)
+
 ;; Git gutter fringe+
 (require 'git-gutter-fringe+)
 
 ;; Haskell
+(require 'haskell-mode)
 (setq haskell-font-lock-symbols t)
 
 ;; Markdown
@@ -83,6 +88,7 @@
 (add-to-list 'auto-mode-alist '("Rakefile\\'" . ruby-mode))
 
 ;; Cucumber
+(require 'feature-mode)
 (setq feature-default-language "en")
 
 ;; Magit - Required for modeline
@@ -110,9 +116,27 @@
   (lambda ()
     (setq js-indent-level 2)
     (setq indent-tabs-mode nil)
-    (setq tab-width 2)))
+    (setq tab-width 2)
+    (setq js2-mode-show-parse-errors nil)
+    (setq js2-mode-show-strict-warnings nil)))
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 (add-to-list 'auto-mode-alist '("\\.js\\.erb\\'" . js2-mode))
+
+(setq-default flycheck-disabled-checkers
+  (append flycheck-disabled-checkers
+    '(javascript-jshint)))
+
+(defun kelsin/use-eslint-from-node-modules ()
+  "Find eslint binary in node_modules folder if possible."
+  (let* ((root (locate-dominating-file
+                 (or (buffer-file-name) default-directory)
+                 "node_modules"))
+          (eslint (and root
+                    (expand-file-name "node_modules/eslint/bin/eslint.js"
+                      root))))
+    (when (and eslint (file-executable-p eslint))
+      (setq-local flycheck-javascript-eslint-executable eslint))))
+(add-hook 'flycheck-mode-hook #'kelsin/use-eslint-from-node-modules)
 
 ;; Rainbow
 (add-hook 'css-mode-hook 'rainbow-mode)

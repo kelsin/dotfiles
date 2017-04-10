@@ -41,8 +41,7 @@
 (setq load-path (append load-path (list "~/.emacs.d/kelsin")))
 
 (defun path-add (path)
-  "Add a path instance to both exec-path and $PATH after checking
-  that the directory exists"
+  "Add a path instance to both 'exec-path' and $PATH after checking that the directory exists."
   (if (file-directory-p path)
       (progn
         (setq exec-path (append exec-path (list path)))

@@ -29,6 +29,10 @@
 (require 'helm-descbinds)
 (helm-descbinds-mode)
 
+(helm-mode 1)
+(helm-flx-mode +1)
+(helm-fuzzier-mode 1)
+
 ;; The default "C-x c" is quite close to "C-x C-c", which quits Emacs.
 ;; Changed to "C-c h". Note: We must set "C-c h" globally, because we
 ;; cannot change `helm-command-prefix-key' once `helm-config' is loaded.
@@ -64,11 +68,6 @@
 (global-set-key (kbd "C-x r b") 'helm-bookmarks)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "C-x C-r") 'helm-recentf)
-
-(helm-mode 1)
-
-(helm-flx-mode +1)
-(helm-fuzzier-mode 1)
 
 (provide 'kelsin-helm)
 ;;; kelsin-helm.el ends here

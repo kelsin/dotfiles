@@ -28,8 +28,6 @@
     rmerge = merge --no-ff --no-commit
 [status]
     relativePaths = false
-[github]
-    user = Kelsin
 [diff "ruby"]
     funcname = ^ *\\(\\(class\\|module\\|def\\) .*\\)
 [branch]
@@ -40,7 +38,7 @@
     clean = git-lfs clean %f
     smudge = git-lfs smudge %f
     required = true
+[credential]
+    helper = osxkeychain
 [include]
     path = .gitconfig.user
-[credential]
-	helper = osxkeychain

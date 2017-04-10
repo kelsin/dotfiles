@@ -1,3 +1,12 @@
 .bundle
 Gemfile.lock
 node_modules
+
+# Main Ignores
+.gitconfig.user
+
+# Emacs Ignores
+emacs/.emacs.d/.cask
+emacs/.emacs.d/bookmarks
+emacs/.emacs.d/projectile-bookmarks.eld
+emacs/.emacs.d/recentf
