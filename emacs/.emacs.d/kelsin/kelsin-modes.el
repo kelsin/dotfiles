@@ -35,17 +35,18 @@
 (autoload 'recentf-open-files "recentf" t)
 
 ;; Ido
-;; (setq ido-confirm-unique-completion t
-;;   ido-enable-flex-matching t
-;;   ido-everywhere t
-;;   ido-max-prospects 6
-;;   ido-use-faces nil
-;;   ido-show-dot-for-dired t)
-;; (ido-mode 1)
-;; (flx-ido-mode 1)
+(setq ido-confirm-unique-completion t
+  ido-enable-flex-matching t
+  ido-everywhere t
+  ido-max-prospects 6
+  ido-use-faces nil
+  ido-use-virtual-buffers t
+  ido-show-dot-for-dired t)
+(ido-mode 1)
+(flx-ido-mode 1)
 
 ;; Smex
-;; (smex-initialize)
+(smex-initialize)
 
 ;; Projectile
 (projectile-global-mode)
@@ -160,6 +161,9 @@
   (lambda ()
     (setq indent-tabs-mode 't)
     (setq tab-width 2)))
+
+;; vue
+(add-to-list 'auto-mode-alist '("\\.vue$" . vue-mode))
 
 (provide 'kelsin-modes)
 ;;; kelsin-modes.el ends here

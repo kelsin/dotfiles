@@ -76,6 +76,7 @@
 
 ;; Dired Searches only use filename
 (setq dired-isearch-filenames t)
+(setq dired-use-ls-dired nil)
 
 ;; Enable recursive minibuffers
 (setq enable-recursive-minibuffers t)
