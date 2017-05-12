@@ -36,6 +36,7 @@
 (depends-on "floobits")
 (depends-on "flx")
 (depends-on "flx-ido")
+(depends-on "flycheck")
 (depends-on "fringe-helper")
 (depends-on "ggtags")
 (depends-on "gh")

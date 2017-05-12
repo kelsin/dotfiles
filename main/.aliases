@@ -104,5 +104,8 @@ alias mwi='cpkg war:inplace'
 alias mwe='cpkg war:exploded'
 alias startup='set-title tomcat;cd $CATALINA_HOME/bin;./catalina.sh jpda run'
 
+# NPM and Node.js setup
+alias nit='npm install && npm test'
+
 # Tmux
 alias mux=tmuxinator
