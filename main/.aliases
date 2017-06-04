@@ -108,6 +108,8 @@ alias startup='set-title tomcat;cd $CATALINA_HOME/bin;./catalina.sh jpda run'
 alias ni='npm install'
 alias nt='npm test'
 alias nit='ni && nt'
+alias nrd='npm run dev'
+alias nird='ni && nrd'
 alias cov='open coverage/lcov-report/index.html'
 
 # Tmux

@@ -107,6 +107,7 @@
 (depends-on "smyx-theme")
 (depends-on "solarized-theme")
 (depends-on "sws-mode")
+(depends-on "terraform-mode")
 (depends-on "typescript-mode")
 (depends-on "undo-tree")
 (depends-on "vimrc-mode")
