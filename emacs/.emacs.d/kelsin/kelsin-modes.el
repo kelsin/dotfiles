@@ -165,5 +165,18 @@
 ;; vue
 (add-to-list 'auto-mode-alist '("\\.vue$" . vue-mode))
 
+;; jsx
+(add-to-list 'auto-mode-alist '("components\\/.*\\.js\\'" . rjsx-mode))
+
+;; Prettier
+(add-hook 'js2-mode-hook 'prettier-js-mode)
+(add-hook 'rjsx-mode-hook 'prettier-js-mode)
+
+;; Js2-refactor
+(add-hook 'js2-mode-hook 'js2-refactor-mode)
+
+;; Tern
+(setq tern-command '("tern" "--no-port-file"))
+
 (provide 'kelsin-modes)
 ;;; kelsin-modes.el ends here

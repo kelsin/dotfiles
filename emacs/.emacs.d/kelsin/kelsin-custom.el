@@ -28,13 +28,16 @@
      (quote
        ("jQuery" "$" "angular" "sinon" "setTimeout" "clearTimeout" "setInterval" "describe" "it" "expect" "inject" "beforeEach" "afterEach" "module" "Ember" "_" "require" "Promise" "localStorage" "Modernizr" "context" "process" "before" "after")))
  '(js2-mode-show-strict-warnings t)
+ '(linum-relative-current-symbol "")
  '(magit-diff-use-overlays nil)
  '(magit-use-overlays nil)
  '(mu4e-maildir "~/mail/valefor/")
  '(ns-use-srgb-colorspace nil)
   '(package-selected-packages
      (quote
-       (terraform-mode flycheck typescript-mode 0blayout flx-ido smex yascroll yaml-mode web-mode vue-mode visual-regexp-steroids vimrc-mode sws-mode solarized-theme smyx-theme smart-tabs-mode smart-mode-line slim-mode scss-mode sass-mode rainbow-mode protobuf-mode prodigy polymode php-mode persp-projectile persp-mode pallet org-mac-iCal org-link-travis org-jira org-jekyll org-bullets nginx-mode multiple-cursors monokai-theme molokai-theme moe-theme markdown-mode magit lua-mode less-css-mode json-mode js2-mode javadoc-lookup jade-mode impatient-mode handlebars-mode groovy-mode git-gutter-fringe+ gist ggtags floobits feature-mode expand-region evil-surround evil-matchit evil-indent-textobject evil-commentary evil-args etags-table editorconfig dockerfile-mode diminish company-inf-ruby company-go company-ghc company-c-headers company-auctex coffee-mode clojure-mode browse-kill-ring angular-mode ace-window 2048-game)))
+       (company-tern tern indium js2-refactor nvm prettier-js rjsx-mode linum-relative terraform-mode flycheck typescript-mode 0blayout flx-ido smex yascroll yaml-mode web-mode vue-mode visual-regexp-steroids vimrc-mode sws-mode solarized-theme smyx-theme smart-tabs-mode smart-mode-line slim-mode scss-mode sass-mode rainbow-mode protobuf-mode prodigy polymode php-mode persp-projectile persp-mode pallet org-mac-iCal org-link-travis org-jira org-jekyll org-bullets nginx-mode multiple-cursors monokai-theme molokai-theme moe-theme markdown-mode magit lua-mode less-css-mode json-mode js2-mode javadoc-lookup jade-mode impatient-mode handlebars-mode groovy-mode git-gutter-fringe+ gist ggtags floobits feature-mode expand-region evil-surround evil-matchit evil-indent-textobject evil-commentary evil-args etags-table editorconfig dockerfile-mode diminish company-inf-ruby company-go company-ghc company-c-headers company-auctex coffee-mode clojure-mode browse-kill-ring angular-mode ace-window 2048-game)))
+ '(prettier-js-command "prettier")
+ '(prettier-js-width-mode (quote fill))
  '(projectile-tags-command "/usr/local/bin/ctags -Re -f %s %s")
  '(rainbow-html-colors t)
   '(rainbow-html-colors-alist

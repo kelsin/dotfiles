@@ -39,6 +39,10 @@
 ;; Set Shell to bash
 (setq shell-file-name "/bin/bash")
 
+;; Linum Mode
+(global-linum-mode)
+(linum-relative-global-mode)
+
 ;; UTF-8
 (prefer-coding-system 'utf-8)
 (set-default-coding-systems 'utf-8)
@@ -291,6 +295,9 @@
       `((".*" . ,temporary-file-directory)))
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
+
+;; NVM
+(nvm-use "6.10.3")
 
 (provide 'kelsin-options)
 ;;; kelsin-options.el ends here
