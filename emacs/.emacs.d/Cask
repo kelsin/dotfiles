@@ -26,6 +26,7 @@
 (depends-on "dockerfile-mode")
 (depends-on "editorconfig")
 (depends-on "epl")
+(depends-on "esup")
 (depends-on "etags-table")
 (depends-on "evil")
 (depends-on "evil-args")

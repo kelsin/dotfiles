@@ -54,7 +54,9 @@
 (global-set-key [f2] 'kelsin/google)
 (global-set-key [f5] 'javadoc-lookup)
 (global-set-key [(shift f5)] 'javadoc-help)
-(global-set-key [f8] 'reformat-buffer)
+;;; (global-set-key [f8] 'reformat-buffer)
+(require 'prettier-js)
+(global-set-key [f8] 'prettier-js)
 
 ;; No suspend in terminal
 (global-unset-key (kbd "C-z"))

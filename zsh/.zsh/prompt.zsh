@@ -1,8 +1,9 @@
 #!/usr/bin/env zsh
 
-git_symbol=`echo -e '\u21e8'`
-node_symbol=`echo -e '\u2b21'`
-ruby_symbol=`echo -e '\u25b3'`
+git_symbol=`echo -e '\ue0a0'`
+node_symbol=`echo -e '\u2b22'`
+ruby_symbol=`echo -e '\u2b25'`
+lambda_symbol=`echo -e '\u03bb'`
 
 git_arrows() {
   prompt_git_arrows=
@@ -63,7 +64,7 @@ prompt_status() {
 precmd_functions+=(prompt_status)
 
 setopt prompt_subst
-export PROMPT="$prompt_username%(?.%F{magenta}.%F{red})❯%f "
+export PROMPT="$prompt_username%(?.%F{magenta}.%F{red})${lambda_symbol}%f "
 export PROMPT2="%F{cyan}%_❯%f "
 export PROMPT3="%F{cyan}?❯%f "
 export PROMPT4="%F{red}+%N:%i❯%f "
