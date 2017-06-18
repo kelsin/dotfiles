@@ -20,15 +20,18 @@ zplug "sorin-ionescu/prezto", use:"modules/history/init.zsh"
 zplug "sorin-ionescu/prezto", use:"modules/directory/init.zsh"
 
 # Completion
-fpath=("`brew --prefix`/share/zsh/site-functions" $fpath)
+if (( $+commands[brew] )); then
+	fpath=("`brew --prefix`/share/zsh/site-functions" $fpath)
+fi
+
 zplug "sorin-ionescu/prezto", use:"modules/completion/init.zsh"
 zplug "tmuxinator/tmuxinator", use:"completion/tmuxinator.zsh"
 
 # Dircolors
-[ $+commands[gdircolors] ] && eval $(gdircolors ~/.dircolors)
+(( $+commands[gdircolors] )) && eval $(gdircolors ~/.dircolors)
 
 # Lesspipe
-[ $+commands[lesspipe.sh] ] && eval $(lesspipe.sh)
+(( $+commands[lesspipe.sh] )) && eval $(lesspipe.sh)
 
 # Highlighting
 zplug "zsh-users/zsh-syntax-highlighting", defer:2

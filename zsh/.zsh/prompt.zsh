@@ -2,7 +2,7 @@
 
 git_symbol=`echo -e '\ue0a0'`
 node_symbol=`echo -e '\u2b22'`
-ruby_symbol=`echo -e '\u2b25'`
+ruby_symbol=`echo -e '\u2756'`
 lambda_symbol=`echo -e '\u03bb'`
 
 git_arrows() {

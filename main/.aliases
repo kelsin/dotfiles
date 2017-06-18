@@ -2,6 +2,9 @@
 alias _='sudo'
 alias please='sudo'
 
+# No Vi
+alias vi='vim'
+
 # Pretty Clear
 alias clear='clear && figlet $USER 2>/dev/null | lolcat 2>/dev/null'
 

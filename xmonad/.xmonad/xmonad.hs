@@ -50,7 +50,7 @@ import XMonad.Hooks.EwmhDesktops
 -- The preferred terminal program, which is used in a binding below and by
 -- certain contrib modules.
 --
-myTerminal      = "xterm"
+myTerminal      = "urxvt"
 
 -- Width of the window border in pixels.
 --
@@ -364,12 +364,12 @@ main = do
      xmonad $ defaults xmobar
 
 myLogHook xmobar = (dynamicLogWithPP $ kelsinPP { ppOutput = hPutStrLn xmobar })
-                   >> updatePointer (Relative 0.5 0.5)
+                   >> updatePointer (0.5, 0.5) (0, 0)
 
-myStartupHook = ewmhDesktopsStartup >> setWMName "LG3D"
+myStartupHook = ewmhDesktopsStartup >> setWMName "XMonad"
 
 defaults xmobar = (withUrgencyHook NoUrgencyHook)
-                  $ ewmh gnomeConfig { terminal           = myTerminal
+                  $ ewmh gnomeConfig { terminal      = myTerminal
                                 , focusFollowsMouse  = myFocusFollowsMouse
                                 , borderWidth        = myBorderWidth
                                 , modMask            = myModMask
@@ -385,6 +385,6 @@ defaults xmobar = (withUrgencyHook NoUrgencyHook)
 
                                 -- hooks, layouts
                                 , layoutHook         = myLayout
-                                                            , startupHook        = myStartupHook
+                                , startupHook        = myStartupHook
                                 , logHook            = myLogHook xmobar
                                 }
