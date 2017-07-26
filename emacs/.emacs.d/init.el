@@ -48,7 +48,7 @@
   (require 'bind-key)
 
   ;; Custom File
-  (setq custom-file "~/.emacs.d/kelsin/kelsin-custom.el")
+  (setq custom-file "~/.emacs.d/custom.el")
   (load custom-file)
 
   ;; Turn off file variables
