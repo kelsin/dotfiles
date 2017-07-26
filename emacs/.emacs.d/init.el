@@ -31,47 +31,24 @@
 ;; You may delete these explanatory comments.
 ;(package-initialize)
 
-;; Fast startup (tramp bug)
-(setq tramp-ssh-controlmaster-options "")
+(require 'package)
+(setq package-enable-at-startup nil)
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
+(package-initialize)
 
-;; Many things require the cl libraries
-(require 'cl)
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
 
-;; System Check
-(defvar mswindows-p (string-match "windows" (symbol-name system-type)))
-(defvar cygwin-p (string-match "cygwin" (symbol-name system-type)))
-(defvar macosx-p (string-match "darwin" (symbol-name system-type)))
-(defvar linux-p (string-match "linux" (symbol-name system-type)))
+(setq use-package-verbose t)
+(eval-when-compile
+  (require 'use-package))
+(require 'diminish)
+(require 'bind-key)
 
-;; Standard System-Independent Paths
-(setq load-path (append load-path (list "~/.emacs.d/kelsin")))
-
-(defun path-add (path)
-  "Add a path instance to both 'exec-path' and $PATH after checking that the directory exists."
-  (if (file-directory-p path)
-      (progn
-        (setq exec-path (append exec-path (list path)))
-        (setenv "PATH" (concat (getenv "PATH") ":" path)))))
-
-;; Mac
-(if macosx-p
-    (progn
-      (setq load-path (append load-path (list "/usr/local/share/emacs/site-lisp/")))
-      (path-add "/usr/local/bin")))
-
-;; Cygwin path
-(if cygwin-p
-    (progn
-      (path-add "/bin")
-      (path-add "/usr/bin")
-      (path-add "/usr/local/bin")
-      (path-add "~/bin")))
-
-;; Load Packages
-(require 'cask "~/.cask/cask.el")
-(cask-initialize)
-(require 'pallet)
-(pallet-mode t)
+(add-to-list 'load-path "~/.emacs.d/kelsin/")
 
 ;; Custom File
 (setq custom-file "~/.emacs.d/kelsin/kelsin-custom.el")
@@ -98,8 +75,8 @@
 ;; Keybindings
 (require 'kelsin-bindings)
 
-;; Powerline
-(require 'kelsin-powerline)
+;; Modeline
+(require 'kelsin-modeline)
 
 ;; Org
 (require 'kelsin-org)
@@ -111,11 +88,11 @@
 (load-theme 'blizzard 't)
 
 ;; Diminish
-(require 'diminish)
-(diminish 'abbrev-mode)
-(diminish 'company-mode)
-(diminish 'global-whitespace-mode)
-(diminish 'yas-minor-mode)
+;; (require 'diminish)
+;; (diminish 'abbrev-mode)
+;; (diminish 'company-mode)
+;; (diminish 'global-whitespace-mode)
+;; (diminish 'yas-minor-mode)
 
 ;; Start up the server
 (server-start)

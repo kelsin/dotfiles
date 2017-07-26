@@ -24,30 +24,34 @@
 ;;
 
 ;;; Code:
-(cond (macosx-p
+(cond ((eq system-type 'darwin)
         (defun system-open (item)
           "Opens an item with open"
           (call-process "/usr/bin/env" nil nil nil
             "open"
             item)))
-  (linux-p
+  ((or (eq system-type 'windows-nt)
+     (eq system-type 'cygwin))
     (defun system-open (item)
-      "Opens an item with gnome-open"
+      "Opens an item with start"
       (call-process "/usr/bin/env" nil nil nil
-        "gnome-open"
+        "start"
         item)))
-  (mswindows-p
-    (defun system-open () '())))
+  (defun system-open (item)
+    "Opens an item with gnome-open"
+    (call-process "/usr/bin/env" nil nil nil
+      "gnome-open"
+      item)))
 
 (defun system-open-buffer ()
-  "Opens the current buffer's file with open"
+  "Opens the current buffer's file with open."
   (interactive)
   (if (buffer-file-name)
     (system-open (buffer-file-name))))
 
 ;; Ido Tag Searching
 (defun ido-find-tag ()
-  "Find a tag using ido"
+  "Find a tag using ido."
   (interactive)
   (tags-completion-table)
   (let (tag-names)
@@ -57,19 +61,6 @@
       tags-completion-table)
     (find-tag (ido-completing-read "Tag: " tag-names))))
 (global-set-key [(control meta .)] 'ido-find-tag)
-
-(defun recentf-ido-find-file ()
-  "Find a recent file using Ido."
-  (interactive)
-  (let* ((files (mapcar #'(lambda (file)
-                            (cons (file-name-nondirectory file) file))
-                  recentf-list))
-          (file (cdr (assoc (ido-completing-read "Choose recent file: "
-                              (mapcar 'car files)
-                              nil t)
-                       files))))
-    (when file
-      (find-file file))))
 
 ;; Ido Bookmarks
 (autoload 'bookmark-all-names "bookmark")
@@ -124,9 +115,6 @@
   (mapc 'kill-buffer (buffer-list))
   (delete-other-windows))
 
-(fset 'fix-bad-xml-attributes
-  [?\C-\M-s ?[ ?^ ?% ?] ?= ?[ ?^ ?\" ?] ?\C-m left ?\" ?\C-\M-s ?  ?\\ ?| ?> ?\C-m left ?\"])
-
 ;; Byte compile the current file automatically
 (defun byte-compile-current-buffer ()
   "`byte-compile' current buffer if it's emacs-lisp-mode and compiled file exists."
@@ -135,95 +123,6 @@
           (file-exists-p (byte-compile-dest-file buffer-file-name)))
     (byte-compile-file buffer-file-name)))
 (add-hook 'after-save-hook 'byte-compile-current-buffer)
-
-;; Status report stuff
-(defun get-work-week-times (days)
-  (let* ((ct (time-subtract (current-time)
-               (days-to-time days)))
-          (dow (nth 6 (decode-time ct)))
-          (monday (time-subtract ct
-                    (days-to-time (- dow 1))))
-          (friday (time-subtract ct
-                    (days-to-time (- dow 5)))))
-    (list monday friday)))
-
-(defun insert-latex-status-report (days)
-  (message "Loading basecamp data ...")
-  (let* ((times (get-work-week-times days))
-          (monday (format-time-string "%Y%m%d"
-                    (nth 0 times)))
-          (friday (format-time-string "%Y%m%d"
-                    (nth 1 times))))
-    (insert (shell-command-to-string (concat "/home/cgiroir/share/berklee/bin/gettime.rb "
-                                       monday
-                                       " "
-                                       friday)))))
-
-(defun insert-latex-status-report-date (days)
-  (let* ((times (get-work-week-times days))
-          (monday (format-time-string "%m-%d-%Y"
-                    (nth 0 times)))
-          (friday (format-time-string "%m-%d-%Y"
-                    (nth 1 times))))
-    (insert (concat monday
-              " to "
-              friday))))
-
-(defun generate-new-status-report (days)
-  (insert "\\documentclass[letterpaper,12pt]{article}\n\\usepackage{fullpage}\n\\usepackage{bookman}\n\n")
-  (insert "\\setlength{\\parindent}{0pt}\n\n")
-  (insert "\\begin{document}\n\n")
-  (insert "{\\Huge Status Report} \\\\\n")
-  (insert "{\\Large Christopher Giroir} \\\\\n")
-  (insert-latex-status-report-date days)
-  (insert "\n\n")
-  (insert-latex-status-report days)
-  (insert "% Start Custom\n\n\n\n% End Custom\n\n")
-  (insert "\\end{document}\n")
-  (forward-line -5))
-
-(defun create-status-report (filename days)
-  (switch-to-buffer (generate-new-buffer "status-report"))
-  (generate-new-status-report days)
-  (write-file filename))
-
-(defun mark-custom-status-report ()
-  (beginning-of-buffer)
-  (search-forward "% Start Custom")
-  (beginning-of-line)
-  (set-mark (point))
-  (search-forward "% End Custom"))
-
-(defun generate-status-report (days)
-  (interactive "p")
-  (let* ((days (if (eq current-prefix-arg nil)
-                 0
-                 days))
-          (times (get-work-week-times days))
-          (monday (format-time-string "%Y%m%d"
-                    (nth 0 times)))
-          (friday (format-time-string "%Y%m%d"
-                    (nth 1 times)))
-          (dirname "/home/cgiroir/share/berklee/status/")
-          (filename (concat dirname "/" friday ".tex")))
-    (make-directory dirname t)
-    (if (file-exists-p filename)
-      (progn
-        (message "Status report already exists, saving custom section")
-        (find-file filename)
-        (save-buffer)
-        (mark-custom-status-report)
-        (let ((custom (delete-and-extract-region (region-beginning) (region-end))))
-          (not-modified)
-          (kill-buffer (current-buffer))
-          (create-status-report filename days)
-          (mark-custom-status-report)
-          (delete-region (region-beginning) (region-end))
-          (insert custom)
-          (save-buffer)))
-      (create-status-report filename days))
-    (TeX-PDF-mode t)
-    (TeX-command-master nil)))
 
 ;; Indenting for js2
 ;; http://mihai.bazon.net/projects/editing-javascript-with-emacs-js2-mode

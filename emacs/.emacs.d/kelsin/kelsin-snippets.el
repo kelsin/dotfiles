@@ -26,13 +26,17 @@
 ;;; Code:
 
 ;; YASnippet
-(setq yas-snippet-dirs '("~/.emacs.d/snippets"))
-(require 'yasnippet)
-(yas-global-mode 1)
-
-(add-hook 'term-mode-hook
-  (lambda()
-    (setq yas-dont-activate t)))
+(use-package yasnippet
+  :defer t
+  :ensure t
+  :diminish yas-minor-mode
+  :config
+  (progn
+    (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
+    (yas-global-mode 1)
+    (add-hook 'term-mode-hook
+              (lambda()
+                (setq yas-dont-activate-functions t)))))
 
 (provide 'kelsin-snippets)
 ;;; kelsin-snippets.el ends here

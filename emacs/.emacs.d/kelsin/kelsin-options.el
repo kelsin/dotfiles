@@ -41,7 +41,10 @@
 
 ;; Linum Mode
 (global-linum-mode)
-(linum-relative-global-mode)
+(use-package linum-relative
+  :ensure t
+  :config
+  (linum-relative-global-mode))
 
 ;; UTF-8
 (prefer-coding-system 'utf-8)
@@ -53,22 +56,6 @@
 (if (boundp 'buffer-file-coding-system)
     (setq-default buffer-file-coding-system 'utf-8)
   (setq default-buffer-file-coding-system 'utf-8))
-
-;; Add possibility of home info files
-(add-hook 'Info-mode-hook
-          '(lambda ()
-             (add-to-list 'Info-directory-list
-                          (expand-file-name "~/info"))))
-
-;; Abbrevs
-(setq abbrev-file-name "~/.emacs.d/abbrevs")
-(setq save-abbrevs t)
-(setq-default abbrev-mode t)
-
-;; Auto Insert
-(setq auto-insert-query nil)
-(setq auto-insert-directory "~/.emacs.d/insert/")
-(auto-insert-mode)
 
 ;; Bookmarks
 (setq bookmark-save-flag 1)
@@ -92,15 +79,10 @@
 (setq gc-cons-threshold 20000000)
 
 ;; Saving place in buffers
-(require 'saveplace)
-(setq-default save-place t)
-(setq save-place-file "~/.emacs.d/saved-places")
+(save-place-mode 1)
 
 ;; Treat clipboard input as UTF-8 string first; compound text next, etc.
 (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
-
-;; Ruby mode can be annoying
-(setq ruby-insert-encoding-magic-comment nil)
 
 ;; Clean up startup and splash screen
 (setq
@@ -149,7 +131,7 @@
 (setq ring-bell-function 'ignore)
 
 ;; Gui Options
-(if (not macosx-p)
+(if (not (eq system-type 'darwin))
     (menu-bar-mode -1))
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
@@ -226,23 +208,6 @@
 (put 'upcase-region 'disabled nil)
 (put 'dired-find-alternate-file 'disabled nil)
 
-;; Recentf
-(setq recentf-arrange-by-rule-subfilter 'recentf-sort-directories-ascending
-      recentf-arrange-rules '(("Elisp files (%d)" ".\\.el\\'")
-                              ("Java files (%d)" ".\\.java\\'")
-                              ("C/C++ files (%d)" "c\\(pp\\)?\\'")
-                              ("SQL Files (%d)" ".\\.sql\\'")
-                              ("Tcl Files (%d)" ".\\.tcl\\'")
-                              ("Adp Files (%d)" ".\\.adp\\'")
-                              ("Css Files (%d)" ".\\.css\\'")
-                              ("Ruby Files (%d)" ".\\.rb\\'")
-                              ("Erb Files (%d)" ".\\.erb\\'"))
-      recentf-max-menu-items 100
-      recentf-max-saved-items 100
-      recentf-menu-filter 'recentf-arrange-by-rule
-      recentf-show-file-shortcuts-flag nil)
-(recentf-mode 1)
-
 ;; Disable VC
 (setq vc-handled-backends nil)
 
@@ -254,11 +219,13 @@
 (setq ad-redefinition-action 'accept)
 
 ;; Windows Settings
-(if mswindows-p
+(if (eq system-type 'windows-nt)
     (setq tramp-shell-prompt-pattern "^[^$>\n]*[#$%>] *\\(\[[0-9;]*[a-zA-Z] *\\)*"))
 
 ;; Mac Settings
-(if (and macosx-p (featurep 'ns))
+(if (and
+      (eq system-type 'darwin)
+      (featurep 'ns))
   (progn
     (setq ns-alternate-modifier 'super
       ns-command-modifier 'meta
@@ -297,7 +264,10 @@
       `((".*" ,temporary-file-directory t)))
 
 ;; NVM
-(nvm-use "6.10.3")
+(use-package nvm
+  :ensure t
+  :config
+  (nvm-use "6.10.3"))
 
 (provide 'kelsin-options)
 ;;; kelsin-options.el ends here

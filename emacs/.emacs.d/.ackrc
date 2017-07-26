@@ -1,1 +1,7 @@
 --ignore-dir=.cask
+--ignore-dir=elpa
+--ignore-file=is:recentf
+--ignore-file=is:places
+--ignore-file=is:smex-items
+--ignore-file=is:.ackrc
+--ignore-file=is:ido.last

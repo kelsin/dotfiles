@@ -7,12 +7,15 @@ node_modules
 
 # Emacs Ignores
 emacs/.emacs.d/.cask
+emacs/.emacs.d/elpa
 emacs/.emacs.d/bookmarks
 emacs/.emacs.d/projectile-bookmarks.eld
 emacs/.emacs.d/recentf
 emacs/.emacs.d/smex-items
 emacs/.emacs.d/ido.last
 emacs/.emacs.d/sementicdb
+emacs/.emacs.d/places
+*.elc
 
 # XMonad Ignores
 xmonad/.xmonad/*.errors

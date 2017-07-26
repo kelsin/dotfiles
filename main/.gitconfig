@@ -38,7 +38,8 @@
     clean = git-lfs clean %f
     smudge = git-lfs smudge %f
     required = true
-[credential]
-    helper = osxkeychain
+[credential "https://git-codecommit.us-west-2.amazonaws.com"]
+    helper = !aws --profile haven codecommit credential-helper $@
+    UseHttpPath = true
 [include]
     path = .gitconfig.user

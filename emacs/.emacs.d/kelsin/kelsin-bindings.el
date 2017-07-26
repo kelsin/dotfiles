@@ -25,7 +25,10 @@
 ;;; Code:
 
 ;; Fancy Kill Ring
-(browse-kill-ring-default-keybindings)
+(use-package browse-kill-ring
+  :ensure t
+  :config
+  (browse-kill-ring-default-keybindings))
 
 ;; Reindent then newline and indent
 (global-set-key (kbd "M-RET") 'reindent-then-newline-and-indent)
@@ -35,11 +38,8 @@
 
 ;; Ido
 (global-set-key (kbd "M-i") 'ido-goto-symbol)
-(global-set-key (kbd "C-x C-r") 'recentf-ido-find-file)
+; (global-set-key (kbd "C-x C-r") 'recentf-ido-find-file)
 (global-set-key (kbd "C-x r b") 'bookmark-ido-find-file)
-
-;; Magit
-(global-set-key "\C-ci" 'magit-status)
 
 ;; Smex
 (global-set-key (kbd "M-x") 'smex)
@@ -55,8 +55,10 @@
 (global-set-key [f5] 'javadoc-lookup)
 (global-set-key [(shift f5)] 'javadoc-help)
 ;;; (global-set-key [f8] 'reformat-buffer)
-(require 'prettier-js)
-(global-set-key [f8] 'prettier-js)
+
+(use-package prettier-js
+  :ensure t
+  :bind ("<f8>" . prettier-js))
 
 ;; No suspend in terminal
 (global-unset-key (kbd "C-z"))

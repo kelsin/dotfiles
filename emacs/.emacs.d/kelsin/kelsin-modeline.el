@@ -1,4 +1,4 @@
-;;; kelsin-powerline.el --- Powerline setup
+;;; kelsin-modeline.el --- Modeline setup
 
 ;; Copyright (C) 2014  Christopher Giroir
 
@@ -23,8 +23,11 @@
 ;;
 
 ;;; Code:
-(setq sml/theme 'dark)
-(sml/setup)
+(use-package smart-mode-line
+  :ensure t
+  :config
+  (setq sml/theme 'dark)
+  (sml/setup))
 
-(provide 'kelsin-powerline)
-;;; kelsin-powerline.el ends here
+(provide 'kelsin-modeline)
+;;; kelsin-modeline.el ends here
