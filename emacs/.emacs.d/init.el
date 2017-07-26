@@ -66,10 +66,16 @@
   (setq shell-file-name "/bin/bash")
 
   ;; Linum Mode
-  (global-linum-mode)
+  (use-package linum
+    :ensure t
+    :defer 1
+    :diminish linum-mode
+    :config
+    (global-linum-mode))
   (use-package linum-relative
     :ensure t
     :defer 1
+    :diminish linum-relative-mode
     :config
     (linum-relative-global-mode))
 
@@ -206,16 +212,19 @@
   (setq wdired-allow-to-change-permissions 'advanced)
 
   ;; Whitespace display options
-  (setq whitespace-display-mappings '((space-mark 32 [183] [46])    ; · or .
-                                       (newline-mark 10 [172 10])    ; ¬
-                                       (tab-mark 9 [8594 9] [92 9])) ; → or \
-    whitespace-line-column nil
-    whitespace-style '(face tabs spaces trailing space-before-tab newline indentation empty space-after-tab tab-mark newline-mark)
-    ;whitespace-trailing 'whitespace-trailing
-    indicate-buffer-boundaries 'left
-    indicate-empty-lines t
-    require-final-newline t)
-  (global-whitespace-mode 1)
+  (use-package whitespace
+    :diminish global-whitespace-mode global-whitespace-newline-mode
+    :config
+    (setq whitespace-display-mappings '((space-mark 32 [183] [46])    ; · or .
+                                         (newline-mark 10 [172 10])    ; ¬
+                                         (tab-mark 9 [8594 9] [92 9])) ; → or \
+      whitespace-line-column nil
+      whitespace-style '(face tabs spaces trailing space-before-tab newline indentation empty space-after-tab tab-mark newline-mark)
+                                        ;whitespace-trailing 'whitespace-trailing
+      indicate-buffer-boundaries 'left
+      indicate-empty-lines t
+      require-final-newline t)
+    (global-whitespace-mode 1))
 
   ;; Windmove
   (windmove-default-keybindings)
@@ -289,14 +298,17 @@
   ;; EditorConfig
   (use-package editorconfig
     :ensure t
+    :diminish editorconfig-mode
     :config
     (editorconfig-mode 1))
+
+  ;; Tagging
+  (use-package etags)
 
   ;; Recentf
   (use-package recentf
     :ensure t
     :commands recentf-open-files
-    :functions tags-completion-table
     :bind ("C-x C-r" . recentf-ido-find-file)
     ("C-M-." . ido-find-tag)
     :config
@@ -348,16 +360,13 @@
           (find-file file))))
     (recentf-mode 1))
 
-  ;; Bookmarks
-  (use-package bookmarks
-    :commands bookmark-all-names)
-
   ;; Ido
   (use-package ido
     :ensure t
     :bind
     ("M-i" . ido-goto-symbol)
     ("C-x r b" . bookmark-ido-find-file)
+    :functions bookmark-all-names
     :config
     (setq ido-confirm-unique-completion t
       ido-enable-flex-matching t
@@ -482,15 +491,18 @@
     ;; Js2-refactor
     (use-package js2-refactor
       :ensure t
+      :diminish js2-refactor-mode
       :config
       (add-hook 'js2-mode-hook 'js2-refactor-mode)))
 
 
   (use-package flycheck
     :ensure t
+    :diminish flycheck-mode
     :defer 1
     :config
     (global-flycheck-mode)
+
     (setq-default flycheck-disabled-checkers
       (append flycheck-disabled-checkers
         '(javascript-jshint)))
@@ -505,11 +517,13 @@
                           root))))
         (when (and eslint (file-executable-p eslint))
           (setq-local flycheck-javascript-eslint-executable eslint))))
+
     (add-hook 'flycheck-mode-hook #'kelsin/use-eslint-from-node-modules))
 
   ;; Rainbow
   (use-package rainbow-mode
     :ensure t
+    :diminish rainbow-mode
     :commands rainbow-mode
     :init
     (add-hook 'css-mode-hook 'rainbow-mode)
@@ -637,7 +651,7 @@
     ;; Undo Tree Mode
     (use-package undo-tree
       :ensure t
-      :diminish
+      :diminish undo-tree-mode undo-tree-visualizer-selection-mode
       :config
       (global-undo-tree-mode))
 
@@ -652,7 +666,7 @@
     (use-package evil-commentary
       :ensure t
       :defer 1
-      :diminish
+      :diminish evil-commentary-mode
       :config
       (evil-commentary-mode 1))
 
@@ -665,17 +679,3 @@
 
 (provide 'init)
 ;;; init.el ends here
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   (quote
-    ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" default))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
