@@ -7,6 +7,7 @@ node_modules
 
 # Emacs Ignores
 emacs/.emacs.d/.cask
+emacs/.emacs.d/.mc-lists.el
 emacs/.emacs.d/elpa
 emacs/.emacs.d/bookmarks
 emacs/.emacs.d/projectile-bookmarks.eld

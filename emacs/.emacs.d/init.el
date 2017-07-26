@@ -84,10 +84,7 @@
   (set-default-coding-systems 'utf-8)
   (set-terminal-coding-system 'utf-8)
   (set-keyboard-coding-system 'utf-8)
-
-  ;; Bookmarks
-  (setq bookmark-save-flag 1)
-  (setq bookmark-sort-flag 1)
+  (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
 
   ;; Case Fold Search
   (setq case-fold-search t)
@@ -104,10 +101,9 @@
   (setq clean-buffer-list-delay-general 1)
 
   ;; Saving place in buffers
-  (save-place-mode 1)
-
-  ;; Treat clipboard input as UTF-8 string first; compound text next, etc.
-  (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
+  (use-package saveplace
+    :config
+    (save-place-mode 1))
 
   ;; Clean up startup and splash screen
   (setq
@@ -214,20 +210,23 @@
   ;; Whitespace display options
   (use-package whitespace
     :diminish global-whitespace-mode global-whitespace-newline-mode
+    :demand t
+    :bind ("C-x w" . fixup-whitespace)
     :config
     (setq whitespace-display-mappings '((space-mark 32 [183] [46])    ; · or .
                                          (newline-mark 10 [172 10])    ; ¬
                                          (tab-mark 9 [8594 9] [92 9])) ; → or \
       whitespace-line-column nil
       whitespace-style '(face tabs spaces trailing space-before-tab newline indentation empty space-after-tab tab-mark newline-mark)
-                                        ;whitespace-trailing 'whitespace-trailing
       indicate-buffer-boundaries 'left
       indicate-empty-lines t
       require-final-newline t)
     (global-whitespace-mode 1))
 
   ;; Windmove
-  (windmove-default-keybindings)
+  (use-package windmove
+    :config
+    (windmove-default-keybindings))
 
   ;; Enable special commands
   (put 'set-goal-column 'disabled nil)
@@ -241,7 +240,9 @@
   (setq vc-handled-backends nil)
 
   ;; Global HL Mode Line
-  (global-hl-line-mode)
+  (use-package hl-line
+    :config
+    (global-hl-line-mode))
 
   ;; Turn off redefadvice warnings
   ;; http://andrewjamesjohnson.com/suppressing-ad-handle-definition-warnings-in-emacs/
@@ -251,26 +252,20 @@
   (if (and
         (eq system-type 'darwin)
         (featurep 'ns))
-    (progn
-      (setq ns-alternate-modifier 'super
-        ns-command-modifier 'meta
-        ns-extended-platform-support-mode t
-        ns-pop-up-frames nil
-        ns-use-qd-smoothing nil)
-      (add-hook 'server-switch-hook
-        (lambda ()
-          (when (current-local-map)
-            (use-local-map (copy-keymap (current-local-map))))
-          (recenter)
-          (local-set-key (kbd "C-x k") 'server-edit)
-          (local-set-key (kbd "C-c C-c") 'server-edit)
-          (local-set-key (kbd "C-c c") 'server-edit)))))
+    (setq ns-alternate-modifier 'super
+      ns-command-modifier 'meta
+      ns-extended-platform-support-mode t
+      ns-pop-up-frames nil
+      ns-use-qd-smoothing nil))
 
   ;; Multiple Cursors
-  (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
-  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-  (global-set-key (kbd "C-c C->") 'mc/mark-all-like-this)
+  (use-package multiple-cursors
+    :disabled t
+    :ensure t
+    :bind (("C-S-c C-S-c" . mc/edit-lines)
+            ("C->" . mc/mark-next-like-this)
+            ("C-<" . mc/mark-previous-like-this)
+            ("C-c C->" . mc/mark-all-like-this)))
 
   ;; Projectile switch project action
   (setq projectile-switch-project-action 'projectile-dired)
@@ -304,6 +299,12 @@
 
   ;; Tagging
   (use-package etags)
+
+  ;; Bookmarks
+  (use-package bookmark
+    :config
+    (setq bookmark-save-flag 1)
+    (setq bookmark-sort-flag 1))
 
   ;; Recentf
   (use-package recentf
@@ -458,7 +459,7 @@
     :config
     (setq feature-default-language "en"))
 
-  ;; Magit - Required for modeline
+  ;; Magit
   (use-package magit
     :ensure t
     :bind ("C-c i" . magit-status))
@@ -589,13 +590,6 @@
   ;; Reindent then newline and indent
   (global-set-key (kbd "M-RET") 'reindent-then-newline-and-indent)
 
-  ;; Bind fixup-whitespace
-  (global-set-key "\C-xw" 'fixup-whitespace)
-
-  ;; Function keybindings
-  (global-set-key [f1] 'info)
-  (global-set-key [f2] 'kelsin/google)
-
   ;; No suspend in terminal
   (global-unset-key (kbd "C-z"))
 
@@ -614,7 +608,18 @@
   (load-theme 'blizzard 't)
 
   ;; Start up the server
-  (server-start)
+  (use-package server
+    :defer 1
+    :config
+    (server-start)
+    (add-hook 'server-switch-hook
+      (lambda ()
+        (when (current-local-map)
+          (use-local-map (copy-keymap (current-local-map))))
+        (recenter)
+        (local-set-key (kbd "C-x k") 'server-edit)
+        (local-set-key (kbd "C-c C-c") 'server-edit)
+        (local-set-key (kbd "C-c c") 'server-edit))))
 
   ;; Evil
   (use-package evil
@@ -675,7 +680,14 @@
       :ensure t
       :defer 1
       :config
-      (global-evil-surround-mode 1))))
+      (global-evil-surround-mode 1))
+
+    (use-package evil-mc
+      :ensure t
+      :defer 1
+      :diminish evil-mc-mode
+      :config
+      (global-evil-mc-mode 1))))
 
 (provide 'init)
 ;;; init.el ends here
