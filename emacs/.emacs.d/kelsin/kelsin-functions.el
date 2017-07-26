@@ -49,30 +49,6 @@
   (if (buffer-file-name)
     (system-open (buffer-file-name))))
 
-;; Ido Tag Searching
-(defun ido-find-tag ()
-  "Find a tag using ido."
-  (interactive)
-  (tags-completion-table)
-  (let (tag-names)
-    (mapc (lambda (x)
-            (unless (integerp x)
-              (push (prin1-to-string x t) tag-names)))
-      tags-completion-table)
-    (find-tag (ido-completing-read "Tag: " tag-names))))
-(global-set-key [(control meta .)] 'ido-find-tag)
-
-;; Ido Bookmarks
-(autoload 'bookmark-all-names "bookmark")
-(defun bookmark-ido-find-file ()
-  "Find a bookmark using Ido."
-  (interactive)
-  (let ((bm (ido-completing-read "Choose bookmark: "
-              (bookmark-all-names)
-              nil t)))
-    (when bm
-      (bookmark-jump bm))))
-
 (defun kelsin-find-tags-file (&optional path)
   "Recursively searches for a TAGS (or tags) file from the current path"
   (let ((current-file (or path (buffer-file-name))))
@@ -104,25 +80,16 @@
   (indent-buffer))
 
 (defun reformat-buffer ()
-  "Runs whitespace-cleanup and then indents the whole buffer"
+  "Runs whitespace-cleanup and then indents the whole buffer."
   (interactive)
   (whitespace-cleanup)
   (reindent-buffer))
 
 (defun close-all-buffers ()
-  "Close all open buffers"
+  "Close all open buffers."
   (interactive)
   (mapc 'kill-buffer (buffer-list))
   (delete-other-windows))
-
-;; Byte compile the current file automatically
-(defun byte-compile-current-buffer ()
-  "`byte-compile' current buffer if it's emacs-lisp-mode and compiled file exists."
-  (interactive)
-  (when (and (eq major-mode 'emacs-lisp-mode)
-          (file-exists-p (byte-compile-dest-file buffer-file-name)))
-    (byte-compile-file buffer-file-name)))
-(add-hook 'after-save-hook 'byte-compile-current-buffer)
 
 ;; Indenting for js2
 ;; http://mihai.bazon.net/projects/editing-javascript-with-emacs-js2-mode
