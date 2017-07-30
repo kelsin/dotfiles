@@ -490,6 +490,10 @@
     :ensure t
     :mode "\\.erb\\'" "\\.html?\\'" "\\.ftl\\'")
 
+  (use-package elm-mode
+    :ensure t
+    :mode "\\.elm\\'")
+
   ;; Javascript
   (use-package json-mode
     :ensure t
@@ -510,7 +514,19 @@
         (setq tab-width 2)
         (setq js2-mode-show-parse-errors nil)
         (setq js2-mode-show-strict-warnings nil)
+        (push '("*" . ?×) prettify-symbols-alist)
+        (push '("/" . ?∕) prettify-symbols-alist)
+        (push '("%" . ?÷) prettify-symbols-alist)
+        (push '("&&" . ?∧) prettify-symbols-alist)
+        (push '("||" . ?∨) prettify-symbols-alist)
+        (push '("!" . ?¬) prettify-symbols-alist)
+        (push '("==" . ?＝) prettify-symbols-alist)
+        (push '("===" . ?≡) prettify-symbols-alist)
+        (push '("!=" . ?≠) prettify-symbols-alist)
+        (push '("!==" . ?≢) prettify-symbols-alist)
+        (push '("null" . ?∅) prettify-symbols-alist)
         (push '("function" . ?λ) prettify-symbols-alist)
+        (push '("return" . ?⇐) prettify-symbols-alist)
         (push '("->" . ?→) prettify-symbols-alist)))
 
     ;; Js2-refactor
