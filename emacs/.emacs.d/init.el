@@ -65,6 +65,10 @@
   ;; Set Shell to bash
   (setq shell-file-name "/bin/bash")
 
+  ;; Prettify Symbols
+  (global-prettify-symbols-mode 1)
+  (setq prettify-symbols-unprettify-at-point 'right-edge)
+
   ;; Linum Mode
   (use-package linum
     :ensure t
@@ -267,9 +271,6 @@
             ("C-<" . mc/mark-previous-like-this)
             ("C-c C->" . mc/mark-all-like-this)))
 
-  ;; Projectile switch project action
-  (setq projectile-switch-project-action 'projectile-dired)
-
   ;; Don't auto save
   (setq auto-save-default nil)
   (setq create-lockfiles nil)
@@ -289,6 +290,26 @@
     :defer 1
     :config
     (nvm-use "6.10.3"))
+
+  ;; All The Icons
+  (use-package all-the-icons
+    :ensure t
+    :config
+    (use-package all-the-icons-dired
+      :ensure t
+      :config
+      (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)))
+
+  (use-package neotree
+    :load-path "~/src/emacs-neotree"
+    :bind ("<f9>" . neotree-toggle)
+    :config
+    (setq neo-theme (if (display-graphic-p) 'icons 'arrow)
+      neo-smart-open t
+      neo-window-width 30
+      neo-auto-indent-point t
+      neo-autorefresh t
+      neo-force-change-root t))
 
   ;; EditorConfig
   (use-package editorconfig
@@ -420,9 +441,9 @@
   ;; Projectile
   (use-package projectile
     :ensure t
-    :bind (("C-x f" . projectile-find-file))
     :config
-    (projectile-mode))
+    (projectile-mode)
+    (setq projectile-switch-project-action #'projectile-dired))
 
   ;; Haskell
   (use-package haskell-mode
@@ -488,7 +509,10 @@
         (setq indent-tabs-mode nil)
         (setq tab-width 2)
         (setq js2-mode-show-parse-errors nil)
-        (setq js2-mode-show-strict-warnings nil)))
+        (setq js2-mode-show-strict-warnings nil)
+        (push '("function" . ?λ) prettify-symbols-alist)
+        (push '("->" . ?→) prettify-symbols-alist)))
+
     ;; Js2-refactor
     (use-package js2-refactor
       :ensure t
@@ -652,6 +676,7 @@
     (add-to-list 'evil-emacs-state-modes 'nav-mode)
     (add-to-list 'evil-emacs-state-modes 'magit-mode)
     (add-to-list 'evil-emacs-state-modes 'dired-mode)
+    (add-to-list 'evil-emacs-state-modes 'neotree-mode)
 
     ;; Undo Tree Mode
     (use-package undo-tree

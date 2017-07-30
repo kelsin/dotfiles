@@ -11,6 +11,7 @@ emacs/.emacs.d/.mc-lists.el
 emacs/.emacs.d/elpa
 emacs/.emacs.d/bookmarks
 emacs/.emacs.d/projectile-bookmarks.eld
+emacs/.emacs.d/projectile.cache
 emacs/.emacs.d/recentf
 emacs/.emacs.d/smex-items
 emacs/.emacs.d/ido.last
