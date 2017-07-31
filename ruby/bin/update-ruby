@@ -1,16 +1,7 @@
 #!/usr/bin/env zsh
 
-# Install the latest stable version of ruby possible
-ruby-install ruby --latest --no-reinstall
-
-# Update chruby with new rubies
-. $DOTFILES/ruby/.zsh/chruby.zsh
-
-# Change this shell to latest version
-chruby ruby
-
-# Make sure .ruby-version file is setup
-echo $RUBY_VERSION > $DOTFILES/ruby/.ruby-version
+# Load
+. $DOTFILES/node/.zsh/rbenv.zsh
 
 # Update gems
 gem update --system

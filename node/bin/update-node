@@ -1,13 +1,7 @@
 #!/usr/bin/env zsh
 
 # Load
-. $DOTFILES/node/.zsh/nvm.zsh
-
-# Install the latest stable verison of node
-nvm install node
-
-# Make sure .node-version file is setup
-echo $(nvm_ls current | tr -d v) > $DOTFILES/node/.node-version
+. $DOTFILES/node/.zsh/nodenv.zsh
 
 # Install node modules
 pushd $DOTFILES > /dev/null
@@ -16,7 +10,7 @@ npm install
 popd > /dev/null
 
 # Reload NVM
-. $DOTFILES/node/.zsh/nvm.zsh
+. $DOTFILES/node/.zsh/nodenv.zsh
 
 echo Done updating node
 
