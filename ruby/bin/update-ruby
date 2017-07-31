@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 # Load
-. $DOTFILES/node/.zsh/rbenv.zsh
+. $DOTFILES/ruby/.zsh/rbenv.zsh
 
 # Update gems
 gem update --system
