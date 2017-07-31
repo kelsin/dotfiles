@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
 
 if (( $+commands[nodenv] )) ; then
-  nodenv init
+  eval "$(nodenv init -)"
 fi

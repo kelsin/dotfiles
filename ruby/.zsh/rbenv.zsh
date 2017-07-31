@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
 
 if (( $+commands[rbenv] )) ; then
-  rbenv init
+  eval "$(rbenv init -)"
 fi
