@@ -68,11 +68,35 @@
   ;; Don't warn me about loading large files (TAGS files)
   (setq large-file-warning-threshold nil)
 
-  ;; Never us dialog windows
+  ;; Never use dialog windows
   (setq use-dialog-box nil)
 
   ;; Set Shell to bash
   (setq shell-file-name "/bin/bash")
+
+  ;; Org Mode
+  (use-package org
+    :init
+    (setq org-directory "~/org")
+    (setq org-default-notes-file "~/org/todo.org")
+    (setq org-log-done t)
+    (setq org-startup-folded nil)
+    :defines org-capture-templates
+    :bind
+    ("C-c c" . org-capture)
+    ("C-c l" . org-store-link)
+    ("C-c a" . org-agenda)
+    :config
+    (setq org-capture-templates
+      '( ("c" "Code" entry (file+datetree "~/org/code.org") "* %?\n\n  %a")
+         ("s" "Song" entry (file+datetree "~/org/songs.org") "* %U\n  %?")
+         ("t" "Todo" entry (file+headline "~/org/todo.org" "Quick") "* TODO %?\n  %i")))
+
+    (use-package org-bullets
+      :ensure t
+      :commands org-bullets-mode
+      :config
+      (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))))
 
   ;; Prettify Symbols
   (global-prettify-symbols-mode 1)
