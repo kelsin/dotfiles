@@ -6,7 +6,7 @@
 # Install node modules
 pushd $DOTFILES > /dev/null
 npm install -g npm
-npm install
+npm install --no-package-lock
 popd > /dev/null
 
 # Rehash
