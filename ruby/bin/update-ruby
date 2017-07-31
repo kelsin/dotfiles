@@ -3,6 +3,9 @@
 # Load
 . $DOTFILES/ruby/.zsh/rbenv.zsh
 
+# Install latest ruby
+rbenv install 2.4.1
+
 # Update gems
 gem update --system
 gem update

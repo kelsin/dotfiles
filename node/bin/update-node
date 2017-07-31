@@ -3,6 +3,9 @@
 # Load
 . $DOTFILES/node/.zsh/nodenv.zsh
 
+# Install latest node
+nodenv install 8.2.1
+
 # Install node modules
 pushd $DOTFILES > /dev/null
 npm install -g npm
