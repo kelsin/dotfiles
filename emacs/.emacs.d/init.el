@@ -51,6 +51,15 @@
   (setq custom-file "~/.emacs.d/custom.el")
   (load custom-file)
 
+  ;; Setup exec-path
+  (use-package exec-path-from-shell
+    :ensure t
+    :init
+    (setenv "NODENV_VERSION" "8.2.1")
+    (setenv "RBENV_VERSION" "2.4.1")
+    :config
+    (exec-path-from-shell-initialize))
+
   ;; Turn off file variables
   ;; See: http://www.gnu.org/software/emacs/manual/html_node/emacs/Safe-File-Variables.html#Safe-File-Variables
   (setq enable-local-variables nil
@@ -283,13 +292,6 @@
     `((".*" . ,temporary-file-directory)))
   (setq auto-save-file-name-transforms
     `((".*" ,temporary-file-directory t)))
-
-  ;; NVM
-  (use-package nvm
-    :ensure t
-    :defer 1
-    :config
-    (nvm-use "6.10.3"))
 
   ;; All The Icons
   (use-package all-the-icons
