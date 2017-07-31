@@ -9,8 +9,8 @@ npm install -g npm
 npm install
 popd > /dev/null
 
-# Reload NVM
-. $DOTFILES/node/.zsh/nodenv.zsh
+# Rehash
+nodenv rehash
 
 echo Done updating node
 

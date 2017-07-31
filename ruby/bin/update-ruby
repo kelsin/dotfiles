@@ -13,5 +13,8 @@ gem install bundler
 # Install gems
 bundler install --gemfile=$DOTFILES/Gemfile
 
+# Rehash
+rbenv rehash
+
 echo Done updating ruby
 
