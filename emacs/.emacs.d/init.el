@@ -724,6 +724,7 @@
     (add-to-list 'evil-emacs-state-modes 'magit-mode)
     (add-to-list 'evil-emacs-state-modes 'dired-mode)
     (add-to-list 'evil-emacs-state-modes 'neotree-mode)
+    (add-to-list 'evil-emacs-state-modes 'ledger-mode)
 
     ;; Undo Tree Mode
     (use-package undo-tree
