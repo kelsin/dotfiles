@@ -36,8 +36,8 @@ git_branch() {
   prompt_git_branch=
 
   if git rev-parse --is-inside-work-tree &>/dev/null; then
-    if git diff-index --cached --quiet HEAD; then
-      if git diff --no-ext-diff --quiet --exit-code; then
+    if git diff-index --cached --quiet HEAD &>/dev/null; then
+      if git diff --no-ext-diff --quiet --exit-code &>/dev/null; then
         if [ -n "$(git ls-files --others --exclude-standard)" ]; then
           branch_symbol="%F{yellow}`echo -e '\u2605'`%f"
         else

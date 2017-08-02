@@ -105,7 +105,12 @@
   ;; Ledger Mode
   (use-package ledger-mode
     :ensure t
-    :mode "\\.ledger\\'")
+    :mode "\\.ledger\\'"
+    :config
+    (setq ledger-clear-whole-transactions 't)
+
+    (use-package flycheck-ledger
+      :ensure t))
 
   ;; Linum Mode
   (use-package linum
@@ -567,7 +572,6 @@
       :config
       (add-hook 'js2-mode-hook 'js2-refactor-mode)))
 
-
   (use-package flycheck
     :ensure t
     :diminish flycheck-mode
@@ -692,6 +696,12 @@
         (local-set-key (kbd "C-c C-c") 'server-edit)
         (local-set-key (kbd "C-c c") 'server-edit))))
 
+  (use-package company
+    :ensure t
+    :defer 1
+    :config
+    (global-company-mode))
+
   ;; Evil
   (use-package evil
     :ensure t
@@ -724,7 +734,6 @@
     (add-to-list 'evil-emacs-state-modes 'magit-mode)
     (add-to-list 'evil-emacs-state-modes 'dired-mode)
     (add-to-list 'evil-emacs-state-modes 'neotree-mode)
-    (add-to-list 'evil-emacs-state-modes 'ledger-mode)
 
     ;; Undo Tree Mode
     (use-package undo-tree
@@ -760,7 +769,16 @@
       :defer 1
       :diminish evil-mc-mode
       :config
-      (global-evil-mc-mode 1))))
+      (global-evil-mc-mode 1))
+
+    (use-package evil-org
+      :ensure t
+      :after org
+      :config
+      (add-hook 'org-mode-hook 'evil-org-mode)
+      (add-hook 'evil-org-mode-hook
+        (lambda ()
+          (evil-org-set-key-theme))))))
 
 (provide 'init)
 ;;; init.el ends here
