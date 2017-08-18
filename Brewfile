@@ -19,6 +19,7 @@ brew 'httpie'
 brew 'hub'
 brew 'imagemagick'
 brew 'lesspipe', args: ['with-syntax-highlighting']
+brew 'md5sha1sum'
 brew 'nginx'
 brew 'nodenv'
 brew 'openssl'

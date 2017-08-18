@@ -481,6 +481,24 @@
     (projectile-mode)
     (setq projectile-switch-project-action #'projectile-dired))
 
+  ;; Terraform
+  (use-package terraform-mode
+    :ensure t
+    :mode "\\.tf\\'"
+    :config
+    (use-package company-terraform
+      :ensure t))
+
+  ;; Pug
+  (use-package pug-mode
+    :ensure t
+    :mode "\\.pug\\'" "\\.jade\\'")
+
+  ;; Yaml
+  (use-package yaml-mode
+    :ensure t
+    :mode "\\.ya?ml\\'")
+
   ;; Haskell
   (use-package haskell-mode
     :ensure t
@@ -520,6 +538,11 @@
   (use-package magit
     :ensure t
     :bind ("C-c i" . magit-status))
+
+  ;; Ember Mode
+  (use-package ember-mode
+    :ensure t
+    :commands ember-mode)
 
   ;; Web Mode
   (use-package web-mode
@@ -709,22 +732,34 @@
     :bind ( :map evil-motion-state-map
             ("L" . evil-forward-arg)
             ("H" . evil-backward-arg)
+            :map evil-insert-state-map
+            ("C-e" . end-of-line)
             :map evil-normal-state-map
             ("L" . evil-forward-arg)
             ("H" . evil-backward-arg)
             ("K" . evil-jump-out-args)
+            ("C-e" . evil-end-of-line)
+            :map evil-motion-state-map
+            ("C-e" . evil-end-of-line)
+            :map evil-visual-state-map
+            ("C-e" . evil-end-of-line)
             :map evil-inner-text-objects-map
             ("i" . evil-inner-arg)
             :map evil-outer-text-objects-map
             ("a" . evil-outer-arg))
     :init
+
     ;; Cursors
-    (setq evil-emacs-state-cursor '("blue" hbar))
-    (setq evil-normal-state-cursor '("green" hbar))
-    (setq evil-visual-state-cursor '("orange" hbar))
-    (setq evil-insert-state-cursor '("red" bar))
-    (setq evil-replace-state-cursor '("red" bar))
-    (setq evil-operator-state-cursor '("red" hollow))
+    (setq evil-emacs-state-cursor '("#007dbf" hbar))
+    (setq evil-normal-state-cursor '("#8cda38" hbar))
+    (setq evil-visual-state-cursor '("#ea7b00" hbar))
+    (setq evil-insert-state-cursor '("#ff2e2e" bar))
+    (setq evil-replace-state-cursor '("#ff2e2e" bar))
+    (setq evil-operator-state-cursor '("#00aeef" hollow))
+
+    (setq-default evil-cross-lines t)
+    (setq-default evil-find-skip-newlines t)
+    (setq-default evil-move-beyond-eol t)
 
     :config
     (evil-mode 1)
