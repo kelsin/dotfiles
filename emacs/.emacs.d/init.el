@@ -178,6 +178,37 @@
     tab-width 2
     indent-tabs-mode nil)
 
+  ;; Ivy
+  (use-package ivy
+    :ensure t
+    :config
+    (setq ivy-use-virtual-buffers t)
+    (setq enable-recursive-minibuffers t)
+    (setq ivy-re-builders-alist
+      '((t . ivy--regex-fuzzy)))
+    (setq ivy-initial-inputs-alist nil)
+    (ivy-mode 1)
+
+    (use-package flx
+      :ensure t)
+
+    (use-package counsel
+      :ensure t
+      :bind
+      ("M-x" . counsel-M-x)
+      ("C-x C-f" . counsel-find-file)
+      ("C-x C-r" . counsel-recentf)
+      ("C-c C-a" . counsel-ack)
+      :config
+      (use-package counsel-projectile
+        :ensure t
+        :config
+        (counsel-projectile-on)))
+
+    (use-package swiper
+      :ensure t
+      :bind ("C-s" . swiper)))
+
   ;; Turn on column and line numbers in the mode line
   (setq column-number-mode t)
   (setq line-number-mode t)
@@ -466,6 +497,7 @@
 
   ;; Smex
   (use-package smex
+    :disabled t
     :ensure t
     :bind
     ("M-x" . smex)
