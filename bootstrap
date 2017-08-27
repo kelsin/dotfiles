@@ -20,7 +20,7 @@ if [ `uname` = "Darwin" ]; then
   brew install git stow
 fi
 
-# Now that git is available let's check out our dotfiles
+# Now that git is available let's check out or update our dotfiles
 if [ -d ~/.dotfiles ]; then
   pushd ~/.dotfiles
   git pull
