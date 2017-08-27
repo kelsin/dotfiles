@@ -60,8 +60,11 @@ Plug 'vim-ruby/vim-ruby'
 Plug 'wlangstroth/vim-haskell'
 
 " Style
-Plug 'itchyny/lightline.vim'
+" Plug 'itchyny/lightline.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'brendonrapp/smyck-vim'
+Plug 'ryanoasis/vim-devicons'
 " }}}
 
 call plug#end()
@@ -73,6 +76,9 @@ filetype plugin indent on
 " Read the first 5 lines for modelines on file opening
 set modeline
 set modelines=5
+
+" UTF8
+set encoding=utf8
 
 " Set .viminfo as the viminfo file (the rest of this line is default)
 set viminfo='100,<50,s10,h,rA:,rB:,n~/.viminfo
@@ -200,6 +206,7 @@ endif
 
 " Show tabs, trailing whitespace, and nbsp's
 set list listchars=tab:→\ ,trail:∙,nbsp:␣
+autocmd FileType nerdtree setlocal nolist
 " }}}
 
 " Tags {{{
@@ -352,6 +359,11 @@ let g:lightline = {
       \ }
 " }}}
 
+" Airline {{{
+let g:airline_powerline_fonts = 1
+let g:airline_theme='murmur'
+" }}}
+
 " CtrlP {{{
 " Turn on tag mode for ctrlp
 let g:ctrlp_extensions = ['tag']
@@ -389,6 +401,9 @@ let NERDTreeHijackNetrw = 0
 
 " Show bookmarks
 let NERDTreeShowBookmarks = 1
+
+" Close after opening a file
+let NERDTreeQuitOnOpen=1
 
 " Use arrows in NERDTree
 if has("gui_running")
