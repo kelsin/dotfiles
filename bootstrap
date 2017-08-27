@@ -22,11 +22,11 @@ fi
 
 # Now that git is available let's check out our dotfiles
 if [ -d ~/.dotfiles ]; then
-  git clone git@github.com:kelsin/dotfiles.git ~/.dotfiles
-else
   pushd ~/.dotfiles
   git pull
   popd
+else
+  git clone git@github.com:kelsin/dotfiles.git ~/.dotfiles
 fi
 
 # Stow install our apps
