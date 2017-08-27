@@ -51,6 +51,9 @@
   (setq custom-file "~/.emacs.d/custom.el")
   (load custom-file)
 
+  (setenv "LC_ALL" "en_US.UTF-8")
+  (setenv "LANG" "en_US.UTF-8")
+
   ;; Setup exec-path
   (use-package exec-path-from-shell
     :ensure t
@@ -76,12 +79,15 @@
 
   ;; Org Mode
   (use-package org
+    :ensure t
     :init
     (setq org-directory "~/org")
     (setq org-default-notes-file "~/org/todo.org")
     (setq org-log-done t)
     (setq org-startup-folded nil)
+    (setq org-src-preserve-indentation t)
     :defines org-capture-templates
+    :mode ("\\.org\\'" . org-mode)
     :bind
     ("C-c c" . org-capture)
     ("C-c l" . org-store-link)
@@ -91,6 +97,9 @@
       '( ("c" "Code" entry (file+datetree "~/org/code.org") "* %?\n\n  %a")
          ("s" "Song" entry (file+datetree "~/org/songs.org") "* %U\n  %?")
          ("t" "Todo" entry (file+headline "~/org/todo.org" "Quick") "* TODO %?\n  %i")))
+
+    (use-package ox-reveal
+      :ensure t)
 
     (use-package org-bullets
       :ensure t
@@ -179,35 +188,41 @@
     indent-tabs-mode nil)
 
   ;; Ivy
-  (use-package ivy
+  (use-package counsel
     :ensure t
+    :demand t
+    :bind
+    ;; ("M-x" . counsel-M-x)
+    ("C-s" . swiper)
+    ;; ("C-x C-f" . counsel-find-file)
+    ("C-x C-r" . counsel-recentf)
+    ;; ("C-x r b" . counsel-bookmark)
+    ("C-c C-a" . counsel-apropos)
+    ("C-c C-g" . counsel-ag)
     :config
     (setq ivy-use-virtual-buffers t)
+    (setq ivy-count-format "%d/%d ")
     (setq enable-recursive-minibuffers t)
     (setq ivy-re-builders-alist
-      '((t . ivy--regex-fuzzy)))
+      '((swiper . ivy--regex-plus)
+         (t . ivy--regex-fuzzy)))
     (setq ivy-initial-inputs-alist nil)
     (ivy-mode 1)
 
-    (use-package flx
-      :ensure t)
-
-    (use-package counsel
+    (use-package counsel-projectile
       :ensure t
-      :bind
-      ("M-x" . counsel-M-x)
-      ("C-x C-f" . counsel-find-file)
-      ("C-x C-r" . counsel-recentf)
-      ("C-c C-a" . counsel-ack)
       :config
-      (use-package counsel-projectile
-        :ensure t
-        :config
-        (counsel-projectile-on)))
+      (counsel-projectile-on))
 
-    (use-package swiper
-      :ensure t
-      :bind ("C-s" . swiper)))
+    (use-package flx
+      :ensure t))
+
+  ;; Dash
+  (use-package dash-at-point
+    :ensure t
+    :bind
+    ("<f1>" . dash-at-point)
+    ("C-c C-d" . dash-at-point))
 
   ;; Turn on column and line numbers in the mode line
   (setq column-number-mode t)
@@ -283,7 +298,14 @@
   (setq visible-bell t)
 
   ;; WDired
-  (setq wdired-allow-to-change-permissions 'advanced)
+  (setq wdired-allow-to-change-permissions 't)
+
+  ;; HTMLIZE
+  (use-package htmlize
+    :ensure t
+    :config
+    (setq htmlize-head-tags "    <style>body { font-size: 28px; }</style>
+"))
 
   ;; Whitespace display options
   (use-package whitespace
@@ -319,6 +341,7 @@
 
   ;; Global HL Mode Line
   (use-package hl-line
+    :disabled t
     :config
     (global-hl-line-mode))
 
@@ -398,8 +421,6 @@
   (use-package recentf
     :ensure t
     :commands recentf-open-files
-    :bind ("C-x C-r" . recentf-ido-find-file)
-    ("C-M-." . ido-find-tag)
     :config
     (setq recentf-arrange-by-rule-subfilter 'recentf-sort-directories-ascending
       recentf-arrange-rules '(("Elisp files (%d)" ".\\.el\\'")
@@ -417,40 +438,11 @@
       recentf-max-saved-items 100
       recentf-menu-filter 'recentf-arrange-by-rule
       recentf-show-file-shortcuts-flag nil)
-    (defun bookmark-ido-find-file ()
-      "Find a bookmark using Ido."
-      (interactive)
-      (let ((bm (ido-completing-read "Choose bookmark: "
-                  (bookmark-all-names)
-                  nil t)))
-        (when bm
-          (bookmark-jump bm))))
-    (defun ido-find-tag ()
-      "Find a tag using ido."
-      (interactive)
-      (tags-completion-table)
-      (let (tag-names)
-        (mapc (lambda (x)
-                (unless (integerp x)
-                  (push (prin1-to-string x t) tag-names)))
-          tags-completion-table)
-        (xref-find-definitions (ido-completing-read "Tag: " tag-names))))
-    (defun recentf-ido-find-file ()
-      "Find a recent file using Ido."
-      (interactive)
-      (let* ((files (mapcar #'(lambda (file)
-                                (cons (file-name-nondirectory file) file))
-                      recentf-list))
-              (file (cdr (assoc (ido-completing-read "Choose recent file: "
-                                  (mapcar 'car files)
-                                  nil t)
-                           files))))
-        (when file
-          (find-file file))))
     (recentf-mode 1))
 
   ;; Ido
   (use-package ido
+    :disabled t
     :ensure t
     :bind
     ("M-i" . ido-goto-symbol)
@@ -464,17 +456,10 @@
       ido-use-faces nil
       ido-use-virtual-buffers t
       ido-show-dot-for-dired t)
-    (defun bookmark-ido-find-file ()
-      "Find a bookmark using Ido."
-      (interactive)
-      (let ((bm (ido-completing-read "Choose bookmark: "
-                  (bookmark-all-names)
-                  nil t)))
-        (when bm
-          (bookmark-jump bm))))
     (ido-mode 1))
 
   (use-package flx-ido
+    :disabled t
     :ensure t
     :defer 1
     :config
@@ -511,7 +496,9 @@
     :ensure t
     :config
     (projectile-mode)
-    (setq projectile-switch-project-action #'projectile-dired))
+    (setq projectile-switch-project-action #'projectile-dired)
+    (use-package ag
+      :ensure t))
 
   ;; Terraform
   (use-package terraform-mode
@@ -723,6 +710,14 @@
   ;; No suspend in terminal
   (global-unset-key (kbd "C-z"))
 
+  ;; Smartparens
+  (use-package smartparens-config
+    :ensure smartparens
+    :config
+    (show-smartparens-global-mode t)
+    (add-hook 'prog-mode-hook 'turn-on-smartparens-strict-mode)
+    (add-hook 'markdown-mode-hook 'turn-on-smartparens-strict-mode))
+
   ;; Modeline
   (use-package smart-mode-line
     :ensure t
@@ -741,7 +736,7 @@
   (use-package server
     :defer 1
     :config
-    (server-start)
+    (unless (server-running-p) (server-start))
     (add-hook 'server-switch-hook
       (lambda ()
         (when (current-local-map)

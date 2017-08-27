@@ -1,7 +1,7 @@
 tap 'homebrew/bundle'
 tap 'thoughtbot/formulae'
 
-brew 'ack'
+brew 'ag'
 brew 'ansible'
 brew 'cask'
 brew 'coreutils'

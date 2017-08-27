@@ -26,7 +26,7 @@ call plug#begin()
 Plug 'Kelsin/vim-imports'
 Plug 'airblade/vim-rooter'
 Plug 'bronson/vim-trailing-whitespace'
-Plug 'kien/ctrlp.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'mattn/gist-vim'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
@@ -37,6 +37,8 @@ Plug 'tpope/vim-unimpaired'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-shell'
 Plug 'ap/vim-css-color'
+Plug 'scrooloose/nerdtree'
+Plug 'rizzatti/dash.vim'
 
 " Syntax
 Plug 'chrisbra/csv.vim'
