@@ -27,4 +27,6 @@ fi
 ~/.dotfiles/install $1
 
 # Run the update
-~/bin/update
+if [ "$1" = "mac" ]; then
+  ~/bin/update
+fi
