@@ -21,7 +21,13 @@ if [ `uname` = "Darwin" ]; then
 fi
 
 # Now that git is available let's check out our dotfiles
-[ -d ~/.dotfiles ] || git clone git@github.com:kelsin/dotfiles.git ~/.dotfiles
+if [ -d ~/.dotfiles ]; then
+  git clone git@github.com:kelsin/dotfiles.git ~/.dotfiles
+else
+  pushd ~/.dotfiles
+  git pull
+  popd
+fi
 
 # Stow install our apps
 ~/.dotfiles/install $1
