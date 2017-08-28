@@ -216,6 +216,8 @@ cmap w!! w !sudo tee % >/dev/null
 " Quickly edit/reload the vimrc file
 nmap <silent> <leader>ev :e $MYVIMRC<CR>
 nmap <silent> <leader>sv :so $MYVIMRC<CR>
+nmap <silent> <leader>ez :e ~/.zshrc<CR>
+nmap <silent> <leader>et :e ~/.tmux.conf<CR>
 
 " Format paragraph quickly
 vmap Q gq
