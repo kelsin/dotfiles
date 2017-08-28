@@ -15,19 +15,15 @@ set nocompatible
 
 " Install Plug if needed
 if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLso ~/.vim/autoload/plug.vim --create-dirs
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall | q | source $MYVIMRC
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
 call plug#begin()
 
 " Plugins {{{
-Plug 'Kelsin/vim-imports'
-Plug 'airblade/vim-rooter'
-Plug 'bronson/vim-trailing-whitespace'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'mattn/gist-vim'
+Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
@@ -36,55 +32,62 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-shell'
-Plug 'ap/vim-css-color'
+
+Plug 'editorconfig/editorconfig-vim'
+Plug 'airblade/vim-rooter'
 Plug 'scrooloose/nerdtree'
+Plug 'bronson/vim-trailing-whitespace'
+Plug 'mattn/gist-vim'
+Plug 'ap/vim-css-color'
 Plug 'rizzatti/dash.vim'
+Plug 'w0rp/ale'
 
 " Syntax
 Plug 'chrisbra/csv.vim'
-Plug 'digitaltoad/vim-jade'
+Plug 'tpope/vim-markdown'
+Plug 'timcharper/textile.vim'
 Plug 'evanmiller/nginx-vim-syntax'
+
+Plug 'digitaltoad/vim-pug'
 Plug 'groenewege/vim-less'
+Plug 'pangloss/vim-javascript'
+Plug 'moll/vim-node'
+
 Plug 'guns/vim-clojure-static'
 Plug 'jimenezrick/vimerl'
 Plug 'jnwhiteh/vim-golang'
 Plug 'kchmck/vim-coffee-script'
 Plug 'mustache/vim-mustache-handlebars'
-Plug 'pangloss/vim-javascript'
-Plug 'skwp/vim-rspec'
-Plug 'slim-template/vim-slim'
-Plug 'timcharper/textile.vim'
-Plug 'tpope/vim-haml'
-Plug 'tpope/vim-markdown'
-Plug 'vim-ruby/vim-ruby'
 Plug 'wlangstroth/vim-haskell'
 
+Plug 'vim-ruby/vim-ruby'
+Plug 'slim-template/vim-slim'
+Plug 'skwp/vim-rspec'
+Plug 'tpope/vim-haml'
+
 " Style
-" Plug 'itchyny/lightline.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'brendonrapp/smyck-vim'
 Plug 'ryanoasis/vim-devicons'
 " }}}
 
 call plug#end()
-
-filetype plugin indent on
 " }}}
+
+if filereadable($HOME.'/blizzard/src/blizzard-colors/vim/blizzard.vim')
+  so ~/blizzard/src/blizzard-colors/vim/blizzard.vim
+endif
 
 " Basics {{{
 " Read the first 5 lines for modelines on file opening
 set modeline
 set modelines=5
 
-" UTF8
-set encoding=utf8
+" Don't format text automatically
+set formatoptions-=t
 
 " Set .viminfo as the viminfo file (the rest of this line is default)
-set viminfo='100,<50,s10,h,rA:,rB:,n~/.viminfo
-
-" Use the wildmenu
-set wildmenu
+set viminfo='1000,<500,s100,f1,h,n~/.viminfo
 
 " Default vim completion, will edit once I'm used to default
 set wildmode=full
@@ -92,17 +95,8 @@ set wildmode=full
 " Ignore some folders
 set wildignore=*/overlays/**,*/.idea/**,*/build/**,*/target/**,*.o,*.obj,*.class,*.swp,*.swo
 
-" Status line all the time
-set laststatus=2
-
 " Indent C-style functions correction
 set cino+=(0
-
-" UTF-8
-set encoding=utf-8
-
-" Use syntax coloring
-syntax enable
 
 " Allow files to be loaded in background
 set hidden
@@ -122,27 +116,10 @@ if exists('+colorcolumn')
   set colorcolumn=81
 endif
 
-" Use textwidth when writing comments, allow formatting of comments and auto
-" comment when hitting enter in insert mode.
-set formatoptions=crq
-
-" Auto indent
-set autoindent
-
-" No backup files
-set nobackup
-
-" Show cursor position in status bar
-set ruler
-
 " Allow setting xterm titles
 set title
 
-" Allow backspacing over many things
-set backspace=indent,eol,start
-
 " Large History
-set history=1000
 set undolevels=1000
 
 " No beeping or flashing of any kind
@@ -164,14 +141,8 @@ set showmatch
 set ignorecase
 set smartcase
 
-" Make tabs indent lines like in Emacs when at the front of a line
-set smarttab
-
 " Hilight search matches in the file
 set hlsearch
-
-" Search while typing the search instead of waiting for <CR>
-set incsearch
 
 " Backups while working, but not after
 set nobackup
@@ -205,14 +176,11 @@ if has('autocmd')
 endif
 
 " Show tabs, trailing whitespace, and nbsp's
-set list listchars=tab:→\ ,trail:∙,nbsp:␣
+set list listchars=tab:→\ ,trail:∙,nbsp:␣,extends:>,precedes:<
 autocmd FileType nerdtree setlocal nolist
 " }}}
 
 " Tags {{{
-" Try the current directory for the tags file and then search back recursively
-set tags=./tags;
-
 " Tags filenames are relative to the directory they are in
 set tagrelative
 
@@ -291,22 +259,10 @@ command! -bar -bang WQ wq<bang>
 " NERDTree Bindings
 noremap <leader>n :NERDTreeToggle<CR>
 
-" CtrlP File Mode
-nnoremap <C-p> :CtrlP<CR>
-
-" CtrlP Tag Mode
-nnoremap <C-g> :CtrlPTag<CR>
-
-" CtrlP Buffer Mode
-nnoremap <C-b> :CtrlPBuffer<CR>
-
-" CtrlP Recent Mode
-nnoremap <C-r> :CtrlPMRUFiles<CR>
-
-" Remap F1 to esc to avoid accidentaly brining up help
-inoremap <F1> <ESC>
-nnoremap <F1> <ESC>
-vnoremap <F1> <ESC>
+" Remap F1 to use Dash to lookup from the cursor
+inoremap <F1> :Dash<CR>
+nnoremap <F1> :Dash<CR>
+vnoremap <F1> :Dash<CR>
 
 " Paste toggle
 set pastetoggle=<F2>
@@ -348,34 +304,11 @@ if has('autocmd')
 endif
 " }}}
 
-" Colors {{{
-silent! colorscheme smyck
-" }}}
-
 " Plugins {{{
-" Lightline {{{
-let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ }
-" }}}
-
 " Airline {{{
 let g:airline_powerline_fonts = 1
 let g:airline_theme='murmur'
-" }}}
-
-" CtrlP {{{
-" Turn on tag mode for ctrlp
-let g:ctrlp_extensions = ['tag']
-
-" Move CtrP to the project root by default
-let g:ctrlp_working_path_mode = 'ra'
-
-" No caching for CtrlP
-let g:ctrlp_use_caching = 1
-
-" We do want to find hidden files (we can filter with wildignore)
-let g:ctrlp_show_hidden = 1
+let g:airline#extensions#ale#enabled = 1
 " }}}
 
 " Signify {{{
@@ -417,6 +350,10 @@ let NERDTreeCasadeOpenSingleChildDir = 1
 let NERDTreeIgnore = ['^\.vagrant$', '^\.vagrant$', '^\.bundle$', '^\.bzr$',
       \'^\.git$', '^\.hg$', '^\.sass-cache$', '^\.svn$', '^\.$', '^\.\.$',
       \'^Thumbs\.db$', '\.sw[op]$']
+" }}}
+
+" Editorconfig {{{
+let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 " }}}
 
 " Trailing Whitepace {{{
