@@ -480,25 +480,16 @@
     :config
     (browse-kill-ring-default-keybindings))
 
-  ;; Smex
-  (use-package smex
-    :disabled t
-    :ensure t
-    :bind
-    ("M-x" . smex)
-    ("M-X" . smex-major-mode-commands)
-    ("C-c C-c M-x" . execute-extended-command)
-    :config
-    (smex-initialize))
-
   ;; Projectile
   (use-package projectile
     :ensure t
+    :demand t
+    :bind
+    (:map projectile-mode-map
+      ("C-c p g" . counsel-projectile-rg))
     :config
     (projectile-mode)
-    (setq projectile-switch-project-action #'projectile-dired)
-    (use-package ag
-      :ensure t))
+    (setq projectile-switch-project-action #'projectile-dired))
 
   ;; Terraform
   (use-package terraform-mode
