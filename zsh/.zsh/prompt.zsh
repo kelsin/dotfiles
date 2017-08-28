@@ -1,8 +1,10 @@
 #!/usr/bin/env zsh
 
 git_symbol=`echo -e '\ue0a0'`
-node_symbol=`echo -e '\u2b22'`
-ruby_symbol=`echo -e '\u2756'`
+#node_symbol=`echo -e '\u2b22'`
+node_symbol=`echo -e '\ue718'`
+#ruby_symbol=`echo -e '\u2756'`
+ruby_symbol=`echo -e '\ue791'`
 lambda_symbol=`echo -e '\u03bb'`
 
 git_arrows() {
