@@ -66,6 +66,7 @@ Plug 'skwp/vim-rspec'
 Plug 'tpope/vim-haml'
 
 " Style
+Plug '~/blizzard/src/blizzard-colors', { 'rtp': 'vim' }
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ryanoasis/vim-devicons'
@@ -74,17 +75,15 @@ Plug 'ryanoasis/vim-devicons'
 call plug#end()
 " }}}
 
-if filereadable($HOME.'/blizzard/src/blizzard-colors/vim/blizzard.vim')
-  so ~/blizzard/src/blizzard-colors/vim/blizzard.vim
-endif
-
 " Basics {{{
 " Read the first 5 lines for modelines on file opening
 set modeline
 set modelines=5
 
 " Don't format text automatically
-set formatoptions-=t
+" Don't add new comment lines from normal mode
+" autocmd!
+autocmd FileType * setlocal formatoptions-=t formatoptions-=o formatoptions-=r
 
 " Set .viminfo as the viminfo file (the rest of this line is default)
 set viminfo='1000,<500,s100,f1,h,n~/.viminfo
@@ -110,11 +109,8 @@ set number
 " Show relative line numbers
 set relativenumber
 
-" Set default textwidth and add a column showing this
+" Set default textwidth
 set textwidth=80
-if exists('+colorcolumn')
-  set colorcolumn=81
-endif
 
 " Allow setting xterm titles
 set title
@@ -368,14 +364,15 @@ let loaded_trailing_whitespace_plugin = 1
 if has("fullscreen")
   set fuopt=maxvert,maxhorz
 endif
-if has("transparency")
-  set transp=5
-endif
+" if has("transparency")
+"   set transp=5
+" endif
 
 " No gui elements (toolbars, menus, tabs, scrollbars)
 set go=
 " }}}
 
-" Fonts {{{
-set guifont=Input\ Mono:h16
+" Fonts and Colors {{{
+set guifont=Sauce\ Code\ Pro\ Nerd\ Font\ Complete:h20
+colorscheme blizzard
 " }}}

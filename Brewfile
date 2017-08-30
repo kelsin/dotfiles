@@ -1,5 +1,6 @@
 tap 'homebrew/bundle'
 tap 'thoughtbot/formulae'
+tap 'caskroom/fonts'
 
 brew 'ansible'
 brew 'cask'
@@ -41,6 +42,7 @@ brew 'watchman'
 brew 'wget'
 brew 'zsh'
 
+# Apps
 cask '1password'
 # cask 'battle-net'
 cask 'cisco-spark'
@@ -64,3 +66,9 @@ cask 'spectacle'
 cask 'spotify'
 # cask 'steam'
 cask 'vlc'
+
+# Fonts
+cask 'font-hack-nerd-font'
+cask 'font-hack-nerd-font-mono'
+cask 'font-sourcecodepro-nerd-font'
+cask 'font-sourcecodepro-nerd-font-mono'

@@ -480,6 +480,11 @@
     :config
     (browse-kill-ring-default-keybindings))
 
+  ;; Vimrc mode
+  (use-package vimrc-mode
+    :ensure t
+    :mode "\\.vim\\(rc\\)?\\'")
+
   ;; Projectile
   (use-package projectile
     :ensure t
