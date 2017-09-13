@@ -41,5 +41,10 @@
 [credential "https://git-codecommit.us-west-2.amazonaws.com"]
     helper = !aws --profile haven codecommit credential-helper $@
     UseHttpPath = true
-[include]
-    path = .gitconfig.user
+[github]
+    user = Kelsin
+[user]
+    name = Christopher Giroir
+    email = kelsin@valefor.com
+[includeIf "gitdir:~/blizzard/"]
+    path = .gitconfig.blizzard

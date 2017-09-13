@@ -67,6 +67,9 @@ cask 'spotify'
 # cask 'steam'
 cask 'vlc'
 
+# Latex
+cask 'mactex'
+
 # Fonts
 cask 'font-hack-nerd-font'
 cask 'font-hack-nerd-font-mono'

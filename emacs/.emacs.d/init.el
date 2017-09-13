@@ -93,10 +93,25 @@
     ("C-c l" . org-store-link)
     ("C-c a" . org-agenda)
     :config
+    (use-package ob-restclient
+      :ensure t)
+
     (setq org-capture-templates
       '( ("c" "Code" entry (file+datetree "~/org/code.org") "* %?\n\n  %a")
          ("s" "Song" entry (file+datetree "~/org/songs.org") "* %U\n  %?")
          ("t" "Todo" entry (file+headline "~/org/todo.org" "Quick") "* TODO %?\n  %i")))
+
+    (add-to-list 'org-src-lang-modes '("dot" . graphviz-dot))
+
+    (org-babel-do-load-languages
+      'org-babel-load-languages
+      '((dot . t)
+         (plantuml . t)
+         (restclient . t)))
+
+    (setq org-latex-listings t)
+    (setq org-confirm-babel-evaluate nil)
+    (setq org-plantuml-jar-path "/usr/local/Cellar/plantuml/1.2017.14/libexec/plantuml.jar")
 
     (use-package ox-reveal
       :ensure t)
@@ -107,9 +122,28 @@
       :config
       (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))))
 
+  ;; Dired Details+
+  (use-package dired-details+
+    :ensure t)
+
+  ;; Dired+
+  (use-package dired+
+    :disabled t
+    :ensure t)
+
   ;; Prettify Symbols
   (global-prettify-symbols-mode 1)
   (setq prettify-symbols-unprettify-at-point 'right-edge)
+
+  ;; Protobuf mode
+  (use-package protobuf-mode
+    :ensure t
+    :mode "\\.proto\\'")
+
+  ;; Plantuml mode
+  (use-package plantuml-mode
+    :ensure t
+    :mode "\\.uml\\'")
 
   ;; Ledger Mode
   (use-package ledger-mode
@@ -171,6 +205,11 @@
   ;; No backup files
   (setq make-backup-files nil)
 
+  ;; Gnus
+  (use-package gnus
+    :config
+    (setq gnus-select-method '(nntp "news.gwene.org")))
+
   ;; Set paren style
   (show-paren-mode t)
   (setq show-paren-style 'parenthesis)
@@ -187,18 +226,37 @@
     tab-width 2
     indent-tabs-mode nil)
 
+  ;; Restclient
+  (use-package restclient
+    :ensure t
+    :mode ("\\.rest\\'" . restclient-mode)
+    :config
+    (use-package company-restclient
+      :ensure t
+      :config
+      (add-to-list 'company-backends 'company-restclient)))
+
+  ;; Ace Window
+  (use-package ace-window
+    :bind ("C-c w" . ace-window)
+    :ensure t)
+
   ;; Ivy
   (use-package counsel
     :ensure t
     :demand t
+    :diminish ivy-mode
     :bind
-    ;; ("M-x" . counsel-M-x)
+    ("M-x" . counsel-M-x)
     ("C-s" . swiper)
-    ;; ("C-x C-f" . counsel-find-file)
+    ("C-x C-f" . counsel-find-file)
     ("C-x C-r" . counsel-recentf)
-    ;; ("C-x r b" . counsel-bookmark)
+    ("C-x r b" . counsel-bookmark)
     ("C-c C-a" . counsel-apropos)
     ("C-c C-g" . counsel-ag)
+    :init
+    (use-package smex
+      :ensure t)
     :config
     (setq ivy-use-virtual-buffers t)
     (setq ivy-count-format "%d/%d ")
@@ -213,6 +271,12 @@
       :ensure t
       :config
       (counsel-projectile-on))
+
+    (use-package counsel-gtags
+      :ensure t)
+
+    (use-package counsel-spotify
+      :ensure t)
 
     (use-package flx
       :ensure t))
@@ -387,6 +451,7 @@
     :config
     (use-package all-the-icons-dired
       :ensure t
+      :diminish all-the-icons-dired-mode
       :config
       (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)))
 
@@ -480,10 +545,121 @@
     :config
     (browse-kill-ring-default-keybindings))
 
+  ;; Graphviz
+  (use-package graphviz-dot-mode
+    :ensure t
+    :mode "\\.dot\\'")
+
   ;; Vimrc mode
   (use-package vimrc-mode
     :ensure t
     :mode "\\.vim\\(rc\\)?\\'")
+
+  ;; Persp-mode
+  (use-package persp-mode
+    :ensure t
+    :init
+    (setq persp-keymap-prefix (kbd "C-c C-p"))
+    :config
+    (persp-mode)
+    (with-eval-after-load "persp-mode"
+      (defvar persp-mode-projectile-bridge-before-switch-selected-window-buffer nil)
+
+      ;; (setq persp-add-buffer-on-find-file 'if-not-autopersp)
+
+      (persp-def-auto-persp "projectile"
+        :parameters '((dont-save-to-file . t)
+                       (persp-mode-projectile-bridge . t))
+        :hooks '(projectile-before-switch-project-hook
+                  projectile-after-switch-project-hook
+                  projectile-find-file-hook
+                  find-file-hook)
+        :dyn-env '((after-switch-to-buffer-adv-suspend t))
+        :switch 'frame
+        :predicate
+        #'(lambda (buffer &optional state)
+            (if (eq 'projectile-before-switch-project-hook
+                  (alist-get 'hook state))
+              state
+              (and
+                projectile-mode
+                (buffer-live-p buffer)
+                (buffer-file-name buffer)
+                ;; (not git-commit-mode)
+                (projectile-project-p)
+                (or state t))))
+        :get-name
+        #'(lambda (state)
+            (if (eq 'projectile-before-switch-project-hook
+                  (alist-get 'hook state))
+              state
+              (push (cons 'persp-name
+                      (concat "p) "
+                        (with-current-buffer (alist-get 'buffer state)
+                          (projectile-project-name))))
+                state)
+              state))
+        :on-match
+        #'(lambda (state)
+            (let ((hook (alist-get 'hook state))
+                   (persp (alist-get 'persp state))
+                   (buffer (alist-get 'buffer state)))
+              (case hook
+                (projectile-before-switch-project-hook
+                  (let ((win (if (minibuffer-window-active-p (selected-window))
+                               (minibuffer-selected-window)
+                               (selected-window))))
+                    (when (window-live-p win)
+                      (setq persp-mode-projectile-bridge-before-switch-selected-window-buffer
+                        (window-buffer win)))))
+
+                (projectile-after-switch-project-hook
+                  (when (buffer-live-p
+                          persp-mode-projectile-bridge-before-switch-selected-window-buffer)
+                    (let ((win (selected-window)))
+                      (unless (eq (window-buffer win)
+                                persp-mode-projectile-bridge-before-switch-selected-window-buffer)
+                        (set-window-buffer
+                          win persp-mode-projectile-bridge-before-switch-selected-window-buffer)))))
+
+                (find-file-hook
+                  (setcdr (assq :switch state) nil)))
+              (if (case hook
+                    (projectile-before-switch-project-hook nil)
+                    (t t))
+                (persp--auto-persp-default-on-match state)
+                (setcdr (assq :after-match state) nil)))
+            state)
+        :after-match
+        #'(lambda (state)
+            (when (eq 'find-file-hook (alist-get 'hook state))
+              (run-at-time 0.5 nil
+                #'(lambda (buf persp)
+                    (when (and (eq persp (get-current-persp))
+                            (not (eq buf (window-buffer (selected-window)))))
+                      ;; (switch-to-buffer buf)
+                      (persp-add-buffer buf persp t nil)))
+                (alist-get 'buffer state)
+                (get-current-persp)))
+            (persp--auto-persp-default-after-match state)))
+
+      (with-eval-after-load "ivy"
+        (add-hook 'ivy-ignore-buffers
+          #'(lambda (b)
+              (when persp-mode
+                (let ((persp (get-current-persp)))
+                  (if persp
+                    (not (persp-contain-buffer-p b persp))
+                    nil)))))
+
+        (setq ivy-sort-functions-alist
+          (append ivy-sort-functions-alist
+            '((persp-kill-buffer   . nil)
+               (persp-remove-buffer . nil)
+               (persp-add-buffer    . nil)
+               (persp-switch        . nil)
+               (persp-window-switch . nil)
+               (persp-frame-switch  . nil)))))))
 
   ;; Projectile
   (use-package projectile
@@ -745,6 +921,7 @@
   (use-package company
     :ensure t
     :defer 1
+    :diminish company-mode
     :config
     (global-company-mode))
 
@@ -793,6 +970,12 @@
     (add-to-list 'evil-emacs-state-modes 'dired-mode)
     (add-to-list 'evil-emacs-state-modes 'neotree-mode)
 
+    ;; Evil Leader
+    (use-package evil-leader
+      :ensure t
+      :config
+      (global-evil-leader-mode))
+
     ;; Undo Tree Mode
     (use-package undo-tree
       :ensure t
@@ -831,12 +1014,26 @@
 
     (use-package evil-org
       :ensure t
-      :after org
+      :diminish evil-org-mode
       :config
       (add-hook 'org-mode-hook 'evil-org-mode)
       (add-hook 'evil-org-mode-hook
         (lambda ()
           (evil-org-set-key-theme))))))
+
+(use-package eyebrowse
+  :ensure t
+  :config
+  (eyebrowse-setup-opinionated-keys)
+  (eyebrowse-mode t))
+
+(use-package dashboard
+  :ensure t
+  :config
+  (setq dashboard-items '((agenda)
+                           (projects . 10)
+                           (recents . 5)))
+  (dashboard-setup-startup-hook))
 
 (provide 'init)
 ;;; init.el ends here
