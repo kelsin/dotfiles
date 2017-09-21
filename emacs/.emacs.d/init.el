@@ -96,10 +96,22 @@
     (use-package ob-restclient
       :ensure t)
 
+    (defvar kelsin/org-capture-file-blizzard-todo
+      "~/blizzard/src/org/todo.org"
+      "File to use when saving new Blizzard TODO items with Org Capture.")
+    (defvar kelsin/org-capture-file-blizzard
+      "~/blizzard/src/org/"
+      "File to use when saving new personal TODO items with Org Capture.")
+
     (setq org-capture-templates
       '( ("c" "Code" entry (file+datetree "~/org/code.org") "* %?\n\n  %a")
          ("s" "Song" entry (file+datetree "~/org/songs.org") "* %U\n  %?")
-         ("t" "Todo" entry (file+headline "~/org/todo.org" "Quick") "* TODO %?\n  %i")))
+         ("b" "Blizzard TODO" entry
+           (file+headline kelsin/org-capture-file-blizzard-todo "New")
+           "* TODO %?\n  %i")
+         ("t" "Personal TODO" entry
+           (file+headline "~/org/todo.org" "Quick")
+           "* TODO %?\n  %i")))
 
     (add-to-list 'org-src-lang-modes '("dot" . graphviz-dot))
 
@@ -157,12 +169,15 @@
 
   ;; Linum Mode
   (use-package linum
+    :disabled t
     :ensure t
     :defer 1
     :diminish linum-mode
     :config
     (global-linum-mode))
+
   (use-package linum-relative
+    :disabled t
     :ensure t
     :defer 1
     :diminish linum-relative-mode
@@ -561,6 +576,7 @@
     :init
     (setq persp-keymap-prefix (kbd "C-c C-p"))
     :config
+    (setq persp-autokill-buffer-on-remove 'kill-weak)
     (persp-mode)
     (with-eval-after-load "persp-mode"
       (defvar persp-mode-projectile-bridge-before-switch-selected-window-buffer nil)
@@ -885,13 +901,33 @@
   ;; Smartparens
   (use-package smartparens-config
     :ensure smartparens
+    :diminish smartparens-mode
     :config
     (show-smartparens-global-mode t)
     (add-hook 'prog-mode-hook 'turn-on-smartparens-strict-mode)
     (add-hook 'markdown-mode-hook 'turn-on-smartparens-strict-mode))
 
+  (use-package which-key
+    :ensure t
+    :diminish which-key-mode
+    :config
+    (which-key-mode))
+
   ;; Modeline
+  (use-package powerline
+    :ensure t
+    :config
+    (setq powerline-gui-use-vcs-glyph 't)
+    (setq powerline-default-separator 'contour)
+
+    (use-package powerline-evil
+      :ensure t
+      :config
+      (setq powerline-evil-tag-style 'verbose)
+      (powerline-evil-center-color-theme)))
+
   (use-package smart-mode-line
+    :disabled t
     :ensure t
     :init
     (setq sml/theme 'dark)
