@@ -96,6 +96,12 @@
     (use-package ob-restclient
       :ensure t)
 
+    (setq org-log-refile t)
+    (setq org-refile-targets '((nil :maxlevel . 9)
+                                (org-agenda-files :maxlevel . 9)))
+    (setq org-outline-path-complete-in-steps nil)         ; Refile in a single go
+    (setq org-refile-use-outline-path t)                  ; Show full paths for refiling
+
     (defvar kelsin/org-capture-file-blizzard-todo
       "~/blizzard/src/org/todo.org"
       "File to use when saving new Blizzard TODO items with Org Capture.")
@@ -573,6 +579,7 @@
   ;; Persp-mode
   (use-package persp-mode
     :ensure t
+    :disabled t
     :init
     (setq persp-keymap-prefix (kbd "C-c C-p"))
     :config

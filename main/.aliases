@@ -53,6 +53,7 @@ alias d='docker'
 alias dm='docker-machine'
 alias dc='docker-compose'
 alias dme='eval $(docker-machine env)'
+alias ecrl='$(aws ecr get-login --no-include-email)'
 
 # AWS
 alias ebe='eb printenv | grep \= | sort'

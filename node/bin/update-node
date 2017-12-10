@@ -4,7 +4,7 @@
 . $DOTFILES/node/.zsh/nodenv.zsh
 
 # Install latest node
-nodenv install -s 8.2.1
+nodenv install -s 8.9.3
 
 # Install node modules
 npm install -g npm bunyan ember-cli yarn
