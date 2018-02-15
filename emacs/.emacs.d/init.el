@@ -153,6 +153,11 @@
   (global-prettify-symbols-mode 1)
   (setq prettify-symbols-unprettify-at-point 'right-edge)
 
+  ;; Nginx mode
+  (use-package nginx-mode
+    :ensure t
+    :mode "\\.conf\\'")
+
   ;; Protobuf mode
   (use-package protobuf-mode
     :ensure t
@@ -908,11 +913,7 @@
   ;; Smartparens
   (use-package smartparens-config
     :ensure smartparens
-    :diminish smartparens-mode
-    :config
-    (show-smartparens-global-mode t)
-    (add-hook 'prog-mode-hook 'turn-on-smartparens-strict-mode)
-    (add-hook 'markdown-mode-hook 'turn-on-smartparens-strict-mode))
+    :diminish smartparens-mode)
 
   (use-package which-key
     :ensure t
@@ -1065,6 +1066,7 @@
           (evil-org-set-key-theme))))))
 
 (use-package eyebrowse
+  :disabled t
   :ensure t
   :config
   (eyebrowse-setup-opinionated-keys)

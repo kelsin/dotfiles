@@ -14,6 +14,9 @@ else
     alias la='ls -lah'
 fi
 
+# Whats My IP
+alias wmi='dig +short myip.opendns.com @resolver1.opendns.com'
+
 # Pretty Clear
 alias clear='clear && figlet $USER 2>/dev/null | lolcat 2>/dev/null'
 
@@ -75,7 +78,9 @@ alias giroir='set-title Giroir;ssh -Y giroir.homelinux.com'
 
 # Linode
 alias zealot='set-title zealot;ssh -Y zealot.kelsin.net'
+alias carrier='set-title carrier;ssh -Y carrier.kelsin.net'
 alias lish-zealot='set-title lish:zealot;ssh -Y -t kelsin@lish-dallas.linode.com zealot'
+alias lish-carrier='set-title lish:carrier;ssh -Y -t kelsin@lish-dallas.linode.com carrier'
 
 # Brew
 alias brews='brew list -1'
