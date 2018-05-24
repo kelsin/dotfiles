@@ -14,6 +14,12 @@ else
     alias la='ls -lah'
 fi
 
+# Docker
+alias dr='docker run -it --rm'
+
+# C#
+alias jenny='mono Jenny/Jenny.exe'
+
 # Whats My IP
 alias wmi='dig +short myip.opendns.com @resolver1.opendns.com'
 
@@ -40,10 +46,11 @@ alias top=htop
 
 # Git
 alias gitk='gitk --all &'
+alias gitx='open -a gitx .'
+alias st='open -a SourceTree .'
 
 # QuickMug
 alias qm='~/.rbenv/shims/quickmug'
-alias gitx='open -a gitx .'
 
 # Ember
 alias em='ember'

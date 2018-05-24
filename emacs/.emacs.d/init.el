@@ -58,7 +58,7 @@
   (use-package exec-path-from-shell
     :ensure t
     :init
-    (setenv "NODENV_VERSION" "8.2.1")
+    (setenv "NODENV_VERSION" "8.11.1")
     (setenv "RBENV_VERSION" "2.4.1")
     :config
     (exec-path-from-shell-initialize))
@@ -76,6 +76,14 @@
 
   ;; Set Shell to bash
   (setq shell-file-name "/bin/bash")
+
+  ;; Company
+  (use-package company
+    :ensure t
+    :defer 1
+    :diminish company-mode
+    :config
+    (global-company-mode))
 
   ;; Org Mode
   (use-package org
@@ -210,6 +218,11 @@
   (setq dired-isearch-filenames t)
   (setq dired-use-ls-dired nil)
 
+  ;; Dired-x
+  (require 'dired-x)
+  (add-to-list 'dired-omit-extensions ".meta")
+  (add-hook 'dired-mode-hook (lambda () (dired-omit-mode 1)))
+
   ;; Enable recursive minibuffers
   (setq enable-recursive-minibuffers t)
 
@@ -242,14 +255,13 @@
 
   ;; Set preferred code/tab style
   (setq-default c-default-style "java"
-    c-basic-offset 2
-    css-indent-offset 2
+    c-basic-offset 4
+    css-indent-offset 4
     mail-indentation-spaces 4
-    ruby-indent-level 2
-    sh-basic-offset 2
-    sh-indentation 2
-    css-indent-offset 2
-    tab-width 2
+    ruby-indent-level 4
+    sh-basic-offset 4
+    sh-indentation 4
+    tab-width 4
     indent-tabs-mode nil)
 
   ;; Restclient
@@ -763,6 +775,22 @@
     :ensure t
     :commands ember-mode)
 
+  ;; C# Mode
+  (use-package csharp-mode
+    :ensure t
+    :mode ("\\.cs\\'" . csharp-mode)
+    :config
+    (add-hook 'csharp-mode-hook
+      (lambda ()
+        (electric-pair-local-mode 1)))
+    (use-package omnisharp
+      :ensure t
+      :config
+      (define-key omnisharp-mode-map (kbd "<f8>") 'omnisharp-code-format-entire-file)
+      (add-to-list 'company-backends 'company-omnisharp)
+      (add-hook 'csharp-mode-hook 'omnisharp-mode)
+      (add-hook 'csharp-mode-hook #'company-mode)))
+
   ;; Web Mode
   (use-package web-mode
     :ensure t
@@ -771,6 +799,11 @@
   (use-package elm-mode
     :ensure t
     :mode "\\.elm\\'")
+
+  ;; PHP
+  (use-package php-mode
+    :ensure t
+    :mode "\\.php\\'")
 
   ;; Javascript
   (use-package json-mode
@@ -792,9 +825,6 @@
         (setq tab-width 2)
         (setq js2-mode-show-parse-errors nil)
         (setq js2-mode-show-strict-warnings nil)
-        (push '("*" . ?×) prettify-symbols-alist)
-        (push '("/" . ?∕) prettify-symbols-alist)
-        (push '("%" . ?÷) prettify-symbols-alist)
         (push '("&&" . ?∧) prettify-symbols-alist)
         (push '("||" . ?∨) prettify-symbols-alist)
         (push '("!" . ?¬) prettify-symbols-alist)
@@ -805,6 +835,7 @@
         (push '("null" . ?∅) prettify-symbols-alist)
         (push '("function" . ?λ) prettify-symbols-alist)
         (push '("return" . ?⇐) prettify-symbols-alist)
+        (push '("=>" . ?⇒) prettify-symbols-alist)
         (push '("->" . ?→) prettify-symbols-alist)))
 
     ;; Js2-refactor
@@ -961,13 +992,6 @@
         (local-set-key (kbd "C-x k") 'server-edit)
         (local-set-key (kbd "C-c C-c") 'server-edit)
         (local-set-key (kbd "C-c c") 'server-edit))))
-
-  (use-package company
-    :ensure t
-    :defer 1
-    :diminish company-mode
-    :config
-    (global-company-mode))
 
   ;; Evil
   (use-package evil

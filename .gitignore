@@ -6,6 +6,7 @@ node_modules
 .gitconfig.user
 
 # Emacs Ignores
+emacs/.emacs.d/.cache
 emacs/.emacs.d/.cask
 emacs/.emacs.d/.mc-lists.el
 emacs/.emacs.d/elpa

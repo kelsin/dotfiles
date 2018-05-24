@@ -1,0 +1,29 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: e_rs
+# key: e_rs
+# --
+using Entitas;
+using System.Collections.Generic;
+
+public class $1System : ReactiveSystem<${2:Game}Entity>
+{
+    public $1System($2Context context) : base(context) {}
+
+    protected override ICollector<$2Entity> GetTrigger(IContext<$2Entity> context)
+    {
+        return context.CreateCollector($2Matcher.$3);
+    }
+
+    protected override bool Filter($2Entity entity)
+    {
+        return ${4:true};
+    }
+
+    protected override void Execute(List<$2Entity> entities)
+    {
+        foreach (var e in entities)
+        {
+            $0
+        }
+    }
+}

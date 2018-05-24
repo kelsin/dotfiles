@@ -1,0 +1,21 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: e_es
+# key: e_es
+# --
+using Entitas;
+
+public class $1System : IExecuteSystem
+{
+
+    public ${2:Game}Context context;
+
+    public $1System($2Context context)
+    {
+        this.context = context;
+    }
+
+    public void Execute()
+    {
+        $0
+    }
+}
