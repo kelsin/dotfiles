@@ -52,6 +52,9 @@ alias st='open -a SourceTree .'
 # QuickMug
 alias qm='~/.rbenv/shims/quickmug'
 
+# NetHack
+alias nh='tput civis && nethack && tput cnorm'
+
 # Ember
 alias em='ember'
 
