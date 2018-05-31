@@ -1,56 +1,56 @@
 [color]
-    diff = auto
-    status = auto
-    branch = auto
-    ui = auto
+  diff = auto
+  status = auto
+  branch = auto
+  ui = auto
 [push]
-    default = upstream
+  default = upstream
 [alias]
-    aa = add -A
-    d = diff -b
-    dc = diff --cached -b
-    marked-unchanged = !git ls-files -v | grep ^[a-z]
-    mu = !git ls-files -v | grep ^[a-z]
-    br = branch
-    ba = branch -a
-    brm = merge --no-ff --log --no-commit
-    pr = remote prune
-    pro = remote prune origin
-    st = status
-    co = checkout
-    oc = checkout
-    sub = submodule
-    subrm = submodule deinit
-    l = log --graph --decorate --oneline
-    ls = log --graph --decorate --oneline --stat
-    la = log --graph --decorate --oneline --all
-    lsa = log --graph --decorate --oneline --stat --all
-    rmerge = merge --no-ff --no-commit
+  aa = add -A
+  d = diff -b
+  dc = diff --cached -b
+  marked-unchanged = !git ls-files -v | grep ^[a-z]
+  mu = !git ls-files -v | grep ^[a-z]
+  br = branch
+  ba = branch -a
+  brm = merge --no-ff --log --no-commit
+  pr = remote prune
+  pro = remote prune origin
+  st = status
+  co = checkout
+  oc = checkout
+  sub = submodule
+  subrm = submodule deinit
+  l = log --graph --decorate --oneline
+  ls = log --graph --decorate --oneline --stat
+  la = log --graph --decorate --oneline --all
+  lsa = log --graph --decorate --oneline --stat --all
+  rmerge = merge --no-ff --no-commit
 [status]
-    relativePaths = false
+  relativePaths = false
 [diff "ruby"]
-    funcname = ^ *\\(\\(class\\|module\\|def\\) .*\\)
+  funcname = ^ *\\(\\(class\\|module\\|def\\) .*\\)
 [branch]
-    autosetuprebase = always
+  autosetuprebase = always
 [core]
-	excludesfile = /Users/cgiroir/.gitconfig.ignore
+  excludesfile = /Users/cgiroir/.gitconfig.ignore
 [filter "lfs"]
-    clean = git-lfs clean %f
-    smudge = git-lfs smudge %f
-    required = true
+  clean = git-lfs clean %f
+  smudge = git-lfs smudge %f
+  required = true
 [credential "https://git-codecommit.us-west-2.amazonaws.com"]
-    helper = !aws --profile haven codecommit credential-helper $@
-    UseHttpPath = true
+  helper = !aws --profile haven codecommit credential-helper $@
+  UseHttpPath = true
 [github]
-    user = Kelsin
+  user = Kelsin
 [user]
-    name = Christopher Giroir
-    email = kelsin@valefor.com
+  name = Christopher Giroir
+  email = kelsin@valefor.com
 [includeIf "gitdir:~/blizzard/"]
-    path = .gitconfig.blizzard
+  path = .gitconfig.blizzard
 [difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
+  cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+  path =
 [mergetool "sourcetree"]
-	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
+  cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+  trustExitCode = true
