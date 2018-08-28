@@ -1,14 +1,18 @@
 # Set Title
 function set-title {
-    case $TERM in
-        screen*)
+  case $TERM in
+    screen*)
+      if [ -n "$TMUX" ]; then
+        tmux rename-window -t${TMUX_PANE} $*
+      else
         printf "\ek$*\e\\"
-        ;;
-        xterm*)
-        printf "\033]0;$*\007"
-        ;;
-        cygwin*)
-        printf "\033]0;$*\007"
-        ;;
-    esac
+      fi
+      ;;
+    xterm*)
+      printf "\033]0;$*\007"
+      ;;
+    cygwin*)
+      printf "\033]0;$*\007"
+      ;;
+  esac
 }
