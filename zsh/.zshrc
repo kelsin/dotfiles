@@ -24,6 +24,7 @@ if (( $+commands[brew] )); then
 	fpath=("`brew --prefix`/share/zsh/site-functions" $fpath)
 fi
 
+zplug "plugins/kubectl", from:oh-my-zsh
 zplug "sorin-ionescu/prezto", use:"modules/completion/init.zsh"
 zplug "tmuxinator/tmuxinator", use:"completion/tmuxinator.zsh"
 

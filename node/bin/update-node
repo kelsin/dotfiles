@@ -3,13 +3,14 @@
 # Load
 . $DOTFILES/node/.zsh/nodenv.zsh
 
-# Install latest node
-nodenv install -s 8.11.2
-
-# Install node modules
+# Install latest LTS node
+nodenv install -s 8.12.0
 npm install -g npm bunyan ember-cli yarn
+nodenv rehash
 
-# Rehash
+# Install latest node
+nodenv install -s 10.11.0
+npm install -g npm bunyan ember-cli yarn
 nodenv rehash
 
 echo Done updating node

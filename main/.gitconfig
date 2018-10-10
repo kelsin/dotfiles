@@ -11,6 +11,7 @@
   dc = diff --cached -b
   marked-unchanged = !git ls-files -v | grep ^[a-z]
   mu = !git ls-files -v | grep ^[a-z]
+  dm = !git branch --merged | egrep -v \"(^\\*|master|dev)\" | xargs git branch -d
   br = branch
   ba = branch -a
   brm = merge --no-ff --log --no-commit
@@ -50,7 +51,7 @@
   path = .gitconfig.blizzard
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
+	path =
 [mergetool "sourcetree"]
 	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true

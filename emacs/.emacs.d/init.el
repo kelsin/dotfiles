@@ -35,6 +35,7 @@
   (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
   (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
+  (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
   (package-initialize)
 
   (unless (package-installed-p 'use-package)
@@ -132,6 +133,7 @@
     (org-babel-do-load-languages
       'org-babel-load-languages
       '((dot . t)
+         (shell . t)
          (plantuml . t)
          (restclient . t)))
 
@@ -308,7 +310,7 @@
     (use-package counsel-projectile
       :ensure t
       :config
-      (counsel-projectile-on))
+      (counsel-projectile-mode))
 
     (use-package counsel-gtags
       :ensure t)
@@ -707,10 +709,11 @@
     :demand t
     :bind
     (:map projectile-mode-map
+      ("C-c p" . projectile-command-map)
       ("C-c p g" . counsel-projectile-rg))
     :config
-    (projectile-mode)
-    (setq projectile-switch-project-action #'projectile-dired))
+    (setq projectile-switch-project-action #'projectile-dired)
+    (projectile-mode))
 
   ;; Terraform
   (use-package terraform-mode
