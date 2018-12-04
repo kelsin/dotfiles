@@ -42,10 +42,12 @@
     (package-refresh-contents)
     (package-install 'use-package))
 
-  ;; (setq use-package-verbose t)
-  (eval-when-compile
-    (require 'use-package))
-  (require 'diminish)
+  (setq use-package-verbose t)
+  (require 'use-package)
+
+  (use-package diminish
+    :ensure t)
+
   (require 'bind-key)
 
   ;; Custom File
@@ -133,7 +135,7 @@
     (org-babel-do-load-languages
       'org-babel-load-languages
       '((dot . t)
-         (shell . t)
+         (sh . t)
          (plantuml . t)
          (restclient . t)))
 
@@ -149,10 +151,6 @@
       :commands org-bullets-mode
       :config
       (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))))
-
-  ;; Dired Details+
-  (use-package dired-details+
-    :ensure t)
 
   ;; Dired+
   (use-package dired+
@@ -281,6 +279,9 @@
     :bind ("C-c w" . ace-window)
     :ensure t)
 
+  (use-package smex
+    :ensure t)
+
   ;; Ivy
   (use-package counsel
     :ensure t
@@ -295,8 +296,6 @@
     ("C-c C-a" . counsel-apropos)
     ("C-c C-g" . counsel-ag)
     :init
-    (use-package smex
-      :ensure t)
     :config
     (setq ivy-use-virtual-buffers t)
     (setq ivy-count-format "%d/%d ")
@@ -1098,14 +1097,6 @@
   :config
   (eyebrowse-setup-opinionated-keys)
   (eyebrowse-mode t))
-
-(use-package dashboard
-  :ensure t
-  :config
-  (setq dashboard-items '((agenda)
-                           (projects . 10)
-                           (recents . 5)))
-  (dashboard-setup-startup-hook))
 
 (provide 'init)
 ;;; init.el ends here
