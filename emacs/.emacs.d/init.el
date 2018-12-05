@@ -30,24 +30,25 @@
        (file-name-handler-alist nil))
 
   ;; Package config
-  (require 'package)
   (setq package-enable-at-startup nil)
+  (require 'package)
   (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
   (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
   (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
-  (package-initialize)
+  (package-initialize 'noactivate)
 
   (unless (package-installed-p 'use-package)
     (package-refresh-contents)
     (package-install 'use-package))
 
+  (package-initialize)
+
   (setq use-package-verbose t)
-  (require 'use-package)
 
-  (use-package diminish
-    :ensure t)
-
+  (eval-when-compile
+    (require 'use-package))
+  (require 'diminish)
   (require 'bind-key)
 
   ;; Custom File
@@ -494,7 +495,7 @@
       (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)))
 
   (use-package neotree
-    :load-path "~/src/emacs-neotree"
+    :ensure t
     :bind ("<f9>" . neotree-toggle)
     :config
     (setq neo-theme (if (display-graphic-p) 'icons 'arrow)
@@ -988,7 +989,7 @@
 
   ;; Start up the server
   (use-package server
-    :defer t
+    :defer 1
     :config
     (unless (server-running-p) (server-start))
     (add-hook 'server-switch-hook
