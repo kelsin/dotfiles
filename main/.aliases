@@ -100,6 +100,7 @@ alias brews='brew list -1'
 alias bubo='brew update && brew outdated'
 alias bubc='brew upgrade && brew cleanup'
 alias bubu='bubo && bubc'
+alias brewski='brew update && brew upgrade && brew cleanup; brew doctor'
 
 # Ember
 alias em='ember'

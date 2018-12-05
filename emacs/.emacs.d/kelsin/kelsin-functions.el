@@ -50,7 +50,7 @@
     (system-open (buffer-file-name))))
 
 (defun kelsin-find-tags-file (&optional path)
-  "Recursively searches for a TAGS (or tags) file from the current path"
+  "Recursively search for a TAGS (or tags) file from the current or passed in PATH."
   (let ((current-file (or path (buffer-file-name))))
     (if current-file
       (let* ((parent (file-name-directory current-file))
@@ -71,16 +71,18 @@
            (message (concat "Setting tags table for" (buffer-name) " to " tags-file)))))))
 
 (defun indent-buffer ()
+  "Run the default indent function on the whole buffer."
   (interactive)
   (indent-region (point-min) (point-max)))
 
 (defun reindent-buffer ()
+  "Remove all indentation, then reindent."
   (interactive)
   (indent-region (point-min) (point-max) -999)
   (indent-buffer))
 
 (defun reformat-buffer ()
-  "Runs whitespace-cleanup and then indents the whole buffer."
+  "Run \"whitespace-cleanup\" and then reindent the whole buffer."
   (interactive)
   (whitespace-cleanup)
   (reindent-buffer))
@@ -94,6 +96,7 @@
 ;; Indenting for js2
 ;; http://mihai.bazon.net/projects/editing-javascript-with-emacs-js2-mode
 (defun kelsin/js2-indent-function ()
+  "Indent the current line by using espresso's indentation function."
   (interactive)
   (save-restriction
     (widen)
@@ -178,6 +181,7 @@
 ;; see http://lists.gnu.org/archive/html/bug-gnu-emacs/2011-04/msg00151.html
 ;; fix that.
 (defun revert-buffer-keep-history (&optional IGNORE-AUTO NOCONFIRM PRESERVE-MODES)
+  "Revert the current buffer with a undo history addition."
   (interactive)
 
   ;; tell Emacs the modtime is fine, so we can edit the buffer
@@ -189,11 +193,12 @@
   (insert-file-contents (buffer-file-name))
 
   ;; mark the buffer as not modified
-  (not-modified)
+  (set-buffer-modified-p nil)
   (set-visited-file-modtime))
 (setq revert-buffer-function 'revert-buffer-keep-history)
 
 (defun what-face (pos)
+  "Show the current face at POS in the modeline."
   (interactive "d")
   (let ((face (or (get-char-property (point) 'read-face-name)
                 (get-char-property (point) 'face))))

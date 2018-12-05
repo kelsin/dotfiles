@@ -28,7 +28,6 @@
 ;; Higher GC threshold
 (let ((gc-cons-threshold most-positive-fixnum)
        (file-name-handler-alit nil))
-
   ;; Package config
   (require 'package)
   (setq package-enable-at-startup nil)
@@ -61,8 +60,8 @@
   (use-package exec-path-from-shell
     :ensure t
     :init
-    (setenv "NODENV_VERSION" "8.11.1")
-    (setenv "RBENV_VERSION" "2.4.1")
+    (setenv "NODENV_VERSION" "10.14.0")
+    (setenv "RBENV_VERSION" "2.5.3")
     :config
     (exec-path-from-shell-initialize))
 
@@ -79,6 +78,13 @@
 
   ;; Set Shell to bash
   (setq shell-file-name "/bin/bash")
+
+  ;; Add my functions package to the load path
+  (add-to-list 'load-path "~/.emacs.d/kelsin/")
+
+  ;; Load my functions
+  (use-package kelsin-functions
+    :bind (("<f8>" . reformat-buffer)))
 
   ;; Company
   (use-package company
@@ -574,8 +580,7 @@
     :bind ("C-c j" . avy-goto-word-or-subword-1))
 
   (use-package prettier-js
-    :ensure t
-    :bind ("<f8>" . prettier-js))
+    :ensure t)
 
   ;; Fancy Kill Ring
   (use-package browse-kill-ring
