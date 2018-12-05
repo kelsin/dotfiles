@@ -102,6 +102,8 @@ alias bubc='brew upgrade && brew cleanup'
 alias bubu='bubo && bubc'
 alias brewski='brew update && brew upgrade && brew cleanup; brew doctor'
 
+# Emacs
+alias pemacs='emacs -Q -l ~/.emacs.d/profile-dotemacs.el --eval "(setq profile-dotemacs-file (setq load-file-name \"~/.emacs.d/init.el\"))" -f profile-dotemacs'
 # Ember
 alias em='ember'
 alias ems='ember serve'

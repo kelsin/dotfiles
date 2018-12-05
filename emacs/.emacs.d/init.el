@@ -27,7 +27,7 @@
 
 ;; Higher GC threshold
 (let ((gc-cons-threshold most-positive-fixnum)
-       (file-name-handler-alit nil))
+       (file-name-handler-alist nil))
 
   ;; Package config
   (require 'package)
@@ -56,15 +56,6 @@
 
   (setenv "LC_ALL" "en_US.UTF-8")
   (setenv "LANG" "en_US.UTF-8")
-
-  ;; Setup exec-path
-  (use-package exec-path-from-shell
-    :ensure t
-    :init
-    (setenv "NODENV_VERSION" "10.14.0")
-    (setenv "RBENV_VERSION" "2.5.3")
-    :config
-    (exec-path-from-shell-initialize))
 
   ;; Turn off file variables
   ;; See: http://www.gnu.org/software/emacs/manual/html_node/emacs/Safe-File-Variables.html#Safe-File-Variables
@@ -253,6 +244,7 @@
 
   ;; Gnus
   (use-package gnus
+    :disabled t
     :config
     (setq gnus-select-method '(nntp "news.gwene.org")))
 
@@ -711,7 +703,6 @@
   ;; Projectile
   (use-package projectile
     :ensure t
-    :demand t
     :bind
     (:map projectile-mode-map
       ("C-c p" . projectile-command-map)
@@ -932,7 +923,7 @@
 
   ;; Snippets
   (use-package yasnippet
-    :defer 2
+    :defer t
     :ensure t
     :diminish yas-minor-mode
     :config
@@ -962,6 +953,7 @@
 
   ;; Modeline
   (use-package powerline
+    :disabled t
     :ensure t
     :config
     (setq powerline-gui-use-vcs-glyph 't)
@@ -974,12 +966,19 @@
       (powerline-evil-center-color-theme)))
 
   (use-package smart-mode-line
-    :disabled t
     :ensure t
     :init
     (setq sml/theme 'dark)
     :config
     (sml/setup))
+
+  (use-package telephone-line
+    :disabled t
+    :ensure t
+    :init
+    (setq telephone-line-evil-use-short-tag t)
+    :config
+    (telephone-line-mode 1))
 
   ;; Load Theme and Font
   (setq-default line-spacing 3)
@@ -989,7 +988,7 @@
 
   ;; Start up the server
   (use-package server
-    :defer 1
+    :defer t
     :config
     (unless (server-running-p) (server-start))
     (add-hook 'server-switch-hook
@@ -1000,6 +999,13 @@
         (local-set-key (kbd "C-x k") 'server-edit)
         (local-set-key (kbd "C-c C-c") 'server-edit)
         (local-set-key (kbd "C-c c") 'server-edit))))
+
+  ;; Undo Tree Mode
+  (use-package undo-tree
+    :ensure t
+    :diminish undo-tree-mode undo-tree-visualizer-selection-mode
+    :config
+    (global-undo-tree-mode))
 
   ;; Evil
   (use-package evil
@@ -1044,65 +1050,52 @@
     (add-to-list 'evil-emacs-state-modes 'nav-mode)
     (add-to-list 'evil-emacs-state-modes 'magit-mode)
     (add-to-list 'evil-emacs-state-modes 'dired-mode)
-    (add-to-list 'evil-emacs-state-modes 'neotree-mode)
+    (add-to-list 'evil-emacs-state-modes 'neotree-mode))
 
-    ;; Evil Leader
-    (use-package evil-leader
-      :ensure t
-      :config
-      (global-evil-leader-mode))
+  ;; Evil Leader
+  (use-package evil-leader
+    :ensure t
+    :config
+    (global-evil-leader-mode))
 
-    ;; Undo Tree Mode
-    (use-package undo-tree
-      :ensure t
-      :diminish undo-tree-mode undo-tree-visualizer-selection-mode
-      :config
-      (global-undo-tree-mode))
+  ;; Evil Matchit
+  (use-package evil-matchit
+    :ensure t
+    :commands evilmi-jump-items
+    :config
+    (global-evil-matchit-mode))
 
-    ;; Evil Matchit
-    (use-package evil-matchit
-      :ensure t
-      :commands evilmi-jump-items
-      :config
-      (global-evil-matchit-mode))
+  ;; Evil Commentary
+  (use-package evil-commentary
+    :ensure t
+    :defer 1
+    :diminish evil-commentary-mode
+    :config
+    (evil-commentary-mode 1))
 
-    ;; Evil Commentary
-    (use-package evil-commentary
-      :ensure t
-      :defer 1
-      :diminish evil-commentary-mode
-      :config
-      (evil-commentary-mode 1))
+  ;; Evil Surround
+  (use-package evil-surround
+    :ensure t
+    :defer 1
+    :config
+    (global-evil-surround-mode 1))
 
-    ;; Evil Surround
-    (use-package evil-surround
-      :ensure t
-      :defer 1
-      :config
-      (global-evil-surround-mode 1))
+  (use-package evil-mc
+    :ensure t
+    :defer 1
+    :diminish evil-mc-mode
+    :config
+    (global-evil-mc-mode 1))
 
-    (use-package evil-mc
-      :ensure t
-      :defer 1
-      :diminish evil-mc-mode
-      :config
-      (global-evil-mc-mode 1))
-
-    (use-package evil-org
-      :ensure t
-      :diminish evil-org-mode
-      :config
-      (add-hook 'org-mode-hook 'evil-org-mode)
-      (add-hook 'evil-org-mode-hook
-        (lambda ()
-          (evil-org-set-key-theme))))))
-
-(use-package eyebrowse
-  :disabled t
-  :ensure t
-  :config
-  (eyebrowse-setup-opinionated-keys)
-  (eyebrowse-mode t))
+  (use-package evil-org
+    :disabled t
+    :ensure t
+    :diminish evil-org-mode
+    :config
+    (add-hook 'org-mode-hook 'evil-org-mode)
+    (add-hook 'evil-org-mode-hook
+      (lambda ()
+        (evil-org-set-key-theme)))))
 
 (provide 'init)
 ;;; init.el ends here
