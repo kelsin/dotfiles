@@ -28,6 +28,7 @@
 ;; Higher GC threshold
 (let ((gc-cons-threshold most-positive-fixnum)
        (file-name-handler-alit nil))
+
   ;; Package config
   (require 'package)
   (setq package-enable-at-startup nil)
@@ -141,7 +142,7 @@
     (org-babel-do-load-languages
       'org-babel-load-languages
       '((dot . t)
-         (sh . t)
+         (shell . t)
          (plantuml . t)
          (restclient . t)))
 
