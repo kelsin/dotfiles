@@ -58,6 +58,31 @@
   (setenv "LC_ALL" "en_US.UTF-8")
   (setenv "LANG" "en_US.UTF-8")
 
+  ;; UTF-8
+  (prefer-coding-system 'utf-8)
+  (set-default-coding-systems 'utf-8)
+  (set-terminal-coding-system 'utf-8)
+  (set-keyboard-coding-system 'utf-8)
+  (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
+
+  ;; Case Fold Search
+  (setq case-fold-search t)
+  (setq tags-case-fold-search t)
+
+  ;; Enable special commands
+  (put 'set-goal-column 'disabled nil)
+  (put 'narrow-to-region 'disabled nil)
+  (put 'narrow-to-page 'disabled nil)
+  (put 'downcase-region 'disabled nil)
+  (put 'upcase-region 'disabled nil)
+  (put 'dired-find-alternate-file 'disabled nil)
+
+  ;; Line numbers
+  (setq-default display-line-numbers-type 'relative
+    display-line-numbers-current-absolute t
+    display-line-numbers-width 4
+    display-line-numbers-widen t)
+
   ;; Turn off file variables
   ;; See: http://www.gnu.org/software/emacs/manual/html_node/emacs/Safe-File-Variables.html#Safe-File-Variables
   (setq enable-local-variables nil
@@ -72,12 +97,190 @@
   ;; Set Shell to bash
   (setq shell-file-name "/bin/bash")
 
+  ;; Set exec-path
+  (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
+  (setq exec-path (append '("/Users/cgiroir/.nodenv/shims/" "/usr/local/bin") exec-path))
+
   ;; Add my functions package to the load path
   (add-to-list 'load-path "~/.emacs.d/kelsin/")
 
   ;; Load my functions
   (use-package kelsin-functions
-    :bind (("<f8>" . reformat-buffer)))
+    :bind (("<f8>" . reformat-buffer))
+    :config
+    (general-define-key
+      :states '(normal visual insert emacs)
+      :prefix "SPC"
+      :non-normal-prefix "C-SPC"
+      "f" '(reformat-buffer :which-key "reformat-buffer")))
+
+  ;; Load Theme and Font
+  (setq-default line-spacing 3)
+  (add-to-list 'default-frame-alist '(font . "Monaco-16"))
+  (add-to-list 'custom-theme-load-path "~/blizzard/src/blizzard-colors/emacs")
+  (load-theme 'blizzard 't)
+
+  ;; Turn on column and line numbers in the mode line
+  (setq column-number-mode t)
+  (setq line-number-mode t)
+
+  ;; Don't bother having to type yes ever
+  (fset 'yes-or-no-p 'y-or-n-p)
+
+  ;; Truncate instead of wrapping lines
+  (set-default 'truncate-lines t)
+  (setq truncate-partial-width-windows 't)
+
+  ;; Highlight where the marked region is
+  (setq transient-mark-mode t)
+
+  ;; Fill test to 80 columns
+  (set-default 'fill-column 80)
+
+  ;; Auto load compressed files correctly
+  (auto-compression-mode 1)
+
+  ;; No annoying beep or flashes
+  (setq ring-bell-function 'ignore)
+
+  ;; Gui Options
+  (if (not (eq system-type 'darwin))
+    (menu-bar-mode -1))
+  (scroll-bar-mode -1)
+  (tool-bar-mode -1)
+
+  ;; Scrolling
+  (setq
+    scroll-margin 1
+    scroll-step 1
+    scroll-conservatively 10000
+    scroll-preserve-screen-position 1)
+  (setq mouse-wheel-follow-mouse 't)
+  (setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
+
+  ;; Tramp
+  (setq tramp-default-method "ssh"
+    tramp-syntax 'ftp
+    tramp-verbose 8)
+
+  ;; Enable recursive minibuffers
+  (setq enable-recursive-minibuffers t)
+
+  ;; Expiration Date of Buffers
+  (setq clean-buffer-list-delay-general 1)
+
+  ;; Saving place in buffers
+  (use-package saveplace
+    :config
+    (save-place-mode 1))
+
+  ;; Clean up startup and splash screen
+  (setq
+    inhibit-splash-screen t
+    inhibit-startup-echo-area-message t
+    inhibit-startup-message t
+    initial-scratch-message nil)
+
+  ;; No backup files
+  (setq make-backup-files nil)
+
+  ;; Set paren style
+  (show-paren-mode t)
+  (setq show-paren-style 'parenthesis)
+
+  ;; Set preferred code/tab style
+  (setq-default c-default-style "java"
+    c-basic-offset 4
+    css-indent-offset 4
+    mail-indentation-spaces 4
+    ruby-indent-level 4
+    sh-basic-offset 4
+    sh-indentation 4
+    tab-width 4
+    indent-tabs-mode nil)
+
+  ;; Evil
+  (use-package evil
+    :ensure t
+    :demand t
+    :bind ( :map evil-insert-state-map
+            ("C-a" . beginning-of-line)
+            ("C-e" . end-of-line)
+            :map evil-normal-state-map
+            ("C-e" . evil-end-of-line)
+            :map evil-motion-state-map
+            ("C-s" . evil-search-forward)
+            ("C-e" . evil-end-of-line)
+            :map evil-visual-state-map
+            ("C-e" . evil-end-of-line)
+            :map evil-inner-text-objects-map
+            ("i" . evil-inner-arg)
+            :map evil-outer-text-objects-map
+            ("a" . evil-outer-arg))
+    :init
+
+    ;; Cursors
+    (setq evil-emacs-state-cursor '("#007dbf" hbar))
+    (setq evil-normal-state-cursor '("#8cda38" hbar))
+    (setq evil-visual-state-cursor '("#ea7b00" hbar))
+    (setq evil-insert-state-cursor '("#ff2e2e" bar))
+    (setq evil-replace-state-cursor '("#ff2e2e" bar))
+    (setq evil-operator-state-cursor '("#00aeef" hollow))
+
+    (setq-default evil-cross-lines t)
+    (setq-default evil-find-skip-newlines t)
+    (setq-default evil-move-beyond-eol t)
+
+    :config
+    (evil-mode 1)
+
+    ;; Modes to use emacs mode in
+    (add-to-list 'evil-emacs-state-modes 'nav-mode)
+    (add-to-list 'evil-emacs-state-modes 'magit-mode)
+    (add-to-list 'evil-emacs-state-modes 'dired-mode)
+    (add-to-list 'evil-emacs-state-modes 'neotree-mode))
+
+  ;; Evil Matchit
+  (use-package evil-matchit
+    :ensure t
+    :after evil
+    :config
+    (global-evil-matchit-mode))
+
+  ;; Evil Commentary
+  (use-package evil-commentary
+    :ensure t
+    :after evil
+    :diminish evil-commentary-mode
+    :config
+    (evil-commentary-mode 1))
+
+  ;; Evil Surround
+  (use-package evil-surround
+    :ensure t
+    :after evil
+    :config
+    (global-evil-surround-mode 1))
+
+  ;; Which Key
+  (use-package which-key
+    :ensure t
+    :diminish which-key-mode
+    :config
+    (which-key-mode))
+
+  ;; General
+  (use-package general
+    :ensure t
+    :config
+    (general-evil-setup)
+
+    (general-define-key
+      :states '(normal visual insert emacs)
+      :prefix "SPC"
+      :non-normal-prefix "C-SPC"
+      "l" '(display-line-numbers-mode :which-key "line numbers")
+      "L" '(hl-line-mode :which-key "highlight current line")))
 
   ;; Company
   (use-package company
@@ -86,6 +289,23 @@
     :diminish company-mode
     :config
     (global-company-mode))
+
+  ;; LSP
+  (use-package lsp-mode
+    :ensure t
+    :config
+    (require 'lsp-clients))
+
+  (use-package lsp-ui
+    :ensure t
+    :after lsp-mode
+    :hook (lsp-mode lsp-ui-mode))
+
+  (use-package company-lsp
+    :after (company lsp-mode)
+    :ensure t
+    :config
+    (push 'company-lsp company-backends))
 
   ;; Org Mode
   (use-package org
@@ -151,11 +371,6 @@
       :config
       (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))))
 
-  ;; Dired+
-  (use-package dired+
-    :disabled t
-    :ensure t)
-
   ;; Prettify Symbols
   (global-prettify-symbols-mode 1)
   (setq prettify-symbols-unprettify-at-point 'right-edge)
@@ -180,89 +395,21 @@
     :ensure t
     :mode "\\.ledger\\'"
     :config
-    (setq ledger-clear-whole-transactions 't)
+    (setq ledger-clear-whole-transactions 't))
 
-    (use-package flycheck-ledger
-      :ensure t))
-
-  ;; Linum Mode
-  (use-package linum
-    :disabled t
+  (use-package flycheck-ledger
     :ensure t
-    :defer 1
-    :diminish linum-mode
+    :after (flycheck ledger-mode))
+
+  ;; Dired
+  (use-package dired-x
     :config
-    (global-linum-mode))
-
-  (use-package linum-relative
-    :disabled t
-    :ensure t
-    :defer 1
-    :diminish linum-relative-mode
-    :config
-    (linum-relative-global-mode))
-
-  ;; UTF-8
-  (prefer-coding-system 'utf-8)
-  (set-default-coding-systems 'utf-8)
-  (set-terminal-coding-system 'utf-8)
-  (set-keyboard-coding-system 'utf-8)
-  (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
-
-  ;; Case Fold Search
-  (setq case-fold-search t)
-  (setq tags-case-fold-search t)
-
-  ;; Dired Searches only use filename
-  (setq dired-isearch-filenames t)
-  (setq dired-use-ls-dired nil)
-
-  ;; Dired-x
-  (require 'dired-x)
-  (add-to-list 'dired-omit-extensions ".meta")
-  (add-hook 'dired-mode-hook (lambda () (dired-omit-mode 1)))
-
-  ;; Enable recursive minibuffers
-  (setq enable-recursive-minibuffers t)
-
-  ;; Expiration Date of Buffers
-  (setq clean-buffer-list-delay-general 1)
-
-  ;; Saving place in buffers
-  (use-package saveplace
-    :config
-    (save-place-mode 1))
-
-  ;; Clean up startup and splash screen
-  (setq
-    inhibit-splash-screen t
-    inhibit-startup-echo-area-message t
-    inhibit-startup-message t
-    initial-scratch-message nil)
-
-  ;; No backup files
-  (setq make-backup-files nil)
-
-  ;; Gnus
-  (use-package gnus
-    :disabled t
-    :config
-    (setq gnus-select-method '(nntp "news.gwene.org")))
-
-  ;; Set paren style
-  (show-paren-mode t)
-  (setq show-paren-style 'parenthesis)
-
-  ;; Set preferred code/tab style
-  (setq-default c-default-style "java"
-    c-basic-offset 4
-    css-indent-offset 4
-    mail-indentation-spaces 4
-    ruby-indent-level 4
-    sh-basic-offset 4
-    sh-indentation 4
-    tab-width 4
-    indent-tabs-mode nil)
+    ;; Dired Searches only use filename
+    (setq dired-isearch-filenames t)
+    (setq dired-use-ls-dired nil)
+    (setq dired-omit-files (concat dired-omit-files "\\|^\\.git$"))
+    (add-to-list 'dired-omit-extensions ".meta")
+    (add-hook 'dired-mode-hook (lambda () (dired-omit-mode 1))))
 
   ;; Restclient
   (use-package restclient
@@ -274,101 +421,114 @@
       :config
       (add-to-list 'company-backends 'company-restclient)))
 
+  ;; Avy
+  (use-package avy
+    :ensure t
+    :bind ("C-c j" . avy-goto-word-or-subword-1)
+    :init
+    (general-define-key
+      :states '(normal visual insert emacs)
+      :prefix "SPC"
+      :non-normal-prefix "C-SPC"
+      "g" '(avy-goto-word-or-subword-1 :which-key "avy goto")
+      "G" '(avy-goto-line :which-key "avy goto line")))
+
   ;; Ace Window
   (use-package ace-window
+    :ensure t
     :bind ("C-c w" . ace-window)
-    :ensure t)
+    :init
+    (general-define-key
+      :states '(normal visual insert emacs)
+      :prefix "SPC"
+      :non-normal-prefix "C-SPC"
+      "w" '(ace-window :which-key "ace window")))
 
-  (use-package smex
+  ;; Projectile
+  (use-package projectile
+    :ensure t
+    :demand t
+    :bind
+    (:map projectile-mode-map
+      ("C-c p" . projectile-command-map)
+      ("C-c p g" . counsel-projectile-rg))
+    :config
+    (projectile-mode)
+
+    (general-define-key
+      :states '(normal visual insert emacs)
+      :prefix "SPC"
+      :non-normal-prefix "C-SPC"
+      "p" '(:ignore t :which-key "Projectile")
+      "p SPC" '(counsel-projectile :which-key "find file or buffer")
+      "pb" '(counsel-projectile-switch-to-buffer :which-key "find buffer")
+      "pd" '(projectile-dired :which-key "dired")
+      "pf" '(counsel-projectile-find-file :which-key "find file")
+      "pg" '(counsel-projectile-rg :which-key "ripgrep")
+      "pk" '(projectile-kill-buffers :which-key "kill buffers")
+      "pp" '(counsel-projectile-switch-project :which-key "switch project")
+      "pt" '(projectile-find-tag :which-key "find tag")))
+
+  ;; Projectile Rails
+  (use-package projectile-rails
+    :ensure t
+    :after projectile)
+
+  ;; Better fuzzy seraching in Ivy
+  (use-package flx
     :ensure t)
 
   ;; Ivy
+  (use-package ivy
+    :diminish ivy-mode
+    :ensure t
+    :config
+    (setq ivy-use-virtual-buffers t)
+    (setq ivy-count-format "%d/%d ")
+    (setq ivy-re-builders-alist
+      '((swiper . ivy--regex-plus)
+         (t . ivy--regex-fuzzy)))
+    (setq ivy-initial-inputs-alist nil)
+    (ivy-mode 1))
+
   (use-package counsel
     :ensure t
-    :demand t
-    :diminish ivy-mode
+    :after ivy
     :bind
     ("M-x" . counsel-M-x)
-    ("C-s" . swiper)
     ("C-x C-f" . counsel-find-file)
     ("C-x C-r" . counsel-recentf)
     ("C-x r b" . counsel-bookmark)
     ("C-c C-a" . counsel-apropos)
     ("C-c C-g" . counsel-ag)
-    :init
     :config
-    (setq ivy-use-virtual-buffers t)
-    (setq ivy-count-format "%d/%d ")
-    (setq enable-recursive-minibuffers t)
-    (setq ivy-re-builders-alist
-      '((swiper . ivy--regex-plus)
-         (t . ivy--regex-fuzzy)))
-    (setq ivy-initial-inputs-alist nil)
-    (ivy-mode 1)
+    (general-define-key
+      :states '(normal visual insert emacs)
+      :prefix "SPC"
+      :non-normal-prefix "C-SPC"
+      "s" '(swiper :which-key "swipe")))
 
-    (use-package counsel-projectile
-      :ensure t
-      :config
-      (counsel-projectile-mode))
-
-    (use-package counsel-gtags
-      :ensure t)
-
-    (use-package counsel-spotify
-      :ensure t)
-
-    (use-package flx
-      :ensure t))
+  (use-package counsel-projectile
+    :ensure t
+    :after (counsel projectile)
+    :hook (projectile-mode . counsel-projectile-mode)
+    :config
+    (counsel-projectile-modify-action
+      'counsel-projectile-switch-project-action
+      '((default "D"))))
 
   ;; Dash
   (use-package dash-at-point
     :ensure t
     :bind
     ("<f1>" . dash-at-point)
-    ("C-c C-d" . dash-at-point))
-
-  ;; Turn on column and line numbers in the mode line
-  (setq column-number-mode t)
-  (setq line-number-mode t)
-
-  ;; Don't bother having to type yes ever
-  (fset 'yes-or-no-p 'y-or-n-p)
-
-  ;; Truncate instead of wrapping lines
-  (set-default 'truncate-lines t)
-  (setq truncate-partial-width-windows 't)
-
-  ;; Highlight where the marked region is
-  (setq transient-mark-mode t)
-
-  ;; Fill test to 80 columns
-  (set-default 'fill-column 80)
-
-  ;; Auto load compressed files correctly
-  (auto-compression-mode 1)
-
-  ;; No annoying beep or flashes
-  (setq ring-bell-function 'ignore)
-
-  ;; Gui Options
-  (if (not (eq system-type 'darwin))
-    (menu-bar-mode -1))
-  (scroll-bar-mode -1)
-  (tool-bar-mode -1)
-
-  ;; Scrolling
-  (setq
-    scroll-margin 1
-    scroll-step 1
-    scroll-conservatively 10000
-    scroll-preserve-screen-position 1)
-  (setq mouse-wheel-follow-mouse 't)
-  (setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
-
-  ;; Tramp
-  (setq tramp-default-method "ssh"
-    tramp-syntax 'ftp
-    tramp-verbose 8)
+    ("C-c C-d" . dash-at-point)
+    :init
+    (general-define-key
+      :states '(normal visual insert emacs)
+      :prefix "SPC"
+      :non-normal-prefix "C-SPC"
+      "d" '(dash-at-point :which-key "lookup in dash")))
 
   ;; Uniquify
   (use-package uniquify
@@ -425,19 +585,6 @@
       indicate-empty-lines t
       require-final-newline t)
     (global-whitespace-mode 1))
-
-  ;; Windmove
-  (use-package windmove
-    :config
-    (windmove-default-keybindings))
-
-  ;; Enable special commands
-  (put 'set-goal-column 'disabled nil)
-  (put 'narrow-to-region 'disabled nil)
-  (put 'narrow-to-page 'disabled nil)
-  (put 'downcase-region 'disabled nil)
-  (put 'upcase-region 'disabled nil)
-  (put 'dired-find-alternate-file 'disabled nil)
 
   ;; Disable VC
   (setq vc-handled-backends nil)
@@ -544,44 +691,24 @@
       recentf-show-file-shortcuts-flag nil)
     (recentf-mode 1))
 
-  ;; Ido
-  (use-package ido
-    :disabled t
-    :ensure t
-    :bind
-    ("M-i" . ido-goto-symbol)
-    ("C-x r b" . bookmark-ido-find-file)
-    :functions bookmark-all-names
-    :config
-    (setq ido-confirm-unique-completion t
-      ido-enable-flex-matching t
-      ido-everywhere t
-      ido-max-prospects 6
-      ido-use-faces nil
-      ido-use-virtual-buffers t
-      ido-show-dot-for-dired t)
-    (ido-mode 1))
-
-  (use-package flx-ido
-    :disabled t
-    :ensure t
-    :defer 1
-    :config
-    (flx-ido-mode 1))
-
-  (use-package avy
-    :ensure t
-    :bind ("C-c j" . avy-goto-word-or-subword-1))
-
-  (use-package prettier-js
-    :ensure t)
-
   ;; Fancy Kill Ring
   (use-package browse-kill-ring
     :ensure t
-    :defer 1
+    :bind ( :map evil-insert-state-map
+            ("M-y" . browse-kill-ring)))
+
+  ;; DumbJump
+  (use-package dumb-jump
+    :ensure t
     :config
-    (browse-kill-ring-default-keybindings))
+    (setq dumb-jump-selector 'ivy)
+    (setq dumb-jump-prefer-searcher 'rg)
+    (general-define-key
+      :states '(normal visual insert emacs)
+      :prefix "SPC"
+      :non-normal-prefix "C-SPC"
+      "j" '(dumb-jump-go :which-key "dumb-jump-go")
+      "J" '(dumb-jump-back :which-key "dumb-jump-back")))
 
   ;; Graphviz
   (use-package graphviz-dot-mode
@@ -592,125 +719,6 @@
   (use-package vimrc-mode
     :ensure t
     :mode "\\.vim\\(rc\\)?\\'")
-
-  ;; Persp-mode
-  (use-package persp-mode
-    :ensure t
-    :disabled t
-    :init
-    (setq persp-keymap-prefix (kbd "C-c C-p"))
-    :config
-    (setq persp-autokill-buffer-on-remove 'kill-weak)
-    (persp-mode)
-    (with-eval-after-load "persp-mode"
-      (defvar persp-mode-projectile-bridge-before-switch-selected-window-buffer nil)
-
-      ;; (setq persp-add-buffer-on-find-file 'if-not-autopersp)
-
-      (persp-def-auto-persp "projectile"
-        :parameters '((dont-save-to-file . t)
-                       (persp-mode-projectile-bridge . t))
-        :hooks '(projectile-before-switch-project-hook
-                  projectile-after-switch-project-hook
-                  projectile-find-file-hook
-                  find-file-hook)
-        :dyn-env '((after-switch-to-buffer-adv-suspend t))
-        :switch 'frame
-        :predicate
-        #'(lambda (buffer &optional state)
-            (if (eq 'projectile-before-switch-project-hook
-                  (alist-get 'hook state))
-              state
-              (and
-                projectile-mode
-                (buffer-live-p buffer)
-                (buffer-file-name buffer)
-                ;; (not git-commit-mode)
-                (projectile-project-p)
-                (or state t))))
-        :get-name
-        #'(lambda (state)
-            (if (eq 'projectile-before-switch-project-hook
-                  (alist-get 'hook state))
-              state
-              (push (cons 'persp-name
-                      (concat "p) "
-                        (with-current-buffer (alist-get 'buffer state)
-                          (projectile-project-name))))
-                state)
-              state))
-        :on-match
-        #'(lambda (state)
-            (let ((hook (alist-get 'hook state))
-                   (persp (alist-get 'persp state))
-                   (buffer (alist-get 'buffer state)))
-              (case hook
-                (projectile-before-switch-project-hook
-                  (let ((win (if (minibuffer-window-active-p (selected-window))
-                               (minibuffer-selected-window)
-                               (selected-window))))
-                    (when (window-live-p win)
-                      (setq persp-mode-projectile-bridge-before-switch-selected-window-buffer
-                        (window-buffer win)))))
-
-                (projectile-after-switch-project-hook
-                  (when (buffer-live-p
-                          persp-mode-projectile-bridge-before-switch-selected-window-buffer)
-                    (let ((win (selected-window)))
-                      (unless (eq (window-buffer win)
-                                persp-mode-projectile-bridge-before-switch-selected-window-buffer)
-                        (set-window-buffer
-                          win persp-mode-projectile-bridge-before-switch-selected-window-buffer)))))
-
-                (find-file-hook
-                  (setcdr (assq :switch state) nil)))
-              (if (case hook
-                    (projectile-before-switch-project-hook nil)
-                    (t t))
-                (persp--auto-persp-default-on-match state)
-                (setcdr (assq :after-match state) nil)))
-            state)
-        :after-match
-        #'(lambda (state)
-            (when (eq 'find-file-hook (alist-get 'hook state))
-              (run-at-time 0.5 nil
-                #'(lambda (buf persp)
-                    (when (and (eq persp (get-current-persp))
-                            (not (eq buf (window-buffer (selected-window)))))
-                      ;; (switch-to-buffer buf)
-                      (persp-add-buffer buf persp t nil)))
-                (alist-get 'buffer state)
-                (get-current-persp)))
-            (persp--auto-persp-default-after-match state)))
-
-      (with-eval-after-load "ivy"
-        (add-hook 'ivy-ignore-buffers
-          #'(lambda (b)
-              (when persp-mode
-                (let ((persp (get-current-persp)))
-                  (if persp
-                    (not (persp-contain-buffer-p b persp))
-                    nil)))))
-
-        (setq ivy-sort-functions-alist
-          (append ivy-sort-functions-alist
-            '((persp-kill-buffer   . nil)
-               (persp-remove-buffer . nil)
-               (persp-add-buffer    . nil)
-               (persp-switch        . nil)
-               (persp-window-switch . nil)
-               (persp-frame-switch  . nil)))))))
-
-  ;; Projectile
-  (use-package projectile
-    :ensure t
-    :bind
-    (:map projectile-mode-map
-      ("C-c p" . projectile-command-map)
-      ("C-c p g" . counsel-projectile-rg))
-    :config
-    (setq projectile-switch-project-action #'projectile-dired)
-    (projectile-mode))
 
   ;; Terraform
   (use-package terraform-mode
@@ -757,6 +765,9 @@
   (use-package ruby-mode
     :ensure t
     :mode "\\.csv\\.csvbuilder\\'" "\\.json\\.jbuilder\\'" "\\.ru\\'" "\\.gemspec\\'" "\\Gemfile\\'" "\\Guardfile\\'" "\\.builder\\'" "\\.god\\'" "Rakefile\\'")
+
+  (use-package inf-ruby
+    :ensure t)
 
   ;; Cucumber
   (use-package feature-mode
@@ -836,14 +847,14 @@
         (push '("function" . ?λ) prettify-symbols-alist)
         (push '("return" . ?⇐) prettify-symbols-alist)
         (push '("=>" . ?⇒) prettify-symbols-alist)
-        (push '("->" . ?→) prettify-symbols-alist)))
+        (push '("->" . ?→) prettify-symbols-alist))))
 
-    ;; Js2-refactor
-    (use-package js2-refactor
-      :ensure t
-      :diminish js2-refactor-mode
-      :config
-      (add-hook 'js2-mode-hook 'js2-refactor-mode)))
+  ;; Js2-refactor
+  (use-package js2-refactor
+    :ensure t
+    :diminish js2-refactor-mode
+    :hook js2-mode
+    :after js2-mode)
 
   (use-package flycheck
     :ensure t
@@ -873,12 +884,7 @@
   (use-package rainbow-mode
     :ensure t
     :diminish rainbow-mode
-    :commands rainbow-mode
-    :init
-    (add-hook 'css-mode-hook 'rainbow-mode)
-    (add-hook 'sass-mode-hook 'rainbow-mode)
-    (add-hook 'scss-mode-hook 'rainbow-mode)
-    (add-hook 'less-css-mode-hook 'rainbow-mode))
+    :hook (css-mode sass-mode scss-mode less-css-mode))
 
   ;; Scss
   (use-package scss-mode
@@ -946,12 +952,6 @@
     :ensure smartparens
     :diminish smartparens-mode)
 
-  (use-package which-key
-    :ensure t
-    :diminish which-key-mode
-    :config
-    (which-key-mode))
-
   ;; Modeline
   (use-package powerline
     :disabled t
@@ -981,122 +981,28 @@
     :config
     (telephone-line-mode 1))
 
-  ;; Load Theme and Font
-  (setq-default line-spacing 3)
-  (add-to-list 'default-frame-alist '(font . "Monaco-16"))
-  (add-to-list 'custom-theme-load-path "~/blizzard/src/blizzard-colors/emacs")
-  (load-theme 'blizzard 't)
-
-  ;; Start up the server
-  (use-package server
-    :defer 1
-    :config
-    (unless (server-running-p) (server-start))
-    (add-hook 'server-switch-hook
-      (lambda ()
-        (when (current-local-map)
-          (use-local-map (copy-keymap (current-local-map))))
-        (recenter)
-        (local-set-key (kbd "C-x k") 'server-edit)
-        (local-set-key (kbd "C-c C-c") 'server-edit)
-        (local-set-key (kbd "C-c c") 'server-edit))))
-
   ;; Undo Tree Mode
   (use-package undo-tree
     :ensure t
-    :diminish undo-tree-mode undo-tree-visualizer-selection-mode
+    :diminish undo-tree-mode
+    :diminish undo-tree-visualizer-mode
+    :diminish undo-tree-visualizer-selection-mode
     :config
-    (global-undo-tree-mode))
+    (global-undo-tree-mode)))
 
-  ;; Evil
-  (use-package evil
-    :ensure t
-    :demand t
-    :bind ( :map evil-motion-state-map
-            ("L" . evil-forward-arg)
-            ("H" . evil-backward-arg)
-            :map evil-insert-state-map
-            ("C-e" . end-of-line)
-            :map evil-normal-state-map
-            ("L" . evil-forward-arg)
-            ("H" . evil-backward-arg)
-            ("K" . evil-jump-out-args)
-            ("C-e" . evil-end-of-line)
-            :map evil-motion-state-map
-            ("C-e" . evil-end-of-line)
-            :map evil-visual-state-map
-            ("C-e" . evil-end-of-line)
-            :map evil-inner-text-objects-map
-            ("i" . evil-inner-arg)
-            :map evil-outer-text-objects-map
-            ("a" . evil-outer-arg))
-    :init
-
-    ;; Cursors
-    (setq evil-emacs-state-cursor '("#007dbf" hbar))
-    (setq evil-normal-state-cursor '("#8cda38" hbar))
-    (setq evil-visual-state-cursor '("#ea7b00" hbar))
-    (setq evil-insert-state-cursor '("#ff2e2e" bar))
-    (setq evil-replace-state-cursor '("#ff2e2e" bar))
-    (setq evil-operator-state-cursor '("#00aeef" hollow))
-
-    (setq-default evil-cross-lines t)
-    (setq-default evil-find-skip-newlines t)
-    (setq-default evil-move-beyond-eol t)
-
-    :config
-    (evil-mode 1)
-
-    ;; Modes to use emacs mode in
-    (add-to-list 'evil-emacs-state-modes 'nav-mode)
-    (add-to-list 'evil-emacs-state-modes 'magit-mode)
-    (add-to-list 'evil-emacs-state-modes 'dired-mode)
-    (add-to-list 'evil-emacs-state-modes 'neotree-mode))
-
-  ;; Evil Leader
-  (use-package evil-leader
-    :ensure t
-    :config
-    (global-evil-leader-mode))
-
-  ;; Evil Matchit
-  (use-package evil-matchit
-    :ensure t
-    :commands evilmi-jump-items
-    :config
-    (global-evil-matchit-mode))
-
-  ;; Evil Commentary
-  (use-package evil-commentary
-    :ensure t
-    :defer 1
-    :diminish evil-commentary-mode
-    :config
-    (evil-commentary-mode 1))
-
-  ;; Evil Surround
-  (use-package evil-surround
-    :ensure t
-    :defer 1
-    :config
-    (global-evil-surround-mode 1))
-
-  (use-package evil-mc
-    :ensure t
-    :defer 1
-    :diminish evil-mc-mode
-    :config
-    (global-evil-mc-mode 1))
-
-  (use-package evil-org
-    :disabled t
-    :ensure t
-    :diminish evil-org-mode
-    :config
-    (add-hook 'org-mode-hook 'evil-org-mode)
-    (add-hook 'evil-org-mode-hook
-      (lambda ()
-        (evil-org-set-key-theme)))))
+;; Start up the server
+(use-package server
+  :defer 1
+  :config
+  (unless (server-running-p) (server-start))
+  (add-hook 'server-switch-hook
+    (lambda ()
+      (when (current-local-map)
+        (use-local-map (copy-keymap (current-local-map))))
+      (recenter)
+      (local-set-key (kbd "C-x k") 'server-edit)
+      (local-set-key (kbd "C-c C-c") 'server-edit)
+      (local-set-key (kbd "C-c c") 'server-edit))))
 
 (provide 'init)
 ;;; init.el ends here
