@@ -99,7 +99,7 @@
 
   ;; Set exec-path
   (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
-  (setq exec-path (append '("/Users/cgiroir/.nodenv/shims/" "/usr/local/bin") exec-path))
+  (setq exec-path (append '("/Users/cgiroir/.nodenv/shims/" "/Users/cgiroir/.rbenv/shims/" "/usr/local/bin") exec-path))
 
   ;; Add my functions package to the load path
   (add-to-list 'load-path "~/.emacs.d/kelsin/")
@@ -238,6 +238,7 @@
     (add-to-list 'evil-emacs-state-modes 'nav-mode)
     (add-to-list 'evil-emacs-state-modes 'magit-mode)
     (add-to-list 'evil-emacs-state-modes 'dired-mode)
+    (add-to-list 'evil-emacs-state-modes 'easy-jekyll-mode)
     (add-to-list 'evil-emacs-state-modes 'neotree-mode))
 
   ;; Evil Matchit
@@ -384,6 +385,26 @@
   (use-package protobuf-mode
     :ensure t
     :mode "\\.proto\\'")
+
+  (use-package clang-format
+    :ensure t
+    :config
+    (general-define-key
+      :states '(normal visual insert emacs)
+      :keymaps 'c++-mode-map
+      :prefix "SPC"
+      :non-normal-prefix "C-SPC"
+      "f" '(clang-format-buffer :which-key "clang-format")))
+
+  ;; Lua mode
+  (use-package lua-mode
+    :ensure t
+    :mode "\\.lua\\'")
+
+  ;; Groovy mode
+  (use-package groovy-mode
+    :ensure t
+    :mode "\\.groovy\\'")
 
   ;; Plantuml mode
   (use-package plantuml-mode
@@ -749,17 +770,24 @@
   (use-package markdown-mode
     :ensure t
     :mode "\\.md\\'"
+    :mode (("README\\.md\\'" . gfm-mode)
+            ("\\.md\\'" . markdown-mode)
+            ("\\.markdown\\'" . markdown-mode)))
+
+  ;; Jekyll
+  (use-package easy-jekyll
+    :ensure t
+    :init
+    (setq easy-jekyll-basedir "~/src/mx.kelsin.net/")
+    (setq easy-jekyll-url "https://mx.kelsin.net/")
     :config
-    (add-hook 'markdown-mode-hook
-      (lambda ()
-        (fset 'markdown-links
-          (lambda
-            (&optional arg)
-            "Keyboard macro."
-            (interactive "p")
-            (kmacro-exec-ring-item (quote ([19 60 97 13 19 104 114 101 102 61 34 13 67108896 19 34 13 left 23 18 60 97 13 91 93 40 25 41 67108896 19 62 13 23 67108896 19 60 13 left 23 18 91 93 13 right 25 19 60 47 97 62 13 backspace backspace backspace backspace] 0 "%d"))
-              arg)))
-        (local-set-key (kbd "C-c C-l") 'markdown-links))))
+    (general-define-key
+      :states '(normal visual insert emacs)
+      :prefix "SPC"
+      :non-normal-prefix "C-SPC"
+      "b" '(:ignore t :which-key "Jekyll")
+      "bb" '(easy-jekyll :which-key "easy-jekyll")
+      "bn" '(easy-jekyll-newpost :which-key "new post")))
 
   ;; Ruby Files
   (use-package ruby-mode
@@ -801,6 +829,11 @@
       (add-to-list 'company-backends 'company-omnisharp)
       (add-hook 'csharp-mode-hook 'omnisharp-mode)
       (add-hook 'csharp-mode-hook #'company-mode)))
+
+  ;; Dockerfile mode
+  (use-package dockerfile-mode
+    :ensure t
+    :mode "Dockerfile\\'")
 
   ;; Web Mode
   (use-package web-mode

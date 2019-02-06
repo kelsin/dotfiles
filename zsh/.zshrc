@@ -59,6 +59,12 @@ if [ -d ~/blizzard/src/configs ]; then
   done
 fi
 
+# gcloud
+if [ -d /usr/local/Caskroom/google-cloud-sdk ]; then
+  source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
+  source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc'
+fi
+
 # added by travis gem
 [ -f /Users/cgiroir/.travis/travis.sh ] && source /Users/cgiroir/.travis/travis.sh
 

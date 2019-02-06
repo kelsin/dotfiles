@@ -35,10 +35,12 @@
   autosetuprebase = always
 [core]
   excludesfile = /Users/cgiroir/.gitconfig.ignore
+  autocrlf = input
 [filter "lfs"]
-  clean = git-lfs clean %f
-  smudge = git-lfs smudge %f
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
   required = true
+  process = git-lfs filter-process
 [credential "https://git-codecommit.us-west-2.amazonaws.com"]
   helper = !aws --profile haven codecommit credential-helper $@
   UseHttpPath = true
@@ -50,10 +52,10 @@
 [includeIf "gitdir:~/blizzard/"]
   path = .gitconfig.blizzard
 [difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
+  cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+  path =
 [mergetool "sourcetree"]
-	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
+  cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+  trustExitCode = true
 [remote "origin"]
-	prune = true
+  prune = true
