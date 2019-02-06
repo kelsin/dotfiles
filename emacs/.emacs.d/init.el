@@ -189,8 +189,15 @@
   (setq show-paren-style 'parenthesis)
 
   ;; Set preferred code/tab style
-  (setq-default c-default-style "java"
+  (setq
     c-basic-offset 4
+    c-offsets-alist '((substatement-open . 0)
+                       (brace-list-open . 0)
+                       (member-init-cont '-)
+                       (arglist-intro '+)
+                       (arglist-close 0)
+                       (case-label '+)
+                       (statement-case-open 0))
     css-indent-offset 4
     mail-indentation-spaces 4
     ruby-indent-level 4
