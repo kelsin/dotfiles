@@ -1,3 +1,5 @@
+export FPATH=/usr/local/Cellar/zsh/5.7.1/share/zsh/functions:$FPATH
+
 # ZPlug Setup
 # https://github.com/b4b4r07/zplug
 [ -d ~/.zplug ] || git clone https://github.com/b4b4r07/zplug ~/.zplug
@@ -74,3 +76,5 @@ fi
 # tabtab source for sls package
 # uninstall by removing these lines or running `tabtab uninstall sls`
 [[ -f /Users/cgiroir/.nodenv/versions/8.11.2/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh ]] && . /Users/cgiroir/.nodenv/versions/8.11.2/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
