@@ -18,9 +18,6 @@ fi
 # Docker
 alias dr='docker run -it --rm'
 
-# C#
-alias jenny='mono Jenny/Jenny.exe'
-
 # Whats My IP
 alias wmi='dig +short myip.opendns.com @resolver1.opendns.com'
 
@@ -67,22 +64,11 @@ alias k='kubectl'
 
 # Docker
 alias d='docker'
-alias dm='docker-machine'
 alias dc='docker-compose'
-alias dme='eval $(docker-machine env)'
 alias ecrl='$(aws ecr get-login --no-include-email)'
-
-# AWS
-alias ebe='eb printenv | grep \= | sort'
 
 # Grep Colors
 alias grep='grep --color=auto'
-
-# VPN
-alias vpn='set-title VPN;sudo openconnect --user=cgiroir --authgroup=Blizzard_Development vpn.connect.blizzard.com'
-
-# Cask Install
-alias cask-install='curl -fsSkL https://raw.github.com/cask/cask/master/go | python'
 
 # Our Home
 alias home='set-title Kelsin;ssh -Y -p 2223 kelsin.is-a-geek.com'
@@ -115,28 +101,6 @@ alias emb='ember build'
 alias bi='bundle install --without production'
 alias bu='bundle update'
 alias be='bundle exec'
-
-# Java and Maven setup
-# alias dep='mvn dependency:list'
-# alias dept='mvn dependency:tree'
-# alias snaps='dep | grep ^\\[INFO\.*SNAPSHOT | grep -v Building\ '
-# alias clean='mvn clean'
-# alias ctest='clean test'
-# alias mtest='mvn test'
-# alias ccom='clean compile'
-# alias mcom='mvn compile'
-# alias cpkg='clean package'
-# alias mpkg='mvn package'
-# alias crun='cpkg cargo:run'
-# alias mrun='mpkg cargo:run'
-# alias run='mvn cargo:run'
-# alias cin='clean install'
-# alias min='mvn install'
-# alias mda='mvn dependency:analyze'
-# alias mup='mvn -N versions:update-child-modules'
-# alias mwi='cpkg war:inplace'
-# alias mwe='cpkg war:exploded'
-# alias startup='set-title tomcat;cd $CATALINA_HOME/bin;./catalina.sh jpda run'
 
 # NPM and Node.js setup
 alias ni='npm install'
