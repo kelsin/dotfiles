@@ -36,9 +36,6 @@
 [core]
   excludesfile = /Users/cgiroir/.gitconfig.ignore
   autocrlf = input
-[credential "https://git-codecommit.us-west-2.amazonaws.com"]
-  helper = !aws --profile haven codecommit credential-helper $@
-  UseHttpPath = true
 [github]
   user = Kelsin
 [user]
@@ -46,18 +43,5 @@
   email = kelsin@valefor.com
 [includeIf "gitdir:~/blizzard/"]
   path = .gitconfig.blizzard
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
-[mergetool "sourcetree"]
-	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
 [remote "origin"]
-    prune = true
-[http "https://ghosthub.corp.blizzard.net/"]
-    sslVerify = false
-[filter "lfs"]
-	process = git-lfs filter-process
-	required = true
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
+  prune = true
