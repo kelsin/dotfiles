@@ -10,6 +10,7 @@ emacs/.emacs.d/.cache
 emacs/.emacs.d/.cask
 emacs/.emacs.d/.lsp-session-v1
 emacs/.emacs.d/.mc-lists.el
+emacs/.emacs.d/custom.el
 emacs/.emacs.d/elpa
 emacs/.emacs.d/bookmarks
 emacs/.emacs.d/projectile-bookmarks.eld
