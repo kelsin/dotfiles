@@ -18,6 +18,9 @@ if [ `uname` = "Darwin" ]; then
 
   # Install git and stow
   brew install git stow
+elif [ `uname` = "FreeBSD" ]; then
+  which git &>/dev/null || sudo pkg install git
+  which stow &>/dev/null || sudo pkg install stow
 fi
 
 # Now that git is available let's check out or update our dotfiles
