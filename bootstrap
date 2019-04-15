@@ -22,9 +22,10 @@ fi
 
 # Now that git is available let's check out or update our dotfiles
 if [ -d ~/.dotfiles ]; then
-  pushd ~/.dotfiles
+  PREV=`pwd`
+  cd ~/.dotfiles
   git pull
-  popd
+  cd $PREV
 else
   git clone git@github.com:kelsin/dotfiles.git ~/.dotfiles
 fi
