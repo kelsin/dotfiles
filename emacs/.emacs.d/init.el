@@ -99,11 +99,16 @@
     (setq shell-file-name "/bin/bash")
 
     ;; Set exec-path
-    (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
+    (setenv "PATH" (concat "/usr/local/share/dotnet:/usr/local/bin:" (getenv "PATH")))
     (setq exec-path (append '("/Users/cgiroir/.nodenv/shims/" "/Users/cgiroir/.rbenv/shims/" "/usr/local/bin") exec-path))
 
     ;; Add my functions package to the load path
     (add-to-list 'load-path "~/.emacs.d/kelsin/")
+
+    ;; Don't prompt for compile commands
+    (setq compilation-read-command nil)
+    (setq compilation-auto-jump-to-first-error t)
+    (setq compilation-window-height 10)
 
     ;; Load my functions
     (use-package kelsin-functions
@@ -366,9 +371,9 @@
             :prefix "SPC"
             :non-normal-prefix "C-SPC"
             "o" '(:ignore t :which-key "Org")
-            "oc" '(org-capture :white-key "capture")
-            "oa" '(org-agenda :white-key "agenda")
-            "ol" '(org-store-link :white-key "store link"))
+            "oc" '(org-capture :which-key "capture")
+            "oa" '(org-agenda :which-key "agenda")
+            "ol" '(org-store-link :which-key "store link"))
         :defines org-capture-templates
         :mode ("\\.org\\'" . org-mode)
         :bind
@@ -461,10 +466,10 @@
             :keymaps 'org-mode-map
             :prefix "SPC"
             :non-normal-prefix "C-SPC"
-            "od" '(org-deadline :white-key "deadline")
-            "op" '(org-priority :white-key "priority")
-            "os" '(org-schedule :white-key "schedule")
-            "ot" '(org-todo :white-key "todo"))
+            "od" '(org-deadline :which-key "deadline")
+            "op" '(org-priority :which-key "priority")
+            "os" '(org-schedule :which-key "schedule")
+            "ot" '(org-todo :which-key "todo"))
 
         (setq org-todo-keywords
             '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
@@ -975,6 +980,14 @@
         (use-package omnisharp
             :ensure t
             :config
+            (general-define-key
+                :states '(normal visual insert)
+                :keymaps 'csharp-mode-map
+                :prefix "SPC"
+                :non-normal-prefix "C-SPC"
+                "gd" '(omnisharp-go-to-definition :which-key "definition")
+                "gr" '(omnisharp-find-usages :which-key "references")
+                "gi" '(omnisharp-find-implementations :which-key "implementation"))
             (add-to-list 'company-backends 'company-omnisharp)
             (add-hook 'csharp-mode-hook 'omnisharp-mode)))
 
