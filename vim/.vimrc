@@ -67,7 +67,7 @@ Plug 'skwp/vim-rspec'
 Plug 'tpope/vim-haml'
 
 " Style
-Plug '~/blizzard/src/blizzard-colors', { 'rtp': 'vim' }
+Plug 'kelsin/blizzard-colors', { 'rtp': 'vim' }
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ryanoasis/vim-devicons'

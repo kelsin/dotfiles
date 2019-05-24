@@ -102,12 +102,14 @@
     (setenv "PATH" (concat "/usr/local/share/dotnet:/usr/local/bin:" (getenv "PATH")))
     (setq exec-path (append '("/Users/cgiroir/.nodenv/shims/" "/Users/cgiroir/.rbenv/shims/" "/usr/local/bin") exec-path))
 
-    ;; Add my functions package to the load path
+    ;; Add a lisp folder and my functions package to the load path
+    (add-to-list 'load-path "~/.emacs.d/lisp/")
     (add-to-list 'load-path "~/.emacs.d/kelsin/")
 
-    ;; Don't prompt for compile commands
+    ;; Don't prompt for compile commands and auto jump to first error
     (setq compilation-read-command nil)
-    (setq compilation-auto-jump-to-first-error t)
+    (setq compilation-auto-jump-to-first-error 't)
+    (setq compilation-scroll-output 'first-error)
     (setq compilation-window-height 10)
 
     ;; Load my functions
@@ -124,7 +126,7 @@
     ;; Load Theme and Font
     (setq-default line-spacing 3)
     (add-to-list 'default-frame-alist '(font . "Monaco-16"))
-    (add-to-list 'custom-theme-load-path "~/blizzard/src/blizzard-colors/emacs")
+    (add-to-list 'custom-theme-load-path "~/src/blizzard-colors/emacs")
     (load-theme 'blizzard 't)
 
     ;; Turn on column and line numbers in the mode line
@@ -365,6 +367,7 @@
         (setq org-log-done t)
         (setq org-startup-folded nil)
         (setq org-src-preserve-indentation t)
+        (setq org-link-file-path-type 'relative)
         (general-define-key
             :states '(normal visual insert)
             :keymaps 'override
@@ -467,6 +470,7 @@
             :prefix "SPC"
             :non-normal-prefix "C-SPC"
             "od" '(org-deadline :which-key "deadline")
+            "oe" '(org-export-dispatch :which-key "export")
             "op" '(org-priority :which-key "priority")
             "os" '(org-schedule :which-key "schedule")
             "ot" '(org-todo :which-key "todo"))
@@ -491,6 +495,10 @@
     ;; Ox-reveal
     (use-package ox-reveal
         :ensure t
+        :after org)
+
+    ;; Ox-confluence
+    (use-package ox-confluence
         :after org)
 
     ;; Org Bullets
@@ -641,7 +649,9 @@
             "pg" '(counsel-projectile-rg :which-key "ripgrep")
             "pk" '(projectile-kill-buffers :which-key "kill buffers")
             "pp" '(counsel-projectile-switch-project :which-key "switch project")
-            "pr" '(projectile-run-project :which-key "run project")
+            "pr" '(projectile-replace :which-key "replace")
+            "pR" '(projectile-run-project :which-key "run project")
+            "ps" '(projectile-save-project-buffers :which-key "save project")
             "pt" '(projectile-test-project :which-key "test project")))
 
     ;; Projectile Rails
@@ -677,6 +687,7 @@
         ("C-c C-a" . counsel-apropos)
         ("C-c C-g" . counsel-ag)
         :config
+        (setq counsel-rg-base-command "rg -M 120 -S --no-heading --line-number --color never %s .")
         (general-define-key
             :states '(normal visual insert emacs)
             :keymaps 'override
@@ -1037,11 +1048,11 @@
                 (push '("->" . ?→) prettify-symbols-alist))))
 
     ;; Js2-refactor
-    (use-package js2-refactor
-        :ensure t
-        :diminish js2-refactor-mode
-        :hook js2-mode
-        :after js2-mode)
+    ;; (use-package js2-refactor
+    ;;     :ensure t
+    ;;     :diminish js2-refactor-mode
+    ;;     :hook js2-mode
+    ;;     :after js2-mode)
 
     (use-package flycheck
         :ensure t
@@ -1071,7 +1082,7 @@
     (use-package rainbow-mode
         :ensure t
         :diminish rainbow-mode
-        :hook (css-mode sass-mode scss-mode less-css-mode))
+        :hook (css-mode sass-mode scss-mode less-css-mode json-mode))
 
     ;; Scss
     (use-package scss-mode
