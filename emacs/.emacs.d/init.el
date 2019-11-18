@@ -48,7 +48,6 @@
 
     (eval-when-compile
         (require 'use-package))
-    (require 'diminish)
     (require 'bind-key)
 
     ;; Custom File
@@ -177,6 +176,10 @@
 
     ;; Expiration Date of Buffers
     (setq clean-buffer-list-delay-general 1)
+
+    ;; Diminish Mode
+    (use-package diminish
+      :ensure t)
 
     ;; Saving place in buffers
     (use-package saveplace
