@@ -70,11 +70,4 @@ fi
 # added by travis gem
 [ -f /Users/cgiroir/.travis/travis.sh ] && source /Users/cgiroir/.travis/travis.sh
 
-# tabtab source for serverless package
-# uninstall by removing these lines or running `tabtab uninstall serverless`
-[[ -f /Users/cgiroir/.nodenv/versions/8.11.2/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh ]] && . /Users/cgiroir/.nodenv/versions/8.11.2/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh
-# tabtab source for sls package
-# uninstall by removing these lines or running `tabtab uninstall sls`
-[[ -f /Users/cgiroir/.nodenv/versions/8.11.2/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh ]] && . /Users/cgiroir/.nodenv/versions/8.11.2/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh
-
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+export PATH="$HOME/.improbable/imp-tool/subscriptions:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"

@@ -34,14 +34,22 @@
 [branch]
   autosetuprebase = always
 [core]
-  excludesfile = /Users/cgiroir/.gitconfig.ignore
+	excludesfile = /Users/cgiroir/.gitconfig.ignore
   autocrlf = input
 [github]
   user = Kelsin
 [user]
   name = Christopher Giroir
   email = kelsin@valefor.com
-[includeIf "gitdir:~/blizzard/"]
-  path = .gitconfig.blizzard
+[url "ssh://git@github.com/"]
+  insteadOf = https://github.com/
+[includeIf "gitdir:~/src/improbable/"]
+  path = .gitconfig.improbable
 [remote "origin"]
   prune = true
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true

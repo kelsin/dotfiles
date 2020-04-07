@@ -18,6 +18,9 @@ else
     alias la='ls -lah'
 fi
 
+# Jira
+alias j='open https://improbableio.atlassian.net/browse/$(git rev-parse --abbrev-ref HEAD)'
+
 # Docker
 alias dr='docker run -it --rm'
 
@@ -64,6 +67,7 @@ alias em='ember'
 
 # Kubectl
 alias k='kubectl'
+alias kdo='k config use-context do-sfo2-kelsin'
 
 # Docker
 alias d='docker'
@@ -115,3 +119,7 @@ alias cov='open coverage/lcov-report/index.html'
 
 # Tmux
 alias mux=tmuxinator
+
+if [ -e ~/.aliases.improbable ]; then
+  . ~/.aliases.improbable
+fi

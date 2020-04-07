@@ -271,6 +271,11 @@
         :config
         (global-evil-matchit-mode))
 
+    ;; Evil Numbers
+    (use-package evil-numbers
+        :ensure t
+        :after evil)
+
     ;; Evil Commentary
     (use-package evil-commentary
         :ensure t
@@ -313,6 +318,7 @@
             "ca" '(customize-apropos :which-key "apropos")
             "cl" '(display-line-numbers-mode :which-key "line numbers")
             "ch" '(hl-line-mode :which-key "highlight current line")
+            "d" '(dired-jump :which-key "dired")
             "g" '(:ignore t :which-key "go to")
             "ge" '(next-error :which-key "next error")))
 
@@ -522,7 +528,7 @@
     ;; Protobuf mode
     (use-package protobuf-mode
         :ensure t
-        :mode "\\.proto\\'")
+        :mode "\\.proto\\'" "\\.schema\\'")
 
     (use-package modern-cpp-font-lock
         :ensure t
@@ -555,6 +561,10 @@
         :ensure t
         :config
         (push 'company-c-headers company-backends))
+
+    ;; Auctex
+    (use-package tex-mode
+        :ensure auctex)
 
     ;; Lua mode
     (use-package lua-mode
@@ -719,7 +729,7 @@
             :keymaps 'override
             :prefix "SPC"
             :non-normal-prefix "C-SPC"
-            "d" '(dash-at-point :which-key "lookup in dash")))
+            "D" '(dash-at-point :which-key "lookup in dash")))
 
     ;; Uniquify
     (use-package uniquify
@@ -782,7 +792,6 @@
 
     ;; Global HL Mode Line
     (use-package hl-line
-        :disabled t
         :config
         (global-hl-line-mode))
 
@@ -927,6 +936,11 @@
         :ensure t
         :mode "\\.ya?ml\\'")
 
+    ;; Go
+    (use-package go-mode
+        :ensure t
+        :mode "\\.go\\'")
+
     ;; Haskell
     (use-package haskell-mode
         :ensure t
@@ -1024,7 +1038,14 @@
         :ensure t
         :mode "\\.php\\'")
 
+    ;; Handlebars
+    (use-package handlebars-mode
+        :ensure t)
+
     ;; Javascript
+    (use-package prettier-js
+        :ensure t)
+
     (use-package json-mode
         :ensure t
         :mode "\\.json\\'")
@@ -1064,6 +1085,15 @@
         :config
         (global-flycheck-mode)
 
+        (general-define-key
+            :states '(normal visual insert emacs)
+            :keymaps 'override
+            :prefix "SPC"
+            :non-normal-prefix "C-SPC"
+            "F" '(:ignore t :which-key "Flycheck")
+            "Fs" '(flycheck-select-checker :which-key "select checker")
+            "Fn" '(flycheck-next-error :which-key "next error"))
+
         (setq-default flycheck-disabled-checkers
             (append flycheck-disabled-checkers
                 '(javascript-jshint)))
@@ -1080,6 +1110,13 @@
                     (setq-local flycheck-javascript-eslint-executable eslint))))
 
         (add-hook 'flycheck-mode-hook #'kelsin/use-eslint-from-node-modules))
+
+    ;; Typescript
+    (use-package tide
+        :ensure t
+        :after (typescript-mode company flycheck)
+        :hook ((typescript-mode . tide-setup)
+                  (typescript-mode . tide-hl-identifier-mode)))
 
     ;; Rainbow
     (use-package rainbow-mode

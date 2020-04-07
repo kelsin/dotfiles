@@ -4,6 +4,7 @@
 typeset -A dir_names
 dir_names+=($HOME home)
 dir_names+=($HOME/src src)
+dir_names+=($HOME/src/improbable improbable)
 
 # Ability to name tabs as we CD around
 project_folder() {
