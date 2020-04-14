@@ -6,6 +6,7 @@ node_symbol=`echo -e '\ue718'`
 #ruby_symbol=`echo -e '\u2756'`
 ruby_symbol=`echo -e '\ue791'`
 lambda_symbol=`echo -e '\u03bb'`
+k8s_symbol=`echo -e '\u2388'`
 
 git_arrows() {
   prompt_git_arrows=
@@ -65,10 +66,18 @@ prompt_status() {
 }
 precmd_functions+=(prompt_status)
 
+k8s_context() {
+     kubectl config current-context
+}
+
+k8s_namespace() {
+     kubectl config view --minify --output 'jsonpath={..namespace}'
+}
+
 setopt prompt_subst
 export PROMPT="$prompt_username%(?.%F{magenta}.%F{red})${lambda_symbol}%f "
 export PROMPT2="%F{cyan}%_❯%f "
 export PROMPT3="%F{cyan}?❯%f "
 export PROMPT4="%F{red}+%N:%i❯%f "
-export RPROMPT="%F{red}$ruby_symbol%f \${\$(rbenv version-name):-system} %F{green}$node_symbol%f \${\$(nodenv version-name):-system} %F{blue}$git_symbol%f \${vcs_info_msg_0_:-none}"
+export RPROMPT="%F{red}$ruby_symbol%f \${\$(rbenv version-name):-system} %F{green}$node_symbol%f \${\$(nodenv version-name):-system} %F{blue}$k8s_symbol%f \${\$(k8s_context):-none}:\${\$(k8s_namespace):-default}"
 export PROMPT_EOL_MARK="%F{red}↵%f"
