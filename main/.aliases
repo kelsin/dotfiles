@@ -69,6 +69,11 @@ alias em='ember'
 alias k='kubectl'
 alias kdo='k config use-context do-sfo2-kelsin'
 
+# Pino Pretty
+alias pp='pino-pretty --colorize --translateTime "yyyy-mm-dd HH:MM:ss.l"'
+alias ppe='pino-pretty --colorize --translateTime "yyyy-mm-dd HH:MM:ss.l" -s "level == \`error\`"'
+alias ppw='pino-pretty --colorize --translateTime "yyyy-mm-dd HH:MM:ss.l" -s "level == \`warn\`"'
+
 # Docker
 alias d='docker'
 alias dc='docker-compose'

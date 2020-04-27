@@ -68,6 +68,7 @@ Plug 'tpope/vim-haml'
 
 " Style
 Plug 'kelsin/blizzard-colors', { 'rtp': 'vim' }
+Plug 'chriskempson/base16-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ryanoasis/vim-devicons'
@@ -375,5 +376,6 @@ set go=
 
 " Fonts and Colors {{{
 set guifont=Sauce\ Code\ Pro\ Nerd\ Font\ Complete:h20
-colorscheme blizzard
+let base16colorspace=256
+colorscheme base16-default-dark
 " }}}

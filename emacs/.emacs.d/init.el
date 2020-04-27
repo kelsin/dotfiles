@@ -125,8 +125,12 @@
     ;; Load Theme and Font
     (setq-default line-spacing 3)
     (add-to-list 'default-frame-alist '(font . "Monaco-16"))
-    (add-to-list 'custom-theme-load-path "~/src/blizzard-colors/emacs")
-    (load-theme 'blizzard 't)
+    ;; (add-to-list 'custom-theme-load-path "~/src/blizzard-colors/emacs")
+    ;; (load-theme 'blizzard 't)
+    (use-package base16-theme
+        :ensure t
+        :config
+        (load-theme 'base16-default-dark t))
 
     ;; Turn on column and line numbers in the mode line
     (setq column-number-mode t)
