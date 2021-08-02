@@ -67,11 +67,11 @@ prompt_status() {
 precmd_functions+=(prompt_status)
 
 k8s_context() {
-     kubectl config current-context
+     kubectl config current-context 2>/dev/null
 }
 
 k8s_namespace() {
-     kubectl config view --minify --output 'jsonpath={..namespace}'
+     kubectl config view --minify --output 'jsonpath={..namespace}' 2>/dev/null
 }
 
 setopt prompt_subst
