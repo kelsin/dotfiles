@@ -1,10 +1,9 @@
 #!/usr/bin/env zsh
 
 git_symbol=`echo -e '\ue0a0'`
-#node_symbol=`echo -e '\u2b22'`
 node_symbol=`echo -e '\ue718'`
-#ruby_symbol=`echo -e '\u2756'`
 ruby_symbol=`echo -e '\ue791'`
+python_symbol=`echo -e '\ue73c'`
 lambda_symbol=`echo -e '\u03bb'`
 k8s_symbol=`echo -e '\u2388'`
 
@@ -79,5 +78,5 @@ export PROMPT="$prompt_username%(?.%F{magenta}.%F{red})${lambda_symbol}%f "
 export PROMPT2="%F{cyan}%_❯%f "
 export PROMPT3="%F{cyan}?❯%f "
 export PROMPT4="%F{red}+%N:%i❯%f "
-export RPROMPT="%F{red}$ruby_symbol%f \${\$(rbenv version-name):-system} %F{green}$node_symbol%f \${\$(nodenv version-name):-system} %F{blue}$k8s_symbol%f \${\$(k8s_context):-none}:\${\$(k8s_namespace):-default}"
+export RPROMPT="%F{blue}$python_symbol%f \${\$(pyenv version-name):-system} %F{red}$ruby_symbol%f \${\$(rbenv version-name):-system} %F{green}$node_symbol%f \${\$(nodenv version-name):-system} %F{blue}$k8s_symbol%f \${\$(k8s_context):-none}:\${\$(k8s_namespace):-default}"
 export PROMPT_EOL_MARK="%F{red}↵%f"

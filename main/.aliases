@@ -67,7 +67,13 @@ alias em='ember'
 
 # Kubectl
 alias k='kubectl'
+alias kc='kubectx'
+alias kn='kubens'
+alias ke='k exec -it'
 alias kdo='k config use-context do-sfo2-kelsin'
+
+# Terraform
+alias tf='terraform'
 
 # Pino Pretty
 alias pp='pino-pretty --colorize --translateTime "yyyy-mm-dd HH:MM:ss.l"'
@@ -124,6 +130,11 @@ alias cov='open coverage/lcov-report/index.html'
 
 # Tmux
 alias mux=tmuxinator
+
+# AWS
+alias aws-imp='ln -fs ~/Downloads/credentials ~/.aws/credentials'
+alias aws-cn='ln -fs ~/.aws/credentials-cn ~/.aws/credentials'
+alias aws-valefor='ln -fs ~/.aws/credentials-valefor ~/.aws/credentials'
 
 if [ -e ~/.aliases.improbable ]; then
   . ~/.aliases.improbable

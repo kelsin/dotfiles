@@ -76,4 +76,7 @@ fi
 # added by travis gem
 [ -f /Users/cgiroir/.travis/travis.sh ] && source /Users/cgiroir/.travis/travis.sh
 
-export PATH="$HOME/.improbable/imp-tool/subscriptions:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+# direnv
+eval "$(direnv hook zsh)"
+
+export PATH="$HOME/src/cc65/bin:$HOME/.emacs.d/bin:$HOME/src/go/bin:$HOME/.improbable/imp-tool/subscriptions:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"

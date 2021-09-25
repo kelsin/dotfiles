@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-MAC_PACKAGES="emacs main node ruby tmux vim zsh"
+MAC_PACKAGES="emacs main node python ruby tmux vim zsh"
 SERVER_PACKAGES="bash main screen tmux vim"
 
 STOW_DIR=`dirname $0`
