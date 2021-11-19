@@ -61,12 +61,6 @@ if [ -d ~/blizzard/src/configs ]; then
   done
 fi
 
-# Base16 Shell
-BASE16_SHELL="$HOME/.config/base16-shell/"
-[ -n "$PS1" ] && \
-    [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
-    eval "$("$BASE16_SHELL/profile_helper.sh")"
-
 # gcloud
 if [ -d /usr/local/Caskroom/google-cloud-sdk ]; then
   source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
@@ -79,4 +73,4 @@ fi
 # direnv
 eval "$(direnv hook zsh)"
 
-export PATH="$HOME/src/cc65/bin:$HOME/.emacs.d/bin:$HOME/src/go/bin:$HOME/.improbable/imp-tool/subscriptions:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+export PATH="$HOME/src/cc65/bin:$HOME/.emacs.d/bin:$HOME/src/go/bin:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"

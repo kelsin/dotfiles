@@ -376,6 +376,6 @@ set go=
 
 " Fonts and Colors {{{
 set guifont=Sauce\ Code\ Pro\ Nerd\ Font\ Complete:h20
-let base16colorspace=256
-colorscheme base16-default-dark
+" let base16colorspace=256
+" colorscheme base16-default-dark
 " }}}
