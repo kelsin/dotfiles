@@ -36,6 +36,7 @@ zplug "tmuxinator/tmuxinator", use:"completion/tmuxinator.zsh"
 # Source highlighting in less
 LESSPIPE=`which src-hilite-lesspipe.sh`
 export LESSOPEN="| ${LESSPIPE} %s"
+export LESS="-R -J -f -i -M -Q -S -X -F"
 
 # Highlighting
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
