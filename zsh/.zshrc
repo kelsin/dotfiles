@@ -33,8 +33,9 @@ zplug "tmuxinator/tmuxinator", use:"completion/tmuxinator.zsh"
 # Dircolors
 (( $+commands[gdircolors] )) && eval $(gdircolors ~/.dircolors)
 
-# Lesspipe
-(( $+commands[lesspipe.sh] )) && eval $(lesspipe.sh)
+# Source highlighting in less
+LESSPIPE=`which src-hilite-lesspipe.sh`
+export LESSOPEN="| ${LESSPIPE} %s"
 
 # Highlighting
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
