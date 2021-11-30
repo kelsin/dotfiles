@@ -71,6 +71,8 @@ fi
 [ -f /Users/cgiroir/.travis/travis.sh ] && source /Users/cgiroir/.travis/travis.sh
 
 # direnv
-eval "$(direnv hook zsh)"
+if (($+commands[direnv])); then
+  eval "$(direnv hook zsh)"
+fi
 
 export PATH="$HOME/src/cc65/bin:$HOME/.emacs.d/bin:$HOME/src/go/bin:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
