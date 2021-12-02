@@ -13,8 +13,7 @@ esac
 # First install brew on a mac
 if [ `uname` = "Darwin" ]; then
   which brew &>/dev/null || \
-    /usr/bin/ruby -e \
-    "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
   # Install git and stow
   brew install git stow
