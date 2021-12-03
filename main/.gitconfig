@@ -57,3 +57,5 @@
   insteadOf = https://github.com/
 [rerere]
   enabled = true
+[pull]
+  rebase = true
