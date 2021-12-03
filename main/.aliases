@@ -18,9 +18,6 @@ else
     alias la='ls -lah'
 fi
 
-# Jira
-alias j='open https://improbableio.atlassian.net/browse/$(git rev-parse --abbrev-ref HEAD)'
-
 # Docker
 alias dr='docker run -it --rm'
 
@@ -109,6 +106,7 @@ alias brewski='brew update && brew upgrade && brew cleanup; brew doctor'
 
 # Emacs
 alias pemacs='emacs -Q -l ~/.emacs.d/profile-dotemacs.el --eval "(setq profile-dotemacs-file (setq load-file-name \"~/.emacs.d/init.el\"))" -f profile-dotemacs'
+
 # Ember
 alias em='ember'
 alias ems='ember serve'
@@ -130,12 +128,3 @@ alias cov='open coverage/lcov-report/index.html'
 
 # Tmux
 alias mux=tmuxinator
-
-# AWS
-alias aws-imp='ln -fs ~/Downloads/credentials ~/.aws/credentials'
-alias aws-cn='ln -fs ~/.aws/credentials-cn ~/.aws/credentials'
-alias aws-valefor='ln -fs ~/.aws/credentials-valefor ~/.aws/credentials'
-
-if [ -e ~/.aliases.improbable ]; then
-  . ~/.aliases.improbable
-fi

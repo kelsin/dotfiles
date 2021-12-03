@@ -12,4 +12,5 @@ cdpath=($HOME/src/improbable $HOME/src $HOME $cdpath)
 path=($HOME/bin /usr/local/{bin,sbin} $path)
 
 # Setup up pyenv
+export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 eval "$(pyenv init --path)"

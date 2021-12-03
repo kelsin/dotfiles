@@ -4,7 +4,7 @@
   branch = auto
   ui = auto
 [push]
-  default = upstream
+  default = current
 [alias]
   aa = add -A
   d = diff -b
@@ -34,31 +34,26 @@
 [branch]
   autosetuprebase = always
 [core]
-	excludesfile = /Users/cgiroir/.gitconfig.ignore
+  excludesfile = /Users/cgiroir/.gitconfig.ignore
   autocrlf = input
+  precomposeunicode = true
 [github]
   user = Kelsin
 [user]
   name = Christopher Giroir
   email = kelsin@valefor.com
-[url "ssh://git@github.com/"]
-	insteadOf = https://github.com/
-[includeIf "gitdir:~/src/improbable/"]
-  path = .gitconfig.improbable
+[includeIf "gitdir:~/src/airbnb/"]
+  path = .gitconfig.airbnb
 [remote "origin"]
   prune = true
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
-[mergetool "sourcetree"]
-	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
 [filter "lfs"]
-	required = true
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
+  required = true
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
 [init]
-	defaultBranch = main
+  defaultBranch = main
 [url "git@github.com:"]
-	insteadOf = https://github.com/
+  insteadOf = https://github.com/
+[rerere]
+  enabled = true

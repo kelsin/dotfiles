@@ -56,25 +56,19 @@ for script in ~/.zsh/**/*.zsh; do
   . $script
 done
 
-# Load Blizzard plugins
-if [ -d ~/blizzard/src/configs ]; then
-  for script in ~/blizzard/src/configs/**/*.zsh; do
-    . $script
-  done
-fi
-
 # gcloud
 if [ -d /usr/local/Caskroom/google-cloud-sdk ]; then
   source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
   source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc'
 fi
 
-# added by travis gem
-[ -f /Users/cgiroir/.travis/travis.sh ] && source /Users/cgiroir/.travis/travis.sh
-
 # direnv
 if (($+commands[direnv])); then
   eval "$(direnv hook zsh)"
 fi
 
+# airbnb
+[ -f $HOME/.zshrc.airbnb ] && source $HOME/.zshrc.airbnb
+
+# PATH
 export PATH="$HOME/src/cc65/bin:$HOME/.emacs.d/bin:$HOME/src/go/bin:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
