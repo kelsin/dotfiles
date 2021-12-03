@@ -73,10 +73,30 @@ k8s_namespace() {
      kubectl config view --minify --output 'jsonpath={..namespace}' 2>/dev/null
 }
 
+k8s_prompt() {
+  local context="${$(k8s_context):-none}"
+  [[ "$context" != 'none' ]] && echo " %F{blue}$k8s_symbol%f ${context}:${$(k8s_namespace):-default}"
+}
+
+pyenv_prompt() {
+  local pyenv_name="${$(pyenv version-name):-system}"
+  [[ "$pyenv_name" != 'system' ]] && echo " %F{blue}$python_symbol%f ${pyenv_name}"
+}
+
+rbenv_prompt() {
+  local rbenv_name="${$(rbenv version-name):-system}"
+  [[ "$rbenv_name" != 'system' ]] && echo " %F{red}$ruby_symbol%f ${rbenv_name}"
+}
+
+nodenv_prompt() {
+  local nodenv_name="${$(nodenv version-name):-system}"
+  [[ "$nodenv_name" != 'system' ]] && echo " %F{green}$node_symbol%f ${nodenv_name}"
+}
+
 setopt prompt_subst
 export PROMPT="$prompt_username%(?.%F{magenta}.%F{red})${lambda_symbol}%f "
 export PROMPT2="%F{cyan}%_❯%f "
 export PROMPT3="%F{cyan}?❯%f "
 export PROMPT4="%F{red}+%N:%i❯%f "
-export RPROMPT="%F{blue}$python_symbol%f \${\$(pyenv version-name):-system} %F{red}$ruby_symbol%f \${\$(rbenv version-name):-system} %F{green}$node_symbol%f \${\$(nodenv version-name):-system} %F{blue}$k8s_symbol%f \${\$(k8s_context):-none}:\${\$(k8s_namespace):-default}"
+export RPROMPT="\${\$(pyenv_prompt)}\${\$(rbenv_prompt)}\${\$(nodenv_prompt)}\${\$(k8s_prompt)}"
 export PROMPT_EOL_MARK="%F{red}↵%f"
