@@ -78,17 +78,23 @@ k8s_prompt() {
   [[ "$context" != 'none' ]] && echo " %F{blue}$k8s_symbol%f ${context}:${$(k8s_namespace):-default}"
 }
 
-pyenv_prompt() {
+python_prompt() {
+  local conda_name="${CONDA_DEFAULT_ENV:-base}"
+  if [[ "$conda_name" != 'base' ]]; then
+    echo " %F{blue}$python_symbol%f conda:${conda_name}"
+    return
+  fi
+
   local pyenv_name="${$(pyenv version-name):-system}"
   [[ "$pyenv_name" != 'system' ]] && echo " %F{blue}$python_symbol%f ${pyenv_name}"
 }
 
-rbenv_prompt() {
+ruby_prompt() {
   local rbenv_name="${$(rbenv version-name):-system}"
   [[ "$rbenv_name" != 'system' ]] && echo " %F{red}$ruby_symbol%f ${rbenv_name}"
 }
 
-nodenv_prompt() {
+node_prompt() {
   local nodenv_name="${$(nodenv version-name):-system}"
   [[ "$nodenv_name" != 'system' ]] && echo " %F{green}$node_symbol%f ${nodenv_name}"
 }
@@ -98,5 +104,5 @@ export PROMPT="$prompt_username%(?.%F{magenta}.%F{red})${lambda_symbol}%f "
 export PROMPT2="%F{cyan}%_❯%f "
 export PROMPT3="%F{cyan}?❯%f "
 export PROMPT4="%F{red}+%N:%i❯%f "
-export RPROMPT="\${\$(pyenv_prompt)}\${\$(rbenv_prompt)}\${\$(nodenv_prompt)}\${\$(k8s_prompt)}"
+export RPROMPT="\${\$(python_prompt)}\${\$(ruby_prompt)}\${\$(node_prompt)}\${\$(k8s_prompt)}"
 export PROMPT_EOL_MARK="%F{red}↵%f"
