@@ -19,7 +19,6 @@ brew 'htop-osx'
 # brew 'imagemagick'
 # brew 'lesspipe', args: ['with-syntax-highlighting']
 brew 'lolcat'
-brew 'md5sha1sum'
 # brew 'nginx'
 brew 'nodenv'
 brew 'openssl'
