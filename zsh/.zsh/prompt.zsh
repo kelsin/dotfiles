@@ -85,8 +85,16 @@ python_prompt() {
     return
   fi
 
-  local pyenv_name="${$(pyenv version-name):-system}"
-  [[ "$pyenv_name" != 'system' ]] && echo " %F{blue}$python_symbol%f ${pyenv_name}"
+  local venv_name="${$(basename "${VIRTUAL_ENV}"):-system}"
+  if [[ "$venv_name" != 'system' ]]; then
+    echo " %F{blue}$python_symbol%f ${venv_name}"
+    return
+  fi
+
+  if [[ $+commands["pyenv"] ]]; then
+    local pyenv_name="${$(pyenv version-name):-system}"
+    [[ "$pyenv_name" != 'system' ]] && echo " %F{blue}$python_symbol%f ${pyenv_name}"
+  fi
 }
 
 ruby_prompt() {
