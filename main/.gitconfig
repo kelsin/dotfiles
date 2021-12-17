@@ -12,6 +12,7 @@
   marked-unchanged = !git ls-files -v | grep ^[a-z]
   mu = !git ls-files -v | grep ^[a-z]
   dm = !git branch --merged | egrep -v \"(^\\*|master|dev)\" | xargs git branch -d
+  bi = branch-i
   br = branch
   ba = branch -a
   brm = merge --no-ff --log --no-commit
