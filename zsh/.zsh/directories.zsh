@@ -13,6 +13,9 @@ dir_names+=($HOME/src/18xx-maker/schemas 18xx-maker/schemas)
 dir_names+=($HOME/src/18xx-maker/format 18xx-maker/format)
 dir_names+=($HOME/src/18xx-maker/export-rb 18xx-maker/export-rb)
 
+# CD Path
+cdpath=($HOME/src $HOME/src/airbnb)
+
 # Ability to name tabs as we CD around
 project_folder() {
   local git_folder=$(git rev-parse --show-toplevel 2> /dev/null)
