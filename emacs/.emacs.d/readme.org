@@ -388,9 +388,20 @@
 ;; Needed by other packages to provide good fuzzy finding
 (use-package flx)
 
+;; Page Break Lines
+(use-package page-break-lines)
+
 ;; Dashboard
 (use-package dashboard
   :config
+  (setq dashboard-startup-banner 'logo)
+  (setq dashboard-set-heading-icons t)
+  (setq dashboard-set-file-icons t)
+  (setq dashboard-center-content t)
+  (setq dashboard-items '((recents  . 5)
+                          (projects . 5)
+                          (bookmarks . 5)
+                          (agenda . 5)))
   (dashboard-setup-startup-hook))
 
 ;; Dired
