@@ -10,6 +10,7 @@ emacs/.emacs.d/.cache
 emacs/.emacs.d/.cask
 emacs/.emacs.d/.lsp-session-v1
 emacs/.emacs.d/.mc-lists.el
+emacs/.emacs.d/auto-save-list
 emacs/.emacs.d/bookmarks
 emacs/.emacs.d/custom.el
 emacs/.emacs.d/elpa
@@ -23,6 +24,7 @@ emacs/.emacs.d/projectile.cache
 emacs/.emacs.d/recentf
 emacs/.emacs.d/sementicdb
 emacs/.emacs.d/smex-items
+emacs/.emacs.d/straight
 emacs/.emacs.d/transient
 emacs/.emacs.d/url
 *.elc

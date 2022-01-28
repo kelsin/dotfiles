@@ -1,3 +1,55 @@
+#+title: Kelsin's Emacs Config
+
+* Introduction
+
+* Early Init
+
+#+begin_src emacs-lisp :tangle ./early-init.el
+;;; early-init.el --- Early Init File
+
+;; NOTE: early-init.el is now generated from readme.org.
+;; Please edit that file instead
+
+;; Defer garbage collection further back in the startup process
+(setq gc-cons-threshold most-positive-fixnum
+      gc-cons-percentage 0.6)
+
+;; In Emacs 27+, package initialization occurs before `user-init-file' is
+;; loaded, but after `early-init-file'. Doom handles package initialization, so
+;; we must prevent Emacs from doing it early!
+(setq package-enable-at-startup nil)
+;; Do not allow loading from the package cache (same reason).
+(setq package-quickstart nil)
+
+;; Prevent the glimpse of un-styled Emacs by disabling these UI elements early.
+(push '(menu-bar-lines . 0) default-frame-alist)
+(push '(tool-bar-lines . 0) default-frame-alist)
+(push '(vertical-scroll-bars) default-frame-alist)
+
+;; Change from the default 4k read process output max value
+(setq read-process-output-max (* 1024 1024)) ;; 1mb
+
+;; Resizing the Emacs frame can be a terribly expensive part of changing the
+;; font. By inhibiting this, we easily halve startup times with fonts that are
+;; larger than the system default.
+(setq frame-inhibit-implied-resize t)
+
+;; Disable GUI elements
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+(setq inhibit-splash-screen t)
+(setq use-file-dialog nil)
+
+;; Prevent unwanted runtime builds in gccemacs (native-comp); packages are
+;; compiled ahead-of-time when they are installed and site files are compiled
+;; when gccemacs is installed.
+(setq comp-deferred-compilation nil)
+#+end_src
+
+* Init
+
+#+begin_src emacs-lisp :tangle ./init.el
 ;;; init.el --- Init File
 
 ;; NOTE: early-init.el is now generated from readme.org.
@@ -12,6 +64,11 @@
                               ;; restore after startup
                               (setq gc-cons-threshold 16777216
                                     gc-cons-percentage 0.1)))
+#+end_src
+
+** Straight
+
+#+begin_src emacs-lisp :tangle ./init.el
 
 ;; Assume :straight t for all use-package macros
 (setq straight-use-package-by-default t)
@@ -29,10 +86,19 @@
       (goto-char (point-max))
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
+#+end_src
 
+*** Use-Package
+
+#+begin_src emacs-lisp :tangle ./init.el
 ;; Install use-package
 (straight-use-package 'use-package)
+#+end_src
 
+
+** Generic Settings
+
+#+begin_src emacs-lisp :tangle ./init.el
 ;;; Generic Settings
 
 ;; Custom File
@@ -254,7 +320,11 @@
       `((".*" . ,temporary-file-directory)))
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
+#+end_src
 
+** Theme and Font
+
+#+begin_src emacs-lisp :tangle ./init.el
 ;;; Theme and Font
 (setq-default line-spacing 3)
 (add-to-list 'default-frame-alist '(font . "SauceCodePro Nerd Font Mono-18"))
@@ -280,7 +350,13 @@
   (setq sml/theme 'dark)
   :config
   (sml/setup))
+#+end_src
 
+** Modes
+
+*** Key Binding
+
+#+begin_src emacs-lisp :tangle ./init.el
 ;; Which Key
 (use-package which-key
   :diminish which-key-mode
@@ -304,7 +380,11 @@
    "d" '(dired-jump :which-key "dired")
    "g" '(:ignore t :which-key "go to")
    "ge" '(next-error :which-key "next error")))
+#+end_src
 
+*** Small
+
+#+begin_src emacs-lisp :tangle ./init.el
 ;; Needed by other packages to provide good fuzzy finding
 (use-package flx)
 
@@ -376,7 +456,11 @@
 (use-package browse-kill-ring
   :bind ( :map evil-insert-state-map
                ("M-y" . browse-kill-ring)))
+#+end_src
 
+*** Evil
+
+#+begin_src emacs-lisp :tangle ./init.el
 ;; Evil
 (use-package evil
   :demand t
@@ -451,6 +535,11 @@
 (use-package evil-magit
   :after '(evil magit))
 
+#+end_src
+
+*** Org Mode
+
+#+begin_src emacs-lisp :tangle ./init.el
 ;; Org Mode
 (use-package org
   :init
@@ -583,7 +672,11 @@
   (setq org-latex-listings t)
   (setq org-confirm-babel-evaluate nil)
   (setq org-plantuml-jar-path "/usr/local/Cellar/plantuml/1.2017.14/libexec/plantuml.jar"))
+#+end_src
 
+**** Auto Tangle Init File
+
+#+begin_src emacs-lisp :tangle ./init.el
 ;; Automatically tangle our Emacs.org config file when we save it
 (defun kelsin/org-babel-tangle-config ()
   (when (string-suffix-p "/.emacs.d/readme.org"
@@ -593,11 +686,19 @@
       (org-babel-tangle))))
 
 (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'kelsin/org-babel-tangle-config)))
+#+end_src
 
+*** Magit
+
+#+begin_src emacs-lisp :tangle ./init.el
 ;; Magit
 (use-package magit
   :bind ("C-c i" . magit-status))
+#+end_src
 
+*** Ivy
+
+#+begin_src emacs-lisp :tangle ./init.el
 ;; Ivy
 (use-package ivy
   :diminish ivy-mode
@@ -638,7 +739,11 @@
   (counsel-projectile-modify-action
    'counsel-projectile-switch-project-action
    '((default "D"))))
+#+end_src
 
+*** File Handling
+
+#+begin_src emacs-lisp :tangle ./init.el
 ;;; File Handling
 
 ;; All The Icons
@@ -686,7 +791,11 @@
     recentf-menu-filter 'recentf-arrange-by-rule
     recentf-show-file-shortcuts-flag nil)
   (recentf-mode 1))
+#+end_src
 
+*** Projectile
+
+#+begin_src emacs-lisp :tangle ./init.el
 ;; Projectile
 (use-package projectile
   :demand t
@@ -715,7 +824,11 @@
    "pR" '(projectile-run-project :which-key "run project")
    "ps" '(projectile-save-project-buffers :which-key "save project")
    "pt" '(projectile-test-project :which-key "test project")))
+#+end_src
 
+*** LSP
+
+#+begin_src emacs-lisp :tangle ./init.el
 ;; LSP
 (use-package lsp-mode
   :init
@@ -728,7 +841,11 @@
 (use-package company-lsp
   :after company
   :commands company-lsp)
+#+end_src
 
+*** Filetypes
+
+#+begin_src emacs-lisp :tangle ./init.el
 ;;; Filetypes
 
 ;; Restclient
@@ -789,7 +906,11 @@
 ;; Graphviz
 (use-package graphviz-dot-mode
   :mode "\\.dot\\'")
+#+end_src
 
+*** Languages
+
+#+begin_src emacs-lisp :tangle ./init.el
 ;;; Languages
 
 (use-package lsp-pyright
@@ -822,7 +943,11 @@
   :mode "\\.hs\\'"
   :config
   (setq haskell-font-lock-symbols t))
+#+end_src
 
+**** Javascript
+
+#+begin_src emacs-lisp :tangle ./init.el
 ;; Javascript
 (use-package prettier-js)
 
@@ -848,7 +973,11 @@
           (push '("return" . ?⇐) prettify-symbols-alist)
           (push '("=>" . ?⇒) prettify-symbols-alist)
           (push '("->" . ?→) prettify-symbols-alist))))
+#+end_src
 
+*** Snippets
+
+#+begin_src emacs-lisp :tangle ./init.el
 ;; Snippets
 (use-package yasnippet
   :defer t
@@ -860,7 +989,11 @@
     (add-hook 'term-mode-hook
           (lambda()
         (setq yas-dont-activate-functions t)))))
+#+end_src
 
+*** Flycheck
+
+#+begin_src emacs-lisp :tangle ./init.el
 ;; Flycheck
 (use-package flycheck
   :diminish flycheck-mode
@@ -893,7 +1026,11 @@
     (setq-local flycheck-javascript-eslint-executable eslint))))
 
   (add-hook 'flycheck-mode-hook #'kelsin/use-eslint-from-node-modules))
+#+end_src
 
+** Server
+
+#+begin_src emacs-lisp :tangle ./init.el
 ;; Start up the server
 (use-package server
   :defer 1
@@ -907,3 +1044,4 @@
               (local-set-key (kbd "C-x k") 'server-edit)
               (local-set-key (kbd "C-c C-c") 'server-edit)
               (local-set-key (kbd "C-c c") 'server-edit))))
+#+end_src
