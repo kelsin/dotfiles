@@ -373,6 +373,8 @@
    :keymaps 'override
    :prefix "SPC"
    :non-normal-prefix "C-SPC"
+   "b" '(:ignore t :which-key "buffer")
+   "br" '(revert-buffer :which-key "revert")
    "c" '(:ignore t :which-key "customize")
    "ca" '(customize-apropos :which-key "apropos")
    "cl" '(display-line-numbers-mode :which-key "line numbers")
