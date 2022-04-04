@@ -328,9 +328,17 @@
 ;;; Theme and Font
 (setq-default line-spacing 3)
 (add-to-list 'default-frame-alist '(font . "SauceCodePro Nerd Font Mono-18"))
-(use-package base16-theme
+;; (use-package base16-theme
+;;   :config
+;;   (load-theme 'base16-default-dark t))
+;; (use-package modus-themes
+;;   :config
+;;   (load-theme 'modus-vivendi))
+(use-package kaolin-themes
+  :after all-the-icons
   :config
-  (load-theme 'base16-default-dark t))
+  (load-theme 'kaolin-aurora t)
+  (kaolin-treemacs-theme))
 ;; (add-to-list 'custom-theme-load-path "~/src/blizzard-colors/emacs")
 ;; (load-theme 'blizzard 't)
 ;; (use-package solarized-theme
@@ -390,6 +398,9 @@
 ;; Needed by other packages to provide good fuzzy finding
 (use-package flx)
 
+;; Ability to write out html versions of emacs buffers
+(use-package htmlize)
+
 ;; Page Break Lines
 (use-package page-break-lines)
 
@@ -447,8 +458,11 @@
   :diminish rainbow-mode
   :hook (css-mode sass-mode scss-mode less-css-mode json-mode))
 
+;; Auto revert
+(global-auto-revert-mode 1)
+
 ;; Prettify Symbols
-(global-prettify-symbols-mode 1)
+(global-prettify-symbols-mode)
 (setq prettify-symbols-unprettify-at-point 'right-edge)
 
 ;; Undo Tree Mode
@@ -564,6 +578,7 @@
   (setq org-src-preserve-indentation t)
   (setq org-src-tab-acts-natively t)
   (setq org-link-file-path-type 'relative)
+  (setq org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js")
   (general-define-key
    :states '(normal visual insert)
    :keymaps 'override
@@ -581,6 +596,7 @@
   ("C-c a" . org-agenda)
   :config
   (use-package ob-restclient)
+  (use-package ox-reveal)
 
   (setq org-log-refile t)
   (setq org-refile-targets '((nil :maxlevel . 9)
@@ -589,12 +605,12 @@
   (setq org-outline-path-complete-in-steps nil)         ; Refile in a single go
   (setq org-refile-use-outline-path t)                  ; Show full paths for refiling
 
-  (defvar kelsin/org-capture-file-blizzard-todo
-    "~/blizzard/src/org/todo.org"
-    "File to use when saving new Blizzard TODO items with Org Capture.")
-  (defvar kelsin/org-capture-file-todo
-    "~/org/todo.org"
-    "File to use when saving new personal TODO items with Org Capture.")
+  ;; (defvar kelsin/org-capture-file-blizzard-todo
+  ;;   "~/blizzard/src/org/todo.org"
+  ;;   "File to use when saving new Blizzard TODO items with Org Capture.")
+  ;; (defvar kelsin/org-capture-file-todo
+  ;;   "~/org/todo.org"
+  ;;   "File to use when saving new personal TODO items with Org Capture.")
 
   (setq org-capture-templates
         '(("c" "Code" entry (file+datetree "~/org/code.org") "* %?\n\n  %a")
@@ -618,20 +634,20 @@
            "* TODO %?\n  %i")
           ))
 
-  (setq org-todo-keyword-faces
-        '(("TODO" . blizzard-bryellow)
-          ("NEXT" . blizzard-yellow)
-          ("DONE" . blizzard-brgreen)
-          ("CANCELLED" . blizzard-white)
-          ("WAITING" . blizzard-brred)))
+  ;; (setq org-todo-keyword-faces
+  ;;       '(("TODO" . blizzard-bryellow)
+  ;;         ("NEXT" . blizzard-yellow)
+  ;;         ("DONE" . blizzard-brgreen)
+  ;;         ("CANCELLED" . blizzard-white)
+  ;;         ("WAITING" . blizzard-brred)))
 
-  (setq org-todo-state-tags-triggers
-        (quote (("CANCELLED" ("CANCELLED" . t))
-                ("WAITING" ("WAITING" . t))
-                (done ("WAITING"))
-                ("TODO" ("WAITING") ("CANCELLED"))
-                ("NEXT" ("WAITING") ("CANCELLED"))
-                ("DONE" ("WAITING") ("CANCELLED")))))
+  ;; (setq org-todo-state-tags-triggers
+  ;;       (quote (("CANCELLED" ("CANCELLED" . t))
+  ;;               ("WAITING" ("WAITING" . t))
+  ;;               (done ("WAITING"))
+  ;;               ("TODO" ("WAITING") ("CANCELLED"))
+  ;;               ("NEXT" ("WAITING") ("CANCELLED"))
+  ;;               ("DONE" ("WAITING") ("CANCELLED")))))
 
   (setq org-agenda-custom-commands
         '(("b" "Blizzard Agenda"
@@ -664,15 +680,19 @@
    :keymaps 'org-mode-map
    :prefix "SPC"
    :non-normal-prefix "C-SPC"
+   "o." '(org-time-stamp :which-key "timestamp")
+   "o[" '(org-agenda-file-to-front :which-key "add to agenda")
+   "o]" '(org-remove-file :which-key "remove from agenda")
    "od" '(org-deadline :which-key "deadline")
    "oe" '(org-export-dispatch :which-key "export")
+   "oo" '(org-open-at-point :which-key "open")
    "op" '(org-priority :which-key "priority")
    "os" '(org-schedule :which-key "schedule")
    "ot" '(org-todo :which-key "todo"))
 
-  (setq org-todo-keywords
-        '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
-          (sequence "WAITING(w@/!)" "|" "CANCELLED(c@/!)")))
+  ;; (setq org-todo-keywords
+  ;;       '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+  ;;         (sequence "WAITING(w@/!)" "|" "CANCELLED(c@/!)")))
 
   (add-to-list 'org-src-lang-modes '("dot" . graphviz-dot))
 
@@ -686,6 +706,11 @@
   (setq org-latex-listings t)
   (setq org-confirm-babel-evaluate nil)
   (setq org-plantuml-jar-path "/usr/local/Cellar/plantuml/1.2017.14/libexec/plantuml.jar"))
+
+(use-package org-bullets
+  :after org
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 #+end_src
 
 **** Auto Tangle Init File
@@ -874,8 +899,8 @@
 (use-package markdown-mode
   :mode "\\.md\\'"
   :mode (("README\\.md\\'" . gfm-mode)
-     ("\\.md\\'" . markdown-mode)
-     ("\\.markdown\\'" . markdown-mode)))
+	 ("\\.md\\'" . markdown-mode)
+	 ("\\.markdown\\'" . markdown-mode)))
 
 ;; Dockerfile mode
 (use-package dockerfile-mode
@@ -901,7 +926,12 @@
 
 ;; Yaml
 (use-package yaml-mode
-  :mode "\\.ya?ml\\'")
+  :mode "\\.ya?ml\\'"
+  :config
+  ;; Don't edit whitespace in yaml files by default
+  (add-hook 'yaml-mode-hook
+            (lambda ()
+              (remove-hook 'write-file-functions 'delete-trailing-whitespace t))))
 
 ;; Nginx mode
 (use-package nginx-mode
