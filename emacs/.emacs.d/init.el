@@ -836,11 +836,14 @@
 
 ;;; Languages
 
+(add-hook 'python-mode-hook (lambda () (remove-hook 'write-file-functions 'delete-trailing-whitespace t)))
+(use-package python-docstring
+  :after python
+  :hook (python-mode . python-docstring-mode))
 (use-package lsp-pyright
   :hook (python-mode . (lambda ()
                          (require 'lsp-pyright)
-                         (lsp)
-                         (remove-hook 'write-file-functions 'delete-trailing-whitespace t))))
+                         (lsp))))
 (use-package python-black
   :after python
   :hook (python-mode . python-black-on-save-mode-enable-dwim))

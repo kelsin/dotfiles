@@ -9,6 +9,7 @@
   aa = add -A
   d = diff -b
   dc = diff --cached -b
+  devs = shortlog -sne
   marked-unchanged = !git ls-files -v | grep ^[a-z]
   mu = !git ls-files -v | grep ^[a-z]
   dm = !git branch --merged | egrep -v \"(^\\*|master|dev)\" | xargs git branch -d
@@ -23,6 +24,7 @@
   oc = checkout
   sub = submodule
   subrm = submodule deinit
+  users = shortlog -sne
   l = log --graph --decorate --oneline
   ls = log --graph --decorate --oneline --stat
   la = log --graph --decorate --oneline --all
