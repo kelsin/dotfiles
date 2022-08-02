@@ -17,6 +17,7 @@
   br = branch
   ba = branch -a
   brm = merge --no-ff --log --no-commit
+  fr = restore -W -S
   pr = remote prune
   pro = remote prune origin
   st = status
