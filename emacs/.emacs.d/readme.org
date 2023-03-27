@@ -735,6 +735,15 @@
   :bind ("C-c i" . magit-status))
 #+end_src
 
+*** Jekyll
+
+#+begin_src emacs-lisp :tangle ./init.el
+;; Magit
+(use-package easy-jekyll
+  :config
+  (setq easy-jekyll-basedir "~/src/mx.kelsin.net/"))
+#+end_src
+
 *** Ivy
 
 #+begin_src emacs-lisp :tangle ./init.el
@@ -843,6 +852,10 @@
     ("C-c p" . projectile-command-map)
     ("C-c p g" . counsel-projectile-rg))
   :config
+  (add-to-list 'projectile-globally-ignored-directories "object_metadata")
+  (add-to-list 'projectile-globally-ignored-directories "minerva_metadata")
+  (setq projectile-generic-command
+    "find . -type f ! -ipath '*/object_metadata' ! -ipath '*/minerva_metadata' -print0")
   (projectile-mode)
 
   (general-define-key

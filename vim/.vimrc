@@ -40,7 +40,7 @@ Plug 'bronson/vim-trailing-whitespace'
 Plug 'mattn/gist-vim'
 Plug 'ap/vim-css-color'
 Plug 'rizzatti/dash.vim'
-Plug 'w0rp/ale'
+" Plug 'w0rp/ale'
 
 " Syntax
 Plug 'chrisbra/csv.vim'

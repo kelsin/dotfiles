@@ -17,6 +17,8 @@
   br = branch
   ba = branch -a
   brm = merge --no-ff --log --no-commit
+  disable-hooks = config core.hooksPath /dev/null
+  enable-hooks = config --unset core.hooksPath
   fr = restore -W -S
   pr = remote prune
   pro = remote prune origin
@@ -31,6 +33,7 @@
   la = log --graph --decorate --oneline --all
   lsa = log --graph --decorate --oneline --stat --all
   rmerge = merge --no-ff --no-commit
+  upstream = !git fetch upstream && git checkout main && git merge upstream/main && git push
 [status]
   relativePaths = false
 [diff "ruby"]

@@ -637,6 +637,11 @@
 (use-package magit
   :bind ("C-c i" . magit-status))
 
+;; Magit
+(use-package easy-jekyll
+  :config
+  (setq easy-jekyll-basedir "~/src/mx.kelsin.net/"))
+
 ;; Ivy
 (use-package ivy
   :diminish ivy-mode
@@ -734,6 +739,10 @@
     ("C-c p" . projectile-command-map)
     ("C-c p g" . counsel-projectile-rg))
   :config
+  (add-to-list 'projectile-globally-ignored-directories "object_metadata")
+  (add-to-list 'projectile-globally-ignored-directories "minerva_metadata")
+  (setq projectile-generic-command
+    "find . -type f ! -ipath '*/object_metadata' ! -ipath '*/minerva_metadata' -print0")
   (projectile-mode)
 
   (general-define-key
