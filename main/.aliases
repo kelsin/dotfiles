@@ -2,6 +2,9 @@
 alias _='sudo'
 alias please='sudo'
 
+# Conda
+alias ca='conda activate'
+
 # No Vi
 alias vi='vim'
 alias e='emacsclient -a vim -t'
@@ -112,6 +115,13 @@ alias em='ember'
 alias ems='ember serve'
 alias emt='ember test'
 alias emb='ember build'
+
+# Poetry
+alias po='poetry'
+alias poi='poetry install'
+alias pois='poetry install --sync'
+alias poa='poetry add'
+alias poad='poetry add --group dev'
 
 # Bundler
 alias bi='bundle install --without production'
