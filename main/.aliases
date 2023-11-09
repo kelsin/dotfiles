@@ -4,6 +4,8 @@ alias please='sudo'
 
 # Conda
 alias ca='conda activate'
+alias mm='micromamba'
+alias mma='micromamba activate'
 
 # No Vi
 alias vi='vim'
