@@ -333,15 +333,7 @@
    "ge" '(next-error :which-key "next error")
    "d" '(:ignore t :which-key "devdocs")
    "d*" '(kelsin/devdocs-at-point :which-key "query at point")
-   "dq" '(kelsin/devdocs :which-key "query"))
-
-  (general-define-key
-   :states '(normal visual insert)
-   :keymaps 'dired-mode-map
-   :prefix "SPC"
-   :non-normal-prefix "C-SPC"
-   "w" '(wdired-change-to-wdired-mode :which-key "wdired"))
-)
+   "dq" '(kelsin/devdocs :which-key "query")))
 
 ;; Needed by other packages to provide good fuzzy finding
 (use-package flx)
