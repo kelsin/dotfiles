@@ -198,5 +198,15 @@
                     (get-char-property (point) 'face))))
         (if face (message "Face: %s" face) (message "No face at %d" pos))))
 
+(defun kelsin/devdocs ()
+    "Look up the word under cursor in devdocs.io"
+    (interactive)
+    (let ((url "http://devdocs.io/#q=")
+             (query (or (if (region-active-p)
+                            (buffer-substring-no-properties (region-beginning) (region-end))
+                            (thing-at-point 'symbol))
+                        "")))
+        (browse-url (concat url query))))
+
 (provide 'kelsin-functions)
 ;;; kelsin-functions.el ends here

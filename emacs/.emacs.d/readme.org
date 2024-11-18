@@ -168,10 +168,11 @@
 
 ;; Set exec-path
 ;; (setenv "PATH" (concat "/usr/local/share/dotnet:/usr/local/bin:" (getenv "PATH")))
-;; (setq exec-path (append `(,(expand-file-name "~/.nodenv/shims/")
-;;                           ,(expand-file-name "~/.rbenv/shims")
-;;                           ,(expand-file-name "~/.pyenv/shims")
-;;                           "/usr/local/bin") exec-path))
+(setq exec-path (append `(,(expand-file-name "~/.nodenv/shims/")
+                          ,(expand-file-name "~/.rbenv/shims")
+                          ,(expand-file-name "~/.pyenv/shims")
+                          "/usr/local/bin") exec-path))
+
 (defun kelsin/add-to-path (item)
   "Add an item to both the PATH environment variable and the emacs exec-path variable"
   (interactive)
@@ -376,6 +377,22 @@
   :config
   (general-evil-setup)
 
+  (defun kelsin/devdocs (query)
+    "Look up the provided search query in devdocs.io"
+    (interactive "sQuery: ")
+    (let ((url "http://devdocs.io/#q="))
+      (browse-url (concat url (or query "")))))
+
+  (defun kelsin/devdocs-at-point ()
+    "Look up the word under cursor in devdocs.io"
+    (interactive)
+    (let ((url "http://devdocs.io/#q=")
+          (query (or (if (region-active-p)
+                         (buffer-substring-no-properties (region-beginning) (region-end))
+                       (thing-at-point 'symbol))
+                     "")))
+      (browse-url (concat url query))))
+
   (general-define-key
    :states '(normal visual insert)
    :keymaps 'override
@@ -387,9 +404,20 @@
    "ca" '(customize-apropos :which-key "apropos")
    "cl" '(display-line-numbers-mode :which-key "line numbers")
    "ch" '(hl-line-mode :which-key "highlight current line")
-   "d" '(dired-jump :which-key "dired")
    "g" '(:ignore t :which-key "go to")
-   "ge" '(next-error :which-key "next error")))
+   "gd" '(dired-jump :which-key "dired")
+   "ge" '(next-error :which-key "next error")
+   "d" '(:ignore t :which-key "devdocs")
+   "d*" '(kelsin/devdocs-at-point :which-key "query at point")
+   "dq" '(kelsin/devdocs :which-key "query"))
+
+  (general-define-key
+   :states '(normal visual insert)
+   :keymaps 'dired-mode-map
+   :prefix "SPC"
+   :non-normal-prefix "C-SPC"
+   "w" '(wdired-change-to-wdired-mode :which-key "wdired"))
+)
 #+end_src
 
 *** Small
@@ -427,20 +455,6 @@
   (setq dired-omit-files (concat dired-omit-files "\\|^\\.git$"))
   (add-to-list 'dired-omit-extensions ".meta")
   (add-hook 'dired-mode-hook (lambda () (dired-omit-mode 1))))
-
-;; Dash
-(use-package dash-at-point
-  :ensure t
-  :bind
-  ("<f1>" . dash-at-point)
-  ("C-c C-d" . dash-at-point)
-  :init
-  (general-define-key
-   :states '(normal visual insert emacs)
-   :keymaps 'override
-   :prefix "SPC"
-   :non-normal-prefix "C-SPC"
-   "D" '(dash-at-point :which-key "lookup in dash")))
 
 ;; Uniquify
 (use-package uniquify
@@ -986,6 +1000,9 @@
 (use-package lua-mode
   :mode "\\.lua\\'")
 
+;; R
+(use-package ess)
+
 ;; Groovy mode
 (use-package groovy-mode
   :mode "\\.groovy\\'")
@@ -998,6 +1015,10 @@
 (use-package go-mode
   :mode "\\.go\\'")
 
+;; Php
+(use-package php-mode
+  :mode "\\.php\\'")
+
 ;; Haskell
 (use-package haskell-mode
   :mode "\\.hs\\'"
@@ -1009,13 +1030,17 @@
 
 #+begin_src emacs-lisp :tangle ./init.el
 ;; Javascript
-(use-package prettier-js)
+(use-package prettier-js
+  :hook (json-mode . prettier-js-mode)
+  :hook (yaml-mode . prettier-js-mode)
+  :hook (js-mode . prettier-js-mode)
+  :hook (js2-mode . prettier-js-mode))
 
 (use-package json-mode
   :mode "\\.json\\'")
 
 (use-package js2-mode
-  :mode "\\.js\\'" "\\.js\\.erb\\'"
+  :mode "\\.c?js\\'" "\\.js\\.erb\\'"
   :config
   (add-hook 'js2-mode-hook
         (lambda ()
