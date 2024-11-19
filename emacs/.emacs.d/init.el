@@ -330,6 +330,8 @@
    "ch" '(hl-line-mode :which-key "highlight current line")
    "d" '(dired-jump :which-key "dired")
    "g" '(:ignore t :which-key "go to")
+   "gd" '(lsp-find-definition :which-key "definition")
+   "gr" '(lsp-find-references :which-key "references")
    "ge" '(next-error :which-key "next error")
    "l" '(kelsin/devdocs-at-point :which-key "devdocs at point")
    "L" '(kelsin/devdocs :which-key "devdocs query")))
@@ -902,7 +904,7 @@
   :mode "\\.json\\'")
 
 (use-package js2-mode
-  :mode "\\.c?js\\'" "\\.js\\.erb\\'"
+  :mode "\\.[cm]?js\\'" "\\.js\\.erb\\'"
   :config
   (add-hook 'js2-mode-hook
         (lambda ()
@@ -919,7 +921,28 @@
           (push '("function" . ?λ) prettify-symbols-alist)
           (push '("return" . ?⇐) prettify-symbols-alist)
           (push '("=>" . ?⇒) prettify-symbols-alist)
-          (push '("->" . ?→) prettify-symbols-alist))))
+          (push '("->" . ?→) prettify-symbols-alist)
+          (lsp))))
+
+(use-package rjsx-mode
+  :config
+  (add-hook 'js2-mode-hook
+        (lambda ()
+          (setq js2-mode-show-parse-errors nil)
+          (setq js2-mode-show-strict-warnings nil)
+          (push '("&&" . ?∧) prettify-symbols-alist)
+          (push '("||" . ?∨) prettify-symbols-alist)
+          (push '("!" . ?¬) prettify-symbols-alist)
+          (push '("==" . ?＝) prettify-symbols-alist)
+          (push '("===" . ?≡) prettify-symbols-alist)
+          (push '("!=" . ?≠) prettify-symbols-alist)
+          (push '("!==" . ?≢) prettify-symbols-alist)
+          (push '("null" . ?∅) prettify-symbols-alist)
+          (push '("function" . ?λ) prettify-symbols-alist)
+          (push '("return" . ?⇐) prettify-symbols-alist)
+          (push '("=>" . ?⇒) prettify-symbols-alist)
+          (push '("->" . ?→) prettify-symbols-alist)
+          (lsp))))
 
 ;; Snippets
 (use-package yasnippet
