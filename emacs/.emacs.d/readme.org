@@ -404,12 +404,11 @@
    "ca" '(customize-apropos :which-key "apropos")
    "cl" '(display-line-numbers-mode :which-key "line numbers")
    "ch" '(hl-line-mode :which-key "highlight current line")
+   "d" '(dired-jump :which-key "dired")
    "g" '(:ignore t :which-key "go to")
-   "gd" '(dired-jump :which-key "dired")
    "ge" '(next-error :which-key "next error")
-   "d" '(:ignore t :which-key "devdocs")
-   "d*" '(kelsin/devdocs-at-point :which-key "query at point")
-   "dq" '(kelsin/devdocs :which-key "query")))
+   "l" '(kelsin/devdocs-at-point :which-key "devdocs at point")
+   "L" '(kelsin/devdocs :which-key "devdocs query")))
 #+end_src
 
 *** Small
