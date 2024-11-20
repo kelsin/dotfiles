@@ -921,8 +921,7 @@
           (push '("function" . ?λ) prettify-symbols-alist)
           (push '("return" . ?⇐) prettify-symbols-alist)
           (push '("=>" . ?⇒) prettify-symbols-alist)
-          (push '("->" . ?→) prettify-symbols-alist)
-          (lsp))))
+          (push '("->" . ?→) prettify-symbols-alist))))
 
 (use-package rjsx-mode
   :config
@@ -941,8 +940,7 @@
           (push '("function" . ?λ) prettify-symbols-alist)
           (push '("return" . ?⇐) prettify-symbols-alist)
           (push '("=>" . ?⇒) prettify-symbols-alist)
-          (push '("->" . ?→) prettify-symbols-alist)
-          (lsp))))
+          (push '("->" . ?→) prettify-symbols-alist))))
 
 ;; Snippets
 (use-package yasnippet
