@@ -365,7 +365,7 @@
   ;; Dired Searches only use filename
   (setq dired-isearch-filenames t)
   (setq dired-use-ls-dired nil)
-  (setq dired-omit-files (concat dired-omit-files "\\|^\\.git$"))
+  (setq dired-omit-files (concat dired-omit-files "\\|^\\.DS_Store$\\|^\\.git$"))
   (add-to-list 'dired-omit-extensions ".meta")
   (add-hook 'dired-mode-hook (lambda () (dired-omit-mode 1))))
 
