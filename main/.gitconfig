@@ -46,7 +46,7 @@
   autocrlf = input
   precomposeunicode = true
 [github]
-  user = Kelsin
+  user = kelsin
 [user]
   name = Christopher Giroir
   email = kelsin@valefor.com
