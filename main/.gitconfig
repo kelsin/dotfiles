@@ -50,8 +50,8 @@
 [user]
   name = Christopher Giroir
   email = kelsin@valefor.com
-[includeIf "gitdir:~/src/airbnb/"]
-  path = .gitconfig.airbnb
+[includeIf "gitdir:~/src/tobiko/"]
+  path = .gitconfig.tobiko
 [remote "origin"]
   prune = true
 [filter "lfs"]

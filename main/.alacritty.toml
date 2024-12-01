@@ -1,0 +1,76 @@
+[[keyboard.bindings]]
+key = "Comma"
+mods = "Command"
+
+[keyboard.bindings.command]
+args = ["-c", "open ~/.alacritty.yml"]
+program = "sh"
+
+[[keyboard.bindings]]
+action = "SpawnNewInstance"
+key = "N"
+mods = "Command"
+
+[[keyboard.bindings]]
+chars = " "
+key = "Space"
+mods = "Alt"
+
+[[keyboard.bindings]]
+chars = "\u0015"
+key = "Back"
+mods = "Super"
+
+[[keyboard.bindings]]
+chars = "\u001Bb"
+key = "Left"
+mods = "Alt"
+
+[[keyboard.bindings]]
+chars = "\u001Bf"
+key = "Right"
+mods = "Alt"
+
+[[keyboard.bindings]]
+chars = "\u001BOH"
+key = "Left"
+mode = "AppCursor"
+mods = "Command"
+
+[[keyboard.bindings]]
+chars = "\u001BOF"
+key = "Right"
+mode = "AppCursor"
+mods = "Command"
+
+[colors.bright]
+black = "0x565a5c"
+blue = "0x80c1c5"
+cyan = "0x9aebe7"
+green = "0xd2f3c6"
+magenta = "0xca99b8"
+red = "0xffaa91"
+white = "0xf6f4f5"
+yellow = "0xfed880"
+
+[colors.normal]
+black = "0x030203"
+blue = "0x007a87"
+cyan = "0x00d1c1"
+green = "0x8de071"
+magenta = "0x7b0051"
+red = "0xff5a5f"
+white = "0x9ca299"
+yellow = "0xffb400"
+
+[colors.primary]
+background = "0x030203"
+foreground = "0xf6f4f5"
+
+[font]
+size = 24.0
+
+[font.normal]
+family = "SauceCodePro Nerd Font Mono"
+
+[keyboard]

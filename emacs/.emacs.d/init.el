@@ -166,9 +166,9 @@
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
 
 ;; Tramp
-(setq tramp-default-method "ssh"
-      tramp-syntax 'ftp
-      tramp-verbose 8)
+;; (setq tramp-default-method "ssh"
+;;       tramp-syntax 'ftp
+;;       tramp-verbose 8)
 
 ;; Enable recursive minibuffers
 (setq enable-recursive-minibuffers t)
