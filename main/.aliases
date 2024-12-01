@@ -140,3 +140,14 @@ alias cov='open coverage/lcov-report/index.html'
 
 # Tmux
 alias mux=tmuxinator
+
+# Github CLI
+alias ghr="gh pr list --json labels,number | jq '.[] | select(.labels[].name==\"release: pending\") | .number'"
+alias ghvr='gh pr view $(ghr) -w'
+alias ghcr='gh pr checks $(ghr) --required'
+alias ghmr='gh pr merge $(ghr) --auto --squash --delete-branch'
+alias ghc='gh pr create --fill'
+alias ghcm='git push && gh pr create --fill && gh pr merge --auto --squash --delete-branch'
+
+# 18xx Maker
+alias maker='pnpm --silent maker'
