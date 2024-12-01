@@ -76,6 +76,7 @@
               display-line-numbers-current-absolute t
               display-line-numbers-width 4
               display-line-numbers-widen t)
+(add-hook 'prog-mode-hook #'display-line-numbers-mode)
 
 ;; Yellow bar cursor
 (add-to-list 'default-frame-alist '(cursor-type . bar))
@@ -164,11 +165,6 @@
  scroll-preserve-screen-position 1)
 (setq mouse-wheel-follow-mouse 't)
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
-
-;; Tramp
-;; (setq tramp-default-method "ssh"
-;;       tramp-syntax 'ftp
-;;       tramp-verbose 8)
 
 ;; Enable recursive minibuffers
 (setq enable-recursive-minibuffers t)
@@ -344,19 +340,6 @@
 
 ;; Page Break Lines
 (use-package page-break-lines)
-
-;; Dashboard
-(use-package dashboard
-  :config
-  (setq dashboard-startup-banner 'logo)
-  (setq dashboard-set-heading-icons t)
-  (setq dashboard-set-file-icons t)
-  (setq dashboard-center-content t)
-  (setq dashboard-items '((recents  . 5)
-                          (projects . 5)
-                          (bookmarks . 5)
-                          (agenda . 5)))
-  (dashboard-setup-startup-hook))
 
 ;; Dired
 (use-package dired-x
@@ -988,13 +971,13 @@
   (add-hook 'flycheck-mode-hook #'kelsin/use-eslint-from-node-modules))
 
 ;; Copilot
-(use-package copilot
-  :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
-  :ensure t
-  :config
-  (add-hook 'prog-mode-hook 'copilot-mode)
-  (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
-  (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion))
+;(use-package copilot
+;  :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
+;  :ensure t
+;  :config
+;  (add-hook 'prog-mode-hook 'copilot-mode)
+;  (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
+;  (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion))
 
 ;; Start up the server
 (use-package server
