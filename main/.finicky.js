@@ -26,7 +26,7 @@ module.exports = {
             browser: "Music",
         },
         {
-            match: /tobiko/,
+            match: /tobiko/i,
             browser: {
                 name: "Google Chrome",
                 profile: "Profile 2",

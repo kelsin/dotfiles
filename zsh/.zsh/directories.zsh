@@ -5,16 +5,12 @@ typeset -A dir_names
 dir_names+=($HOME home)
 dir_names+=($HOME/src src)
 dir_names+=($HOME/src/18xx 18xx.games)
-dir_names+=($HOME/src/airbnb airbnb)
+dir_names+=($HOME/src/$WORK $WORK)
 dir_names+=($HOME/src/18xx-maker 18xx-maker)
 dir_names+=($HOME/src/18xx-maker/18xx-maker 18xx-maker/site)
-dir_names+=($HOME/src/18xx-maker/games 18xx-maker/games)
-dir_names+=($HOME/src/18xx-maker/schemas 18xx-maker/schemas)
-dir_names+=($HOME/src/18xx-maker/format 18xx-maker/format)
-dir_names+=($HOME/src/18xx-maker/export-rb 18xx-maker/export-rb)
 
 # CD Path
-cdpath=($HOME/src $HOME/src/airbnb)
+cdpath=($HOME/src $HOME/src/$WORK)
 
 # Ability to name tabs as we CD around
 project_folder() {

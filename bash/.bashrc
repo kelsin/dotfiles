@@ -1,7 +1,7 @@
 # .bashrc
 
 # Source main environment
-. ~/.env
+. ~/.env.sh
 
 # If not running interactively, return
 [ -z "$PS1" ] && return
