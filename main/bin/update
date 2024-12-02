@@ -9,8 +9,11 @@ brew upgrade
 brew bundle --file=$DOTFILES/Brewfile
 brew cleanup
 
-# Update npm & packages
+# Update npm
 [[ $+commands["update-node"] ]] && update-node
 
-# Update Ruby & gems
+# Update Ruby
 [[ $+commands["update-ruby"] ]] && update-ruby
+
+# Update Python
+[[ $+commands["update-python"] ]] && update-python

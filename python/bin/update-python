@@ -1,0 +1,17 @@
+#!/usr/bin/env zsh
+
+# Load
+. $DOTFILES/python/.zsh/pyenv.zsh
+
+# Upgrade pyenv
+echo Upgrading pyenv
+git -C "$(pyenv root)" pull
+
+# Upgrade pyenv-virtualenv
+echo Upgrading pyenv-virtualenv
+git -C "$(pyenv root)"/plugins/pyenv-virtualenv pull
+
+# Install the current python
+pyenv install -s `cat $HOME/.python-version`
+
+echo Done updating python

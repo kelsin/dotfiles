@@ -103,9 +103,10 @@
 
 ;; Set exec-path
 ;; (setenv "PATH" (concat "/usr/local/share/dotnet:/usr/local/bin:" (getenv "PATH")))
-(setq exec-path (append `(,(expand-file-name "~/.nodenv/shims/")
+(setq exec-path (append `(,(expand-file-name "~/.nodenv/shims")
                           ,(expand-file-name "~/.rbenv/shims")
                           ,(expand-file-name "~/.pyenv/shims")
+                          ,(expand-file-name "~/Library/pnpm")
                           "/usr/local/bin") exec-path))
 
 (defun kelsin/add-to-path (item)

@@ -26,6 +26,13 @@ module.exports = {
             browser: "Music",
         },
         {
+            match: /tobiko/,
+            browser: {
+                name: "Google Chrome",
+                profile: "Profile 2",
+            },
+        },
+        {
             match: /twitch\.tv/,
             browser: {
                 name: "Google Chrome",

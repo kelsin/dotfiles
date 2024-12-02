@@ -3,18 +3,28 @@
 # Load
 . $DOTFILES/ruby/.zsh/rbenv.zsh
 
-# Install latest ruby
-rbenv install -s 2.5.3
+# Upgrade rbenv
+echo Upgrading rbenv
+git -C "$(rbenv root)" pull
+
+# Upgrade node-build
+echo Upgrading rbenv-build
+git -C "$(rbenv root)"/plugins/ruby-build pull
+
+# Install the current ruby
+rbenv install -s `cat $HOME/.ruby-version`
 
 # Update gems
+echo "Updating gems"
+rbenv shell `cat $HOME/.ruby-version`
 gem update --system
 gem update
 
 # Make sure bundler is installed
+echo "Installing bundler"
 gem install bundler
 
 # Rehash
 rbenv rehash
 
 echo Done updating ruby
-

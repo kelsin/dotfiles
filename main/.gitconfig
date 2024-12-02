@@ -50,6 +50,7 @@
 [user]
   name = Christopher Giroir
   email = kelsin@valefor.com
+  signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII9cG34qB1cG/TVBdF2ib7XosqWO98pNRuE/8AiS2Bhl
 [includeIf "gitdir:~/src/tobiko/"]
   path = .gitconfig.tobiko
 [remote "origin"]
@@ -67,3 +68,9 @@
   enabled = true
 [pull]
   rebase = true
+[gpg]
+  format = ssh
+[gpg "ssh"]
+  program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
+[commit]
+  gpgsign = true
