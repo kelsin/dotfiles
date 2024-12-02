@@ -33,6 +33,13 @@ module.exports = {
             },
         },
         {
+            match: /18xx\.games/,
+            browser: {
+                name: "Google Chrome",
+                profile: "Default",
+            },
+        },
+        {
             match: /twitch\.tv/,
             browser: {
                 name: "Google Chrome",
