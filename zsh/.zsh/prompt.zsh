@@ -87,7 +87,7 @@ python_prompt() {
 
   local venv_name="${$(basename "${VIRTUAL_ENV}"):-system}"
   if [[ "$venv_name" != 'system' ]]; then
-    echo " %F{blue}$python_symbol%f ${venv_name}"
+    echo " %F{blue}$python_symbol%f venv:${venv_name}"
     return
   fi
 

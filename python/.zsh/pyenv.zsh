@@ -1,4 +1,5 @@
 #!/usr/bin/env zsh
+export VIRTUAL_ENV_DISABLE_PROMPT=1
 export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 export PYENV_ROOT="$HOME/.pyenv"
 PATH="$HOME/.pyenv/bin:$PATH"
