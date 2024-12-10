@@ -26,13 +26,13 @@ git_arrows() {
 
   [[ -n $arrows ]] && prompt_git_arrows="${arrows}"
 }
-precmd_functions+=(git_arrows)
+[[ -z $SIMPLE_PROMPT ]] && precmd_functions+=(git_arrows)
 
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git svn
 zstyle ':vcs_info:git*' formats "%b"
 zstyle ':vcs_info:git*' actionformats "%b|%a"
-precmd_functions+=(vcs_info)
+[[ -z $SIMPLE_PROMPT ]] && precmd_functions+=(vcs_info)
 
 git_branch() {
   prompt_git_branch=
@@ -55,7 +55,7 @@ git_branch() {
     prompt_git_branch=" $vcs_info_msg_0_%f $branch_symbol $prompt_git_arrows "
   fi
 }
-precmd_functions+=(git_branch)
+[[ -z $SIMPLE_PROMPT ]] && precmd_functions+=(git_branch)
 
 [[ "$SSH_CONNECTION" != '' ]] && prompt_username='%F{green}%n%f@%F{yellow}%m%f '
 [[ $UID -eq 0 ]] && prompt_username='%F{red}%n%f '
@@ -63,7 +63,7 @@ precmd_functions+=(git_branch)
 prompt_status() {
   print -P "%F{blue}%~%f\$prompt_git_branch"
 }
-precmd_functions+=(prompt_status)
+[[ -z $SIMPLE_PROMPT ]] && precmd_functions+=(prompt_status)
 
 k8s_context() {
      kubectl config current-context 2>/dev/null
@@ -112,5 +112,9 @@ export PROMPT="$prompt_username%(?.%F{magenta}.%F{red})${lambda_symbol}%f "
 export PROMPT2="%F{cyan}%_❯%f "
 export PROMPT3="%F{cyan}?❯%f "
 export PROMPT4="%F{red}+%N:%i❯%f "
-export RPROMPT="\${\$(python_prompt)}\${\$(ruby_prompt)}\${\$(node_prompt)}\${\$(k8s_prompt)}"
 export PROMPT_EOL_MARK="%F{red}↵%f"
+if [[ -z $SIMPLE_PROMPT ]]; then
+    export RPROMPT="\${\$(python_prompt)}\${\$(ruby_prompt)}\${\$(node_prompt)}\${\$(k8s_prompt)}"
+else
+    unset RPROMPT
+fi

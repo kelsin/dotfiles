@@ -71,7 +71,7 @@ fi
 [ -f $HOME/.zshrc.$WORK ] && source $HOME/.zshrc.$WORK
 
 # Don't close shell on Ctrl-D
-set -o ignoreeof
+# set -o ignoreeof
 
 # PATH
 export PATH="$HOME/src/cc65/bin:$HOME/.emacs.d/bin:$HOME/src/go/bin:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
