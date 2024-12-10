@@ -1,6 +1,9 @@
 tap 'homebrew/bundle'
+tap 'pulumi/tap'
 
 brew 'ansible'
+brew 'asciinema'
+brew 'awscli'
 brew 'cask'
 brew 'coreutils'
 brew 'cowsay'
@@ -16,6 +19,7 @@ brew 'htop'
 brew 'lolcat'
 brew 'openssl'
 brew 'pnpm'
+brew 'pulumi'
 brew 'rcm'
 brew 'reattach-to-user-namespace'
 brew 'ripgrep'
@@ -30,12 +34,14 @@ brew 'watch'
 brew 'wget'
 brew 'zsh'
 
-# Latex
+# Apps
+cask '1password-cli'
 cask 'discord'
 cask 'docker'
 cask 'emacs'
 cask 'finicky'
 cask 'mactex'
+cask 'notion'
 cask 'slack'
 cask 'spotify'
 

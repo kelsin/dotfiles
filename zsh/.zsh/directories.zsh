@@ -10,7 +10,7 @@ dir_names+=($HOME/src/18xx-maker 18xx-maker)
 dir_names+=($HOME/src/18xx-maker/18xx-maker 18xx-maker/site)
 
 # CD Path
-cdpath=($HOME/src $HOME/src/$WORK)
+cdpath=($HOME/src/$WORK $HOME/src $HOME $cdpath)
 
 # Ability to name tabs as we CD around
 project_folder() {
