@@ -68,7 +68,7 @@ if (($+commands[direnv])); then
 fi
 
 # Work
-[ -f $HOME/.zshrc.$WORK ] && source $HOME/.zshrc.$WORK
+[ -f $HOME/.zshrc.$WORK.zsh ] && source $HOME/.zshrc.$WORK.zsh
 
 # Don't close shell on Ctrl-D
 # set -o ignoreeof
