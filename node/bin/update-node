@@ -14,4 +14,9 @@ git -C "$(nodenv root)"/plugins/node-build pull
 # Install the current node
 nodenv install -s `cat $HOME/.node-version`
 
+# Install some global packages
+nodenv shell `cat $HOME/.node-version`
+npm update -g
+npm install -g terminalizer prettier
+
 echo Done updating node

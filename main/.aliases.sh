@@ -127,6 +127,7 @@ alias poad='poetry add --group dev'
 
 # Python
 alias va='source .venv/bin/activate'
+alias vd='deactivate'
 
 # Bundler
 alias bi='bundle install --without production'
@@ -154,7 +155,3 @@ alias ghcm='git push && gh pr create --fill && gh pr merge --auto --squash --del
 
 # 18xx Maker
 alias maker='pnpm --silent maker'
-
-# Terminal recording
-alias rt='terminalizer record -k'
-alias rtr='terminalizer render'

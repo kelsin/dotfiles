@@ -34,8 +34,8 @@ if [ -f /etc/bash.bashrc ]; then
 fi
 
 # Functions / Aliases
-[ -f ~/.functions ] && . ~/.functions
-[ -f ~/.aliases ] && . ~/.aliases
+[ -f ~/.functions.sh ] && . ~/.functions.sh
+[ -f ~/.aliases.sh ] && . ~/.aliases.sh
 
 # Prompt
 function __kelsin_prompt {

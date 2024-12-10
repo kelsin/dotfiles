@@ -85,6 +85,14 @@ python_prompt() {
     return
   fi
 
+  if [[ $+commands["pyenv"] ]] && [[ -n "${PYENV_VIRTUAL_ENV}" ]]; then
+    local pyenv_name="${$(pyenv version-name):-system}"
+    if [[ "$pyenv_name" != 'system' ]]; then
+        echo " %F{blue}$python_symbol%f ${pyenv_name}"
+        return
+    fi
+  fi
+
   local venv_name="${$(basename "${VIRTUAL_ENV}"):-system}"
   if [[ "$venv_name" != 'system' ]]; then
     echo " %F{blue}$python_symbol%f venv:${venv_name}"

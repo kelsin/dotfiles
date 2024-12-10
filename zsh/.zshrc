@@ -48,8 +48,8 @@ zplug check || zplug install
 zplug load
 
 # Functions and Aliases
-[ -f ~/.functions ] && . ~/.functions
-[ -f ~/.aliases ] && . ~/.aliases
+[ -f ~/.functions.sh ] && . ~/.functions.sh
+[ -f ~/.aliases.sh ] && . ~/.aliases.sh
 
 # Load my local plugins
 for script in ~/.zsh/**/*.zsh; do
