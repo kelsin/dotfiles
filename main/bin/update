@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 # Update App Store apps
-sudo softwareupdate -i -a
+# sudo softwareupdate -i -a
 
 # Update Homebrew (Cask) & packages
 brew update

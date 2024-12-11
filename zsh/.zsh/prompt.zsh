@@ -65,8 +65,10 @@ prompt_status() {
 }
 [[ -z $SIMPLE_PROMPT ]] && precmd_functions+=(prompt_status)
 
+typeset -A k8s_context_names
 k8s_context() {
-     kubectl config current-context 2>/dev/null
+     local context=$(kubectl config current-context 2>/dev/null)
+     echo ${k8s_context_names[${context}]-${context}}
 }
 
 k8s_namespace() {
