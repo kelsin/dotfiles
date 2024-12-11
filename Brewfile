@@ -51,5 +51,4 @@ cask 'spotify'
 
 # Fonts
 cask 'font-hack-nerd-font'
-cask 'font-noto-color-emoji'
 cask 'font-sauce-code-pro-nerd-font'
