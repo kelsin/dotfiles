@@ -62,16 +62,10 @@ if [ -d /usr/local/Caskroom/google-cloud-sdk ]; then
   source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc'
 fi
 
+# Work
+[ -f $HOME/.zshrc.$WORK.zsh ] && source $HOME/.zshrc.$WORK.zsh
+
 # direnv
 if (($+commands[direnv])); then
   eval "$(direnv hook zsh)"
 fi
-
-# Work
-[ -f $HOME/.zshrc.$WORK.zsh ] && source $HOME/.zshrc.$WORK.zsh
-
-# Don't close shell on Ctrl-D
-# set -o ignoreeof
-
-# PATH
-export PATH="$HOME/src/cc65/bin:$HOME/.emacs.d/bin:$HOME/src/go/bin:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"

@@ -68,10 +68,10 @@ alias nh='DGLAUTH=kelsin:a49Q83A8CrbvEowxTZnn ssh nao'
 alias em='ember'
 
 # Kubectl
-# alias k='kubectl'
-# alias kc='kubectx'
-# alias kn='kubens'
-# alias ke='k exec -it'
+alias k='kubectl'
+alias kc='kubectx'
+alias kn='kubens'
+alias ke='k exec -it'
 # alias kdo='k config use-context do-sfo2-kelsin'
 
 # Terraform
