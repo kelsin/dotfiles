@@ -26,3 +26,10 @@ function rtp {
 function rtr {
     terminalizer render "$HOME/share/terms/$1" -o "$HOME/share/terms/$1.gif" && open "$HOME/share/terms"
 }
+
+function forever {
+    while true; do
+        ${@}
+        sleep 5
+    done
+}

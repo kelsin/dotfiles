@@ -1,71 +1,38 @@
-[[keyboard.bindings]]
-key = "Comma"
-mods = "Command"
+[window]
+option_as_alt = "Both"
+startup_mode = "Maximized"
+decorations = "Buttonless"
+padding = { x = 10, y = 10 }
+dynamic_padding = true
+opacity = 0.98
 
-[keyboard.bindings.command]
-args = ["-c", "open ~/.alacritty.yml"]
-program = "sh"
-
-[[keyboard.bindings]]
-action = "SpawnNewInstance"
-key = "N"
-mods = "Command"
-
-[[keyboard.bindings]]
-chars = " "
-key = "Space"
-mods = "Alt"
-
-[[keyboard.bindings]]
-chars = "\u0015"
-key = "Back"
-mods = "Super"
-
-[[keyboard.bindings]]
-chars = "\u001Bb"
-key = "Left"
-mods = "Alt"
-
-[[keyboard.bindings]]
-chars = "\u001Bf"
-key = "Right"
-mods = "Alt"
-
-[[keyboard.bindings]]
-chars = "\u001BOH"
-key = "Left"
-mode = "AppCursor"
-mods = "Command"
-
-[[keyboard.bindings]]
-chars = "\u001BOF"
-key = "Right"
-mode = "AppCursor"
-mods = "Command"
-
-[colors.bright]
-black = "0x565a5c"
-blue = "0x80c1c5"
-cyan = "0x9aebe7"
-green = "0xd2f3c6"
-magenta = "0xca99b8"
-red = "0xffaa91"
-white = "0xf6f4f5"
-yellow = "0xfed880"
-
-[colors.normal]
-black = "0x030203"
-blue = "0x007a87"
-cyan = "0x00d1c1"
-green = "0x8de071"
-magenta = "0x7b0051"
-red = "0xff5a5f"
-white = "0x9ca299"
-yellow = "0xffb400"
+[colors]
+transparent_background_colors = true
+cursor = { text = "CellBackground", cursor = "0xc7c7c7" }
 
 [colors.primary]
-background = "0x030203"
-foreground = "0xf6f4f5"
+background = "0x000000"
+foreground = "0xafafaf"
+
+[colors.bright]
+black = "0x626566"
+blue = "0x75dff2"
+cyan = "0xb1c6ca"
+green = "0xc8ed71"
+magenta = "0xae89fe"
+red = "0xff7fac"
+white = "0xf9f9f4"
+yellow = "0xebdf86"
+
+[colors.normal]
+black = "0x232628"
+blue = "0x75dff2"
+cyan = "0x708387"
+green = "0xb3e33b"
+magenta = "0xae89fe"
+red = "0xfc4384"
+white = "0xd5d5d0"
+yellow = "0xffa727"
 
 [font]
 size = 24.0

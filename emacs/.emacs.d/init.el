@@ -54,10 +54,10 @@
      (eq system-type 'darwin)
      (featurep 'ns))
     (setq ns-alternate-modifier 'super
-      ns-command-modifier 'meta
-      ns-extended-platform-support-mode t
-      ns-pop-up-frames nil
-      ns-use-qd-smoothing nil))
+	  ns-command-modifier 'meta
+	  ns-extended-platform-support-mode t
+	  ns-pop-up-frames nil
+	  ns-use-qd-smoothing nil))
 
 ;; Case Fold Search
 (setq case-fold-search t)
@@ -152,12 +152,6 @@
 ;; No annoying beep or flashes
 (setq ring-bell-function 'ignore)
 
-                    ; Gui Options
-(if (not (eq system-type 'darwin))
-    (menu-bar-mode -1))
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
-
 ;; Scrolling
 (setq
  scroll-margin 1
@@ -205,13 +199,13 @@
 (setq
  c-basic-offset 4
  c-offsets-alist '((substatement-open . 0)
-           (brace-list-open . 0)
-           (member-init-cont . 0)
-           (arglist-intro . +)
-           (arglist-close . 0)
-           (inlambda . 0)
-           (case-label . +)
-           (statement-case-open . 0))
+		   (brace-list-open . 0)
+		   (member-init-cont . 0)
+		   (arglist-intro . +)
+		   (arglist-close . 0)
+		   (inlambda . 0)
+		   (case-label . +)
+		   (statement-case-open . 0))
  css-indent-offset 4
  mail-indentation-spaces 4
  ruby-indent-level 4

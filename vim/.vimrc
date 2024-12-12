@@ -30,8 +30,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
-Plug 'xolox/vim-misc'
-Plug 'xolox/vim-shell'
 
 Plug 'editorconfig/editorconfig-vim'
 Plug 'airblade/vim-rooter'
@@ -40,7 +38,6 @@ Plug 'bronson/vim-trailing-whitespace'
 Plug 'mattn/gist-vim'
 Plug 'ap/vim-css-color'
 Plug 'rizzatti/dash.vim'
-" Plug 'w0rp/ale'
 
 " Syntax
 Plug 'chrisbra/csv.vim'
@@ -307,7 +304,7 @@ endif
 " Plugins {{{
 " Airline {{{
 let g:airline_powerline_fonts = 1
-let g:airline_theme='murmur'
+let g:airline_theme='minimalist'
 let g:airline#extensions#ale#enabled = 1
 " }}}
 
@@ -376,6 +373,9 @@ set go=
 
 " Fonts and Colors {{{
 set guifont=Sauce\ Code\ Pro\ Nerd\ Font\ Complete:h20
-" let base16colorspace=256
-" colorscheme base16-default-dark
+
+if (has("termguicolors"))
+    set termguicolors
+endif
+colorscheme base16-default-dark
 " }}}
