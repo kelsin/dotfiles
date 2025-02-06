@@ -6,38 +6,29 @@ padding = { x = 10, y = 10 }
 dynamic_padding = true
 opacity = 0.98
 
-[colors]
-transparent_background_colors = true
-cursor = { text = "CellBackground", cursor = "0xc7c7c7" }
-
-[colors.primary]
-background = "0x000000"
-foreground = "0xafafaf"
-
-[colors.bright]
-black = "0x626566"
-blue = "0x75dff2"
-cyan = "0xb1c6ca"
-green = "0xc8ed71"
-magenta = "0xae89fe"
-red = "0xff7fac"
-white = "0xf9f9f4"
-yellow = "0xebdf86"
-
-[colors.normal]
-black = "0x232628"
-blue = "0x75dff2"
-cyan = "0x708387"
-green = "0xb3e33b"
-magenta = "0xae89fe"
-red = "0xfc4384"
-white = "0xd5d5d0"
-yellow = "0xffa727"
-
 [font]
 size = 24.0
 
 [font.normal]
 family = "SauceCodePro Nerd Font Mono"
 
+[colors]
+transparent_background_colors = true
+cursor = { text = "CellBackground", cursor = "0xc7c7c7" }
+
 [keyboard]
+bindings = [
+  { key = "+", mods = "Command|Shift", action = "IncreaseFontSize" },
+  { key = "-", mods = "Command", action = "DecreaseFontSize" },
+  { key = "=", mods = "Command", action = "ResetFontSize" },
+  { key = "Left", mods = "Alt", chars = "\u001bb" }, # Skip word left
+  { key = "Right", mods = "Alt", chars = "\u001bf" }, # Skip word right
+  { key = "Back", mods = "Command", chars = "\u0015" }, # Delete line
+  { key = "Back", mods = "Alt", chars = "\u001b\u007f" }, # Delete word
+]
+
+[general]
+import = [
+"~/.alacritty.terminalizer.toml",
+#"~/src/blizzard-colors/alacritty/blizzard-theme.toml",
+]

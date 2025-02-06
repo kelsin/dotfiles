@@ -54,5 +54,11 @@ export KUBECONFIG="$HOME/.kube/config"
 # Dev Helpers
 export PORT=3000
 
+# Silent direnv
+export DIRENV_LOG_FORMAT=
+
+# Python
+export PYTEST_ADDOPTS="-W ignore::Warning"
+
 # WORK
 export WORK=tobiko

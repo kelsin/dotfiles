@@ -20,5 +20,5 @@ project_folder() {
 
   set-title $name
 }
-chpwd_functions+=("project_folder")
-project_folder
+# chpwd_functions+=("project_folder")
+# project_folder

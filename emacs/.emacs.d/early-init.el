@@ -4,20 +4,17 @@
 ;; Please edit that file instead
 
 ;; Defer garbage collection further back in the startup process
-(setq gc-cons-threshold most-positive-fixnum
-      gc-cons-percentage 0.6)
+(setq kelsin-initial-gc-cons-threshold gc-cons-threshold)
+(setq gc-cons-threshold 10000000)
 
-;; In Emacs 27+, package initialization occurs before `user-init-file' is
-;; loaded, but after `early-init-file'. Doom handles package initialization, so
-;; we must prevent Emacs from doing it early!
+;; Disable warnings
+(setq byte-compile-warnings '(not obsolete))
+(setq warning-suppress-log-types '((comp) (bytecomp)))
+(setq native-comp-async-report-warnings-errors 'silent)
+
+;; Disable package.el
 (setq package-enable-at-startup nil)
-;; Do not allow loading from the package cache (same reason).
 (setq package-quickstart nil)
-
-;; Prevent the glimpse of un-styled Emacs by disabling these UI elements early.
-(push '(menu-bar-lines . 0) default-frame-alist)
-(push '(tool-bar-lines . 0) default-frame-alist)
-(push '(vertical-scroll-bars) default-frame-alist)
 
 ;; Change from the default 4k read process output max value
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
@@ -27,12 +24,28 @@
 ;; larger than the system default.
 (setq frame-inhibit-implied-resize t)
 
+;; Silence stupid startup message
+(setq inhibit-startup-echo-area-message (user-login-name))
+
+;; Default frame configuration: full screen, good-looking title bar on macOS
+(setq frame-resize-pixelwise t)
+(tool-bar-mode -1)
+(setq default-frame-alist '((fullscreen . maximized)
+                            (vertical-scroll-bars . nil)
+                            (horizontal-scroll-bars . nil)
+			    (undecorated-round . t)
+
+                            ;; Setting the face in here prevents flashes of
+                            ;; color as the theme gets activated
+                            (background-color . "#000000")
+                            (foreground-color . "#ffffff")
+                            (ns-appearance . dark)
+                            (ns-transparent-titlebar . t)))
+
 ;; Disable GUI elements
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
-(setq inhibit-splash-screen t)
-(setq use-file-dialog nil)
 
 ;; Prevent unwanted runtime builds in gccemacs (native-comp); packages are
 ;; compiled ahead-of-time when they are installed and site files are compiled

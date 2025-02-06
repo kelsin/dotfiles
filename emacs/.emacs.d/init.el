@@ -9,9 +9,7 @@
 
 ;; Restore gc settings after init
 (add-hook 'after-init-hook '(lambda ()
-                              ;; restore after startup
-                              (setq gc-cons-threshold 16777216
-                                    gc-cons-percentage 0.1)))
+                  (setq gc-cons-threshold (or kelsin-initial-gc-cons-threshold 800000))))
 
 ;; Assume :straight t for all use-package macros
 (setq straight-use-package-by-default t)
@@ -41,6 +39,18 @@
 
 (setenv "LC_ALL" "en_US.UTF-8")
 (setenv "LANG" "en_US.UTF-8")
+
+;; Splash screen
+(setq inhibit-splash-screen t)
+
+;; Not needed
+(setopt display-time-default-load-average nil)
+
+;; Disable file dialogs
+(setq use-file-dialog nil)
+
+;; Smooth Scrolling
+(pixel-scroll-precision-mode)
 
 ;; UTF-8
 (prefer-coding-system 'utf-8)
@@ -101,14 +111,6 @@
 ;; Set Shell to bash
 (setq shell-file-name "/bin/bash")
 
-;; Set exec-path
-;; (setenv "PATH" (concat "/usr/local/share/dotnet:/usr/local/bin:" (getenv "PATH")))
-(setq exec-path (append `(,(expand-file-name "~/.nodenv/shims")
-                          ,(expand-file-name "~/.rbenv/shims")
-                          ,(expand-file-name "~/.pyenv/shims")
-                          ,(expand-file-name "~/Library/pnpm")
-                          "/usr/local/bin") exec-path))
-
 (defun kelsin/add-to-path (item)
   "Add an item to both the PATH environment variable and the emacs exec-path variable"
   (interactive)
@@ -118,6 +120,7 @@
 (kelsin/add-to-path "~/.rbenv/shims")
 (kelsin/add-to-path "~/.pyenv/shims")
 (kelsin/add-to-path "/usr/local/bin")
+(kelsin/add-to-path "/opt/homebrew/bin")
 
 ;; Add a lisp folder and my functions package to the load path
 (add-to-list 'load-path "~/.emacs.d/lisp/")
@@ -163,6 +166,9 @@
 
 ;; Enable recursive minibuffers
 (setq enable-recursive-minibuffers t)
+
+;; Hide commands in M-x which do not work in the current mode
+(setq read-extended-command-predicate #'command-completion-default-include-p)
 
 ;; Expiration Date of Buffers
 (setq clean-buffer-list-delay-general 1)
@@ -256,11 +262,14 @@
 ;; (use-package modus-themes
 ;;   :config
 ;;   (load-theme 'modus-vivendi))
-(use-package kaolin-themes
-  :after all-the-icons
+;; (use-package kaolin-themes
+;;   :after all-the-icons
+;;   :config
+;;   (load-theme 'kaolin-aurora t)
+;;   (kaolin-treemacs-theme))
+(use-package emacs
   :config
-  (load-theme 'kaolin-aurora t)
-  (kaolin-treemacs-theme))
+  (load-theme 'modus-vivendi))
 ;; (add-to-list 'custom-theme-load-path "~/src/blizzard-colors/emacs")
 ;; (load-theme 'blizzard 't)
 ;; (use-package solarized-theme
@@ -273,6 +282,11 @@
 ;; (use-package spacemacs-theme
 ;;     :config
 ;;     (load-theme 'spacemacs-dark t))
+
+;; CtrlF
+(use-package ctrlf
+  :config
+  (ctrlf-mode +1))
 
 ;; Mode Line
 (use-package smart-mode-line
@@ -313,6 +327,9 @@
    :keymaps 'override
    :prefix "SPC"
    :non-normal-prefix "C-SPC"
+   "B" '(:ignore t :which-key "bookmarks")
+   "Bs" '(bookmark-set :which-key "set")
+   "Bj" '(bookmark-jump :which-key "jump")
    "b" '(:ignore t :which-key "buffer")
    "br" '(revert-buffer :which-key "revert")
    "c" '(:ignore t :which-key "customize")
@@ -360,11 +377,26 @@
 
 ;; Rainbow
 (use-package rainbow-mode
-  :diminish rainbow-mode
+  :diminish ""
   :hook (css-mode sass-mode scss-mode less-css-mode json-mode))
 
+;; Save history of minibuffer
+(use-package savehist
+  :init
+  (savehist-mode))
+
+;; Why?
+(setopt sentence-end-double-space nil)
+
+;; Right Click
+(when (display-graphic-p)
+  (context-menu-mode))
+
 ;; Auto revert
-(global-auto-revert-mode 1)
+(setopt auto-revert-avoid-polling t)
+(setopt auto-revert-interval 5)
+(setopt auto-revert-check-vc-info t)
+(global-auto-revert-mode)
 
 ;; Prettify Symbols
 (global-prettify-symbols-mode)
@@ -376,11 +408,17 @@
   :diminish undo-tree-visualizer-mode
   :diminish undo-tree-visualizer-selection-mode
   :config
+  (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
   (global-undo-tree-mode))
+
+;; Auto Formatting
+(use-package apheleia
+  :config
+  (apheleia-global-mode +1))
 
 ;; EditorConfig
 (use-package editorconfig
-  :diminish editorconfig-mode
+  :diminish ""
   :config
   (editorconfig-mode 1))
 
@@ -389,80 +427,76 @@
   :bind ( :map evil-insert-state-map
                ("M-y" . browse-kill-ring)))
 
-;; Evil
-(use-package evil
-  :demand t
-  :bind ( :map evil-insert-state-map
-               ("C-a" . beginning-of-line)
-               ("C-e" . end-of-line)
-               :map evil-normal-state-map
-               ("C-e" . evil-end-of-line)
-               :map evil-motion-state-map
-               ("C-s" . evil-search-forward)
-               ("C-e" . evil-end-of-line)
-               :map evil-visual-state-map
-               ("C-e" . evil-end-of-line)
-               :map evil-inner-text-objects-map
-               ("i" . evil-inner-arg)
-               :map evil-outer-text-objects-map
-               ("a" . evil-outer-arg))
-  :init
+  ;; Evil
+  (use-package evil
+    :demand t
+    :bind ( :map evil-insert-state-map
+                 ("C-a" . beginning-of-line)
+                 ("C-e" . end-of-line)
+                 :map evil-normal-state-map
+                 ("C-e" . evil-end-of-line)
+                 :map evil-motion-state-map
+                 ("C-s" . evil-search-forward)
+                 ("C-e" . evil-end-of-line)
+                 :map evil-visual-state-map
+                 ("C-e" . evil-end-of-line)
+                 :map evil-inner-text-objects-map
+                 ("i" . evil-inner-arg)
+                 :map evil-outer-text-objects-map
+                 ("a" . evil-outer-arg))
+    :init
 
-  ;; Cursors
-  (setq evil-emacs-state-cursor '("#007dbf" hbar))
-  (setq evil-normal-state-cursor '("#8cda38" hbar))
-  (setq evil-visual-state-cursor '("#ea7b00" hbar))
-  (setq evil-insert-state-cursor '("#ff2e2e" bar))
-  (setq evil-replace-state-cursor '("#ff2e2e" bar))
-  (setq evil-operator-state-cursor '("#00aeef" hollow))
+    ;; Cursors
+    (setq evil-emacs-state-cursor '("#007dbf" hbar))
+    (setq evil-normal-state-cursor '("#8cda38" hbar))
+    (setq evil-visual-state-cursor '("#ea7b00" hbar))
+    (setq evil-insert-state-cursor '("#ff2e2e" bar))
+    (setq evil-replace-state-cursor '("#ff2e2e" bar))
+    (setq evil-operator-state-cursor '("#00aeef" hollow))
 
-  (setq-default evil-cross-lines t)
-  (setq-default evil-find-skip-newlines t)
-  (setq-default evil-move-beyond-eol t)
-  (setq evil-want-integration t)
-  (setq evil-want-keybinding nil)
+    (setq-default evil-cross-lines t)
+    (setq-default evil-find-skip-newlines t)
+    (setq-default evil-move-beyond-eol t)
+    (setq evil-want-integration t)
+    (setq evil-want-keybinding nil)
 
-  :config
-  (evil-mode 1)
+    :config
+    (evil-mode 1)
 
-  ;; Modes to use emacs mode in
-  (add-to-list 'evil-emacs-state-modes 'nav-mode)
-  (add-to-list 'evil-emacs-state-modes 'easy-jekyll-mode)
-  (add-to-list 'evil-emacs-state-modes 'neotree-mode))
+    ;; Modes to use emacs mode in
+    (add-to-list 'evil-emacs-state-modes 'nav-mode)
+    (add-to-list 'evil-emacs-state-modes 'easy-jekyll-mode)
+    (add-to-list 'evil-emacs-state-modes 'neotree-mode))
 
-;; Evil Collection
-(use-package evil-collection
-  :after evil
-  :diminish evil-collection-unimpaired-mode
-  :config
-  (evil-collection-init))
+  ;; Evil Collection
+  (use-package evil-collection
+    :after evil
+    :diminish evil-collection-unimpaired-mode
+    :config
+    (evil-collection-init))
 
-;; Evil Matchit
-(use-package evil-matchit
-  :after evil
-  :config
-  (global-evil-matchit-mode))
+  ;; Evil Matchit
+  (use-package evil-matchit
+    :after evil
+    :config
+    (global-evil-matchit-mode))
 
-;; Evil Numbers
-(use-package evil-numbers
-  :after evil)
+  ;; Evil Numbers
+  (use-package evil-numbers
+    :after evil)
 
-;; Evil Commentary
-(use-package evil-commentary
-  :after evil
-  :diminish evil-commentary-mode
-  :config
-  (evil-commentary-mode 1))
+  ;; Evil Commentary
+  (use-package evil-commentary
+    :after evil
+    :diminish evil-commentary-mode
+    :config
+    (evil-commentary-mode 1))
 
-;; Evil Surround
-(use-package evil-surround
-  :after evil
-  :config
-  (global-evil-surround-mode 1))
-
-;; Evil Magit
-(use-package evil-magit
-  :after '(evil magit))
+  ;; Evil Surround
+  (use-package evil-surround
+    :after evil
+    :config
+    (global-evil-surround-mode 1))
 
 ;; Org Mode
 (use-package org
@@ -622,51 +656,41 @@
 (use-package magit
   :bind ("C-c i" . magit-status))
 
-;; Magit
+;; Jekyll
 (use-package easy-jekyll
   :config
   (setq easy-jekyll-basedir "~/src/mx.kelsin.net/"))
 
-;; Ivy
-(use-package ivy
-  :diminish ivy-mode
-  :config
-  (setq ivy-use-virtual-buffers t)
-  (setq ivy-count-format "%d/%d ")
-  (setq ivy-re-builders-alist
-    '((swiper . ivy--regex-plus)
-          (counsel-ag-function . ivy--regex-plus)
-          (t . ivy--regex-fuzzy)))
-  (setq ivy-initial-inputs-alist nil)
-  (ivy-mode 1))
-
-(use-package counsel
-  :after ivy
-  :bind
-  ("M-x" . counsel-M-x)
-  ("C-x C-f" . counsel-find-file)
-  ("C-x C-r" . counsel-recentf)
-  ("C-x r b" . counsel-bookmark)
-  ("C-c C-a" . counsel-apropos)
-  ("C-c C-g" . counsel-ag)
+;; Vertico
+(use-package vertico
   :init
-  (setq counsel-rg-base-command "rg -M 120 -S --no-heading --line-number --color never %s .")
-  (general-define-key
-   :states '(normal visual insert emacs)
-   :keymaps 'override
-   :prefix "SPC"
-   :non-normal-prefix "C-SPC"
-   "f" '(:ignore t :which-key "File")
-   "ff" '(counsel-find-file :which-key "find file")
-   "fr" '(counsel-recentf :which-key "recent files")))
+  (vertico-mode))
 
-(use-package counsel-projectile
-  :after (counsel projectile)
-  :hook (projectile-mode . counsel-projectile-mode)
-  :config
-  (counsel-projectile-modify-action
-   'counsel-projectile-switch-project-action
-   '((default "D"))))
+;; Corfu
+(use-package corfu
+  ;; Optional customizations
+  ;; :custom
+  ;; (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+  ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
+  ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
+  ;; (corfu-preview-current nil)    ;; Disable current candidate preview
+  ;; (corfu-preselect 'prompt)      ;; Preselect the prompt
+  ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
+  :init
+  (global-corfu-mode))
+
+;; Prescient
+(use-package prescient
+  :custom
+  (completion-styles '(prescient basic))
+  (prescient-filter-method '(literal regexp initialism fuzzy)))
+(use-package vertico-prescient)
+(use-package corfu-prescient)
+
+;; Consult
+(use-package consult
+  :init
+  (setq consult-project-function (lambda (_) (projectile-project-root))))
 
 ;;; File Handling
 
@@ -697,6 +721,15 @@
 ;; Recentf
 (use-package recentf
   :commands recentf-open-files
+  :init
+  (general-define-key
+   :states '(normal visual insert emacs)
+   :keymaps 'override
+   :prefix "SPC"
+   :non-normal-prefix "C-SPC"
+   "f" '(:ignore t :which-key "File")
+   "ff" '(find-file :which-key "find file")
+   "fr" '(recentf :which-key "recent files"))
   :config
   (setq recentf-arrange-by-rule-subfilter 'recentf-sort-directories-ascending
     recentf-arrange-rules '(("Elisp files (%d)" ".\\.el\\'")
@@ -722,7 +755,7 @@
   :bind
   (:map projectile-mode-map
     ("C-c p" . projectile-command-map)
-    ("C-c p g" . counsel-projectile-rg))
+    ("C-c p g" . consult-ripgrep))
   :config
   (add-to-list 'projectile-globally-ignored-directories "object_metadata")
   (add-to-list 'projectile-globally-ignored-directories "minerva_metadata")
@@ -736,14 +769,13 @@
    :prefix "SPC"
    :non-normal-prefix "C-SPC"
    "p" '(:ignore t :which-key "Projectile")
-   "p SPC" '(counsel-projectile :which-key "find file or buffer")
-   "pb" '(counsel-projectile-switch-to-buffer :which-key "find buffer")
+   "pb" '(consult-project-buffer :which-key "find buffer")
    "pc" '(projectile-compile-project :which-key "compile project")
    "pd" '(projectile-dired :which-key "dired")
-   "pf" '(counsel-projectile-find-file :which-key "find file")
-   "pg" '(counsel-projectile-rg :which-key "ripgrep")
+   "pf" '(projectile-find-file :which-key "find file")
+   "pg" '(consult-ripgrep :which-key "ripgrep")
    "pk" '(projectile-kill-buffers :which-key "kill buffers")
-   "pp" '(counsel-projectile-switch-project :which-key "switch project")
+   "pp" '(projectile-switch-project :which-key "switch project")
    "pr" '(projectile-replace :which-key "replace")
    "pR" '(projectile-run-project :which-key "run project")
    "ps" '(projectile-save-project-buffers :which-key "save project")
@@ -758,9 +790,9 @@
 (use-package lsp-ui
   :commands lsp-ui-mode)
 
-(use-package company-lsp
-  :after company
-  :commands company-lsp)
+;; (use-package company-lsp
+;;   :after company
+;;   :commands company-lsp)
 
 ;;; Filetypes
 
@@ -792,6 +824,10 @@
 ;; Ember Mode
 (use-package ember-mode
   :commands ember-mode)
+
+;; Feature Mode
+(use-package feature-mode
+  :mode "\\.feature\\'")
 
 ;; Pug
 (use-package pug-mode
@@ -830,6 +866,16 @@
 
 ;;; Languages
 
+;; Treesit Auto
+(use-package treesit-auto
+  :ensure t
+  :custom
+  (treesit-auto-install 't)
+  :config
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode))
+
+;; Python
 (add-hook 'python-mode-hook (lambda () (remove-hook 'write-file-functions 'delete-trailing-whitespace t)))
 (use-package python-docstring
   :after python
@@ -838,9 +884,7 @@
   :hook (python-mode . (lambda ()
                          (require 'lsp-pyright)
                          (lsp))))
-(use-package python-black
-  :after python
-  :hook (python-mode . python-black-on-save-mode-enable-dwim))
+(use-package pyvenv)
 
 ;; Lua mode
 (use-package lua-mode
@@ -852,6 +896,10 @@
 ;; Groovy mode
 (use-package groovy-mode
   :mode "\\.groovy\\'")
+
+;; Scala mode
+(use-package scala-mode
+  :mode "\\.s\\(cala\\|bt\\)$")
 
 ;; Vimrc mode
 (use-package vimrc-mode
@@ -873,10 +921,18 @@
 
 ;; Javascript
 (use-package prettier-js
+  :diminish ""
   :hook (json-mode . prettier-js-mode)
-  :hook (yaml-mode . prettier-js-mode)
   :hook (js-mode . prettier-js-mode)
-  :hook (js2-mode . prettier-js-mode))
+  :hook (js2-mode . prettier-js-mode)
+
+  :config
+  (general-define-key
+   :states '(normal visual insert)
+   :keymaps 'override
+   :prefix "SPC"
+   :non-normal-prefix "C-SPC"
+   "P" '(prettier-js-mode :which-key "prettier")))
 
 (use-package json-mode
   :mode "\\.json\\'")
@@ -903,7 +959,7 @@
 
 (use-package rjsx-mode
   :config
-  (add-hook 'js2-mode-hook
+  (add-hook 'rjsx-mode-hook
         (lambda ()
           (setq js2-mode-show-parse-errors nil)
           (setq js2-mode-show-strict-warnings nil)

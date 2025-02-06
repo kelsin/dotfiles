@@ -15,21 +15,25 @@ function set-title {
 }
 
 function rt {
-    mkdir -p "$HOME/share/terms"
-    terminalizer record -k "$HOME/share/terms/$1"
+  mkdir -p "$HOME/share/terms"
+  terminalizer record -k "$HOME/share/terms/$1"
 }
 
 function rtp {
-    terminalizer play "$HOME/share/terms/$1"
+  terminalizer play "$HOME/share/terms/$1"
 }
 
 function rtr {
-    terminalizer render "$HOME/share/terms/$1" -o "$HOME/share/terms/$1.gif" && open "$HOME/share/terms"
+  terminalizer render "$HOME/share/terms/$1" -o "$HOME/share/terms/$1.gif" && open "$HOME/share/terms"
 }
 
 function forever {
-    while true; do
-        ${@}
-        sleep 5
-    done
+  while true; do
+    ${@}
+    sleep 5
+  done
+}
+
+function issue {
+  gh issue view -w $(git branch --show-current | sed 's/[^0-9]//g')
 }

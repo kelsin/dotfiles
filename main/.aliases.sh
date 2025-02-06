@@ -14,6 +14,10 @@ alias e='emacsclient -a vim -t'
 # StarWars
 alias sw='telnet towel.blinkenlights.nl'
 
+# Tree
+alias t='tree -h --du'
+alias td='tree -h --du -d'
+
 # Make sure ls has colors and defaults to -h
 if ls --color -d . >/dev/null 2>&1; then
     alias ls='ls --color=auto -h'

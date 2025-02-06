@@ -1,11 +1,11 @@
 #!/usr/bin/env zsh
-
-git_symbol=`echo -e '\ue0a0'`
-node_symbol=`echo -e '\ue718'`
+dir_symbol=`echo -e '\uf413'`
+git_symbol=`echo -e '\ue702'`
+node_symbol=`echo -e '\ued0d'`
 ruby_symbol=`echo -e '\ue791'`
 python_symbol=`echo -e '\ue73c'`
 lambda_symbol=`echo -e '\u03bb'`
-k8s_symbol=`echo -e '\u2388'`
+k8s_symbol=`echo -e '\ue81d'`
 
 git_arrows() {
   prompt_git_arrows=
@@ -77,44 +77,48 @@ k8s_namespace() {
 
 k8s_prompt() {
   local context="${$(k8s_context):-none}"
-  [[ "$context" != 'none' ]] && echo " %F{blue}$k8s_symbol%f ${context}:${$(k8s_namespace):-default}"
+  [[ "$context" != 'none' ]] && echo " %F{#326ce5}$k8s_symbol%f ${context}:${$(k8s_namespace):-default}"
 }
 
 python_prompt() {
   local conda_name="${CONDA_DEFAULT_ENV:-base}"
   if [[ "$conda_name" != 'base' ]]; then
-    echo " %F{blue}$python_symbol%f conda:${conda_name}"
+    echo " %F{#4584b6}$python_symbol%f conda:${conda_name}"
     return
   fi
 
   if [[ $+commands["pyenv"] ]] && [[ -n "${PYENV_VIRTUAL_ENV}" ]]; then
     local pyenv_name="${$(pyenv version-name):-system}"
     if [[ "$pyenv_name" != 'system' ]]; then
-        echo " %F{blue}$python_symbol%f ${pyenv_name}"
+        echo " %F{#4584b6}$python_symbol%f ${pyenv_name}"
         return
     fi
   fi
 
   local venv_name="${$(basename "${VIRTUAL_ENV}"):-system}"
   if [[ "$venv_name" != 'system' ]]; then
-    echo " %F{blue}$python_symbol%f venv:${venv_name}"
+    echo " %F{#4584b6}$python_symbol%f venv:${venv_name}"
     return
   fi
 
   if [[ $+commands["pyenv"] ]]; then
     local pyenv_name="${$(pyenv version-name):-system}"
-    [[ "$pyenv_name" != 'system' ]] && echo " %F{blue}$python_symbol%f ${pyenv_name}"
+    [[ "$pyenv_name" != 'system' ]] && echo " %F{#4584b6}$python_symbol%f ${pyenv_name}"
   fi
 }
 
 ruby_prompt() {
   local rbenv_name="${$(rbenv version-name):-system}"
-  [[ "$rbenv_name" != 'system' ]] && echo " %F{red}$ruby_symbol%f ${rbenv_name}"
+  [[ "$rbenv_name" != 'system' ]] && echo " %F{#c52e28}$ruby_symbol%f ${rbenv_name}"
 }
 
 node_prompt() {
   local nodenv_name="${$(nodenv version-name):-system}"
-  [[ "$nodenv_name" != 'system' ]] && echo " %F{green}$node_symbol%f ${nodenv_name}"
+  [[ "$nodenv_name" != 'system' ]] && echo " %F{#339933}$node_symbol%f ${nodenv_name}"
+}
+
+direnv_prompt() {
+  [[ -n ${DIRENV_FILE} ]] && echo " %F{red}$dir_symbol%f"
 }
 
 setopt prompt_subst
@@ -124,7 +128,8 @@ export PROMPT3="%F{cyan}?❯%f "
 export PROMPT4="%F{red}+%N:%i❯%f "
 export PROMPT_EOL_MARK="%F{red}↵%f"
 if [[ -z $SIMPLE_PROMPT ]]; then
-    export RPROMPT="\${\$(python_prompt)}\${\$(ruby_prompt)}\${\$(node_prompt)}\${\$(k8s_prompt)}"
+    # export RPROMPT="\${\$(direnv_prompt)}\${\$(python_prompt)}\${\$(ruby_prompt)}\${\$(node_prompt)}\${\$(k8s_prompt)}"
+    export RPROMPT="\${\$(direnv_prompt)}\${\$(python_prompt)}\${\$(ruby_prompt)}\${\$(node_prompt)}"
 else
     unset RPROMPT
 fi

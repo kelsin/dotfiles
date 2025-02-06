@@ -26,10 +26,31 @@ module.exports = {
             browser: "Music",
         },
         {
+            match: /meet\.google\.com/i,
+            browser: {
+                name: "Google Chrome",
+                profile: "Profile 2",
+            },
+        },
+        {
             match: /tobiko/i,
             browser: {
                 name: "Google Chrome",
                 profile: "Profile 2",
+            },
+        },
+        {
+            match: /paypal\.com/,
+            browser: {
+                name: "Google Chrome",
+                profile: "Default",
+            },
+        },
+        {
+            match: /reddit\.com/,
+            browser: {
+                name: "Google Chrome",
+                profile: "Default",
             },
         },
         {
@@ -62,6 +83,27 @@ module.exports = {
         },
         {
             match: /notion\.so/,
+            browser: {
+                name: "Google Chrome",
+                profile: "Default",
+            },
+        },
+        {
+            match: /steampowered/,
+            browser: {
+                name: "Google Chrome",
+                profile: "Default",
+            },
+        },
+        {
+            match: /kelsin/,
+            browser: {
+                name: "Google Chrome",
+                profile: "Default",
+            },
+        },
+        {
+            match: /kels\.in/,
             browser: {
                 name: "Google Chrome",
                 profile: "Default",

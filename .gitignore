@@ -5,6 +5,9 @@ node_modules
 # Main Ignores
 .gitconfig.user
 
+# Tmuxinator
+.tmuxinator
+
 # Emacs Ignores
 emacs/.emacs.d/.cache
 emacs/.emacs.d/.cask
@@ -13,8 +16,10 @@ emacs/.emacs.d/.mc-lists.el
 emacs/.emacs.d/auto-save-list
 emacs/.emacs.d/bookmarks
 emacs/.emacs.d/custom.el
+emacs/.emacs.d/eln-cache
 emacs/.emacs.d/elpa
 emacs/.emacs.d/eshell
+emacs/.emacs.d/history
 emacs/.emacs.d/ido.last
 emacs/.emacs.d/network-security.data
 emacs/.emacs.d/persp-confs
@@ -25,7 +30,9 @@ emacs/.emacs.d/recentf
 emacs/.emacs.d/sementicdb
 emacs/.emacs.d/smex-items
 emacs/.emacs.d/straight
+emacs/.emacs.d/tree-sitter
 emacs/.emacs.d/transient
+emacs/.emacs.d/undo
 emacs/.emacs.d/url
 *.elc
 
