@@ -496,13 +496,13 @@
 (setq prettify-symbols-unprettify-at-point 'right-edge)
 
 ;; Undo Tree Mode
-(use-package undo-tree
-  :diminish undo-tree-mode
-  :diminish undo-tree-visualizer-mode
-  :diminish undo-tree-visualizer-selection-mode
-  :config
-  (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
-  (global-undo-tree-mode))
+;; (use-package undo-tree
+;;   :diminish undo-tree-mode
+;;   :diminish undo-tree-visualizer-mode
+;;   :diminish undo-tree-visualizer-selection-mode
+;;   :config
+;;   (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
+;;   (global-undo-tree-mode))
 
 ;; Auto Formatting
 (use-package apheleia
@@ -527,20 +527,21 @@
   ;; Evil
   (use-package evil
     :demand t
-    :bind ( :map evil-insert-state-map
-                 ("C-a" . beginning-of-line)
-                 ("C-e" . end-of-line)
-                 :map evil-normal-state-map
-                 ("C-e" . evil-end-of-line)
-                 :map evil-motion-state-map
-                 ("C-s" . evil-search-forward)
-                 ("C-e" . evil-end-of-line)
-                 :map evil-visual-state-map
-                 ("C-e" . evil-end-of-line)
-                 :map evil-inner-text-objects-map
-                 ("i" . evil-inner-arg)
-                 :map evil-outer-text-objects-map
-                 ("a" . evil-outer-arg))
+    :bind (:map evil-insert-state-map
+                ("C-a" . beginning-of-line)
+                ("C-e" . end-of-line)
+                :map evil-normal-state-map
+                ("C-e" . evil-end-of-line)
+                ("C-S-d" . evil-scroll-up)
+                :map evil-motion-state-map
+                ("C-s" . evil-search-forward)
+                ("C-e" . evil-end-of-line)
+                :map evil-visual-state-map
+                ("C-e" . evil-end-of-line)
+                :map evil-inner-text-objects-map
+                ("i" . evil-inner-arg)
+                :map evil-outer-text-objects-map
+                ("a" . evil-outer-arg))
     :init
 
     ;; Cursors
@@ -763,7 +764,15 @@
 #+begin_src emacs-lisp :tangle ./init.el
 ;; Magit
 (use-package magit
-  :bind ("C-c i" . magit-status))
+  :bind ("C-c i" . magit-status)
+  :init
+  (general-define-key
+   :states '(normal visual insert)
+   :keymaps 'override
+   :prefix "SPC"
+   :non-normal-prefix "C-SPC"
+   "m" '(:ignore t :which-key "magit")
+   "ms" '(magit-status :which-key "status")))
 #+end_src
 
 *** Jekyll
@@ -916,6 +925,7 @@
 (use-package lsp-mode
   :init
   (setq lsp-enable-file-watchers nil)
+  (setq lsp-auto-configure 't)
   :commands lsp)
 
 (use-package lsp-ui

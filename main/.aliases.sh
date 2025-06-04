@@ -29,6 +29,7 @@ fi
 
 # Docker
 alias dr='docker run -it --rm'
+alias dcl='docker system prune -f -a && docker volume prune -f -a'
 
 # Whats My IP
 alias wmi='dig +short myip.opendns.com @resolver1.opendns.com'
@@ -76,7 +77,7 @@ alias k='kubectl'
 alias kc='kubectx'
 alias kn='kubens'
 alias ke='k exec -it'
-# alias kdo='k config use-context do-sfo2-kelsin'
+alias k9m='k9s --context minikube'
 
 # Terraform
 alias tf='terraform'

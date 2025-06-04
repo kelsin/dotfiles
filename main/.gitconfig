@@ -8,33 +8,36 @@
 [alias]
   aa = add -A
   aw = git diff -U0 -w --no-color --src-prefix=a/ --dst-prefix=b/ | git apply --cached --ignore-whitespace --unidiff-zero -
+  ba = branch -a
+  bi = branch-i
+  br = branch
+  brm = merge --no-ff --log --no-commit
+  c = commit
+  co = checkout
   d = diff -b
   dc = diff --cached -b
   devs = shortlog -sne
-  marked-unchanged = !git ls-files -v | grep ^[a-z]
-  mu = !git ls-files -v | grep ^[a-z]
-  dm = !git branch --merged | egrep -v \"(^\\*|master|dev)\" | xargs git branch -d
-  bi = branch-i
-  br = branch
-  ba = branch -a
-  brm = merge --no-ff --log --no-commit
   disable-hooks = config core.hooksPath /dev/null
+  dm = !git branch --merged | egrep -v \"(^\\*|master|dev)\" | xargs git branch -d
   enable-hooks = config --unset core.hooksPath
   fr = restore -W -S
+  l = log --graph --decorate --oneline
+  la = log --graph --decorate --oneline --all
+  ls = log --graph --decorate --oneline --stat
+  lsa = log --graph --decorate --oneline --stat --all
+  marked-unchanged = !git ls-files -v | grep ^[a-z]
+  mu = !git ls-files -v | grep ^[a-z]
+  oc = checkout
   pr = remote prune
   pro = remote prune origin
+  ra = rebase --autosquash
+  rmerge = merge --no-ff --no-commit
+  rs = restore -S -W
   st = status
-  co = checkout
-  oc = checkout
   sub = submodule
   subrm = submodule deinit
-  users = shortlog -sne
-  l = log --graph --decorate --oneline
-  ls = log --graph --decorate --oneline --stat
-  la = log --graph --decorate --oneline --all
-  lsa = log --graph --decorate --oneline --stat --all
-  rmerge = merge --no-ff --no-commit
   upstream = !git fetch upstream && git checkout main && git merge upstream/main && git push
+  users = shortlog -sne
 [status]
   relativePaths = false
 [diff "ruby"]
@@ -51,8 +54,6 @@
   name = Christopher Giroir
   email = kelsin@valefor.com
   signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII9cG34qB1cG/TVBdF2ib7XosqWO98pNRuE/8AiS2Bhl
-[includeIf "gitdir:~/src/tobiko/"]
-  path = .gitconfig.tobiko
 [remote "origin"]
   prune = true
 [filter "lfs"]
@@ -68,9 +69,13 @@
   enabled = true
 [pull]
   rebase = true
+[rebase]
+  autoSquash = true
 [gpg]
   format = ssh
 [gpg "ssh"]
   program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
 [commit]
   gpgsign = true
+[includeIf "gitdir:~/src/tobiko/"]
+  path = .gitconfig.tobiko

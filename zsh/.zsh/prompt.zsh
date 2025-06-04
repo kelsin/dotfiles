@@ -7,6 +7,11 @@ python_symbol=`echo -e '\ue73c'`
 lambda_symbol=`echo -e '\u03bb'`
 k8s_symbol=`echo -e '\ue81d'`
 
+# Run simple prompt in VSCODE
+if [[ "$TERM_PROGRAM" == "vscode" ]]; then
+  SIMPLE_PROMPT=1
+fi
+
 git_arrows() {
   prompt_git_arrows=
   command git rev-parse --abbrev-ref @'{u}' &>/dev/null || return

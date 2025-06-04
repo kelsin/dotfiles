@@ -12,3 +12,7 @@ end_of_line = lf
 [*.{yml,yaml,sh,zsh}]
 indent_size = 2
 tab_width = 2
+
+[*.org]
+indent_size = 8
+tab_width = 8
