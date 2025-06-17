@@ -7,9 +7,14 @@ alias ca='conda activate'
 alias mm='micromamba'
 alias mma='micromamba activate'
 
+# Update bin
+alias up='update'
+
 # No Vi
-alias vi='vim'
-alias e='emacsclient -a vim -t'
+alias v='nvim'
+alias vi='nvim'
+alias vim='nvim'
+alias e='nvim'
 
 # StarWars
 alias sw='telnet towel.blinkenlights.nl'

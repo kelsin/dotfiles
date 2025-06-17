@@ -1,5 +1,10 @@
 #!/usr/bin/env zsh
 
+if [[ -v UPDATE_COMMAND ]]; then
+    eval $UPDATE_COMMAND
+    exit 0
+fi
+
 # Update App Store apps
 # sudo softwareupdate -i -a
 

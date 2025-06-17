@@ -6,10 +6,24 @@ export default {
     options: {
         checkForUpdates: true,
     },
+    rewrite: [
+        {
+            // Redirect all x.com urls to use xcancel.com
+            match: "x.com/*",
+            url: (url) => {
+                url.host = "xcancel.com";
+                return url;
+            },
+        },
+    ],
     handlers: [
         {
             match: (url) => url.protocol === "slack:",
             browser: "Slack",
+        },
+        {
+            match: finicky.matchDomains("open.spotify.com"),
+            browser: "Spotify",
         },
         {
             match: [
@@ -134,6 +148,13 @@ export default {
         },
         {
             match: /hrf\.im/,
+            browser: {
+                name: "Google Chrome",
+                profile: "Kelsin",
+            },
+        },
+        {
+            match: /facebook\.com/,
             browser: {
                 name: "Google Chrome",
                 profile: "Kelsin",

@@ -33,8 +33,8 @@ export GREP_COLOR='37;45'           # BSD.
 export GREP_COLORS="mt=$GREP_COLOR" # GNU.
 
 # Editors
-export EDITOR='vim'
-export VISUAL='vim'
+export EDITOR='nvim'
+export VISUAL='nvim'
 export PAGER='less'
 
 # Debian packaging
