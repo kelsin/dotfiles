@@ -69,3 +69,13 @@ fi
 if (($+commands[direnv])); then
   eval "$(direnv hook zsh)"
 fi
+
+# Added by dbt installer
+export PATH="$PATH:/Users/kelsin/.local/bin"
+
+# dbt aliases
+alias dbtf=/Users/kelsin/.local/bin/dbt
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/kelsin/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)

@@ -507,7 +507,8 @@
 ;; Auto Formatting
 (use-package apheleia
   :config
-  (apheleia-global-mode +1))
+  (apheleia-global-mode +1)
+  (add-hook 'apheleia-inhibit-functions (lambda () (when (eq major-mode 'yaml-mode) t))))
 
 ;; EditorConfig
 (use-package editorconfig

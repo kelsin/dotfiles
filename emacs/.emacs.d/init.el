@@ -9,7 +9,7 @@
 
 ;; Restore gc settings after init
 (add-hook 'after-init-hook '(lambda ()
-                  (setq gc-cons-threshold (or kelsin-initial-gc-cons-threshold 800000))))
+                              (setq gc-cons-threshold (or kelsin-initial-gc-cons-threshold 800000))))
 
 ;; Assume :straight t for all use-package macros
 (setq straight-use-package-by-default t)
@@ -414,7 +414,9 @@
 ;; Auto Formatting
 (use-package apheleia
   :config
-  (apheleia-global-mode +1))
+  (apheleia-global-mode +1)
+  (add-hook 'apheleia-inhibit-functions (lambda () (when (or (eq major-mode 'yaml-ts-mode)
+                                                             (eq major-mode 'yaml-mode)) t))))
 
 ;; EditorConfig
 (use-package editorconfig
@@ -425,79 +427,79 @@
 ;; Fancy Kill Ring
 (use-package browse-kill-ring
   :bind ( :map evil-insert-state-map
-               ("M-y" . browse-kill-ring)))
+          ("M-y" . browse-kill-ring)))
 
-  ;; Evil
-  (use-package evil
-    :demand t
-    :bind (:map evil-insert-state-map
-                ("C-a" . beginning-of-line)
-                ("C-e" . end-of-line)
-                :map evil-normal-state-map
-                ("C-e" . evil-end-of-line)
-                ("C-S-d" . evil-scroll-up)
-                :map evil-motion-state-map
-                ("C-s" . evil-search-forward)
-                ("C-e" . evil-end-of-line)
-                :map evil-visual-state-map
-                ("C-e" . evil-end-of-line)
-                :map evil-inner-text-objects-map
-                ("i" . evil-inner-arg)
-                :map evil-outer-text-objects-map
-                ("a" . evil-outer-arg))
-    :init
+;; Evil
+(use-package evil
+  :demand t
+  :bind (:map evil-insert-state-map
+              ("C-a" . beginning-of-line)
+              ("C-e" . end-of-line)
+              :map evil-normal-state-map
+              ("C-e" . evil-end-of-line)
+              ("C-S-d" . evil-scroll-up)
+              :map evil-motion-state-map
+              ("C-s" . evil-search-forward)
+              ("C-e" . evil-end-of-line)
+              :map evil-visual-state-map
+              ("C-e" . evil-end-of-line)
+              :map evil-inner-text-objects-map
+              ("i" . evil-inner-arg)
+              :map evil-outer-text-objects-map
+              ("a" . evil-outer-arg))
+  :init
 
-    ;; Cursors
-    (setq evil-emacs-state-cursor '("#007dbf" hbar))
-    (setq evil-normal-state-cursor '("#8cda38" hbar))
-    (setq evil-visual-state-cursor '("#ea7b00" hbar))
-    (setq evil-insert-state-cursor '("#ff2e2e" bar))
-    (setq evil-replace-state-cursor '("#ff2e2e" bar))
-    (setq evil-operator-state-cursor '("#00aeef" hollow))
+  ;; Cursors
+  (setq evil-emacs-state-cursor '("#007dbf" hbar))
+  (setq evil-normal-state-cursor '("#8cda38" hbar))
+  (setq evil-visual-state-cursor '("#ea7b00" hbar))
+  (setq evil-insert-state-cursor '("#ff2e2e" bar))
+  (setq evil-replace-state-cursor '("#ff2e2e" bar))
+  (setq evil-operator-state-cursor '("#00aeef" hollow))
 
-    (setq-default evil-cross-lines t)
-    (setq-default evil-find-skip-newlines t)
-    (setq-default evil-move-beyond-eol t)
-    (setq evil-want-integration t)
-    (setq evil-want-keybinding nil)
+  (setq-default evil-cross-lines t)
+  (setq-default evil-find-skip-newlines t)
+  (setq-default evil-move-beyond-eol t)
+  (setq evil-want-integration t)
+  (setq evil-want-keybinding nil)
 
-    :config
-    (evil-mode 1)
+  :config
+  (evil-mode 1)
 
-    ;; Modes to use emacs mode in
-    (add-to-list 'evil-emacs-state-modes 'nav-mode)
-    (add-to-list 'evil-emacs-state-modes 'easy-jekyll-mode)
-    (add-to-list 'evil-emacs-state-modes 'neotree-mode))
+  ;; Modes to use emacs mode in
+  (add-to-list 'evil-emacs-state-modes 'nav-mode)
+  (add-to-list 'evil-emacs-state-modes 'easy-jekyll-mode)
+  (add-to-list 'evil-emacs-state-modes 'neotree-mode))
 
-  ;; Evil Collection
-  (use-package evil-collection
-    :after evil
-    :diminish evil-collection-unimpaired-mode
-    :config
-    (evil-collection-init))
+;; Evil Collection
+(use-package evil-collection
+  :after evil
+  :diminish evil-collection-unimpaired-mode
+  :config
+  (evil-collection-init))
 
-  ;; Evil Matchit
-  (use-package evil-matchit
-    :after evil
-    :config
-    (global-evil-matchit-mode))
+;; Evil Matchit
+(use-package evil-matchit
+  :after evil
+  :config
+  (global-evil-matchit-mode))
 
-  ;; Evil Numbers
-  (use-package evil-numbers
-    :after evil)
+;; Evil Numbers
+(use-package evil-numbers
+  :after evil)
 
-  ;; Evil Commentary
-  (use-package evil-commentary
-    :after evil
-    :diminish evil-commentary-mode
-    :config
-    (evil-commentary-mode 1))
+;; Evil Commentary
+(use-package evil-commentary
+  :after evil
+  :diminish evil-commentary-mode
+  :config
+  (evil-commentary-mode 1))
 
-  ;; Evil Surround
-  (use-package evil-surround
-    :after evil
-    :config
-    (global-evil-surround-mode 1))
+;; Evil Surround
+(use-package evil-surround
+  :after evil
+  :config
+  (global-evil-surround-mode 1))
 
 ;; Org Mode
 (use-package org
@@ -532,7 +534,7 @@
   (setq org-log-refile t)
   (setq org-refile-targets '((nil :maxlevel . 9)
                              (org-agenda-files :maxlevel . 9)))
-  ;(setq org-agenda-files '("~/org" "~/blizzard/src/org"))
+                                        ;(setq org-agenda-files '("~/org" "~/blizzard/src/org"))
   (setq org-outline-path-complete-in-steps nil)         ; Refile in a single go
   (setq org-refile-use-outline-path t)                  ; Show full paths for refiling
 
@@ -715,11 +717,11 @@
   :bind ("<f9>" . neotree-toggle)
   :config
   (setq neo-theme (if (display-graphic-p) 'icons 'arrow)
-    neo-smart-open t
-    neo-window-width 30
-    neo-auto-indent-point t
-    neo-autorefresh t
-    neo-force-change-root t))
+        neo-smart-open t
+        neo-window-width 30
+        neo-auto-indent-point t
+        neo-autorefresh t
+        neo-force-change-root t))
 
 ;; Bookmarks
 (use-package bookmark
@@ -741,21 +743,21 @@
    "fr" '(recentf :which-key "recent files"))
   :config
   (setq recentf-arrange-by-rule-subfilter 'recentf-sort-directories-ascending
-    recentf-arrange-rules '(("Elisp files (%d)" ".\\.el\\'")
-                ("Java files (%d)" ".\\.java\\'")
-                ("C/C++ files (%d)" "c\\(pp\\)?\\'")
-                ("SQL Files (%d)" ".\\.sql\\'")
-                ("Tcl Files (%d)" ".\\.tcl\\'")
-                ("Adp Files (%d)" ".\\.adp\\'")
-                ("Css Files (%d)" ".\\.css\\'")
-                ("Ruby Files (%d)" ".\\.rb\\'")
-                ("Javascript Files (%d)" ".\\.jsx?\\'")
-                ("Jade/Pug Files (%d)" ".\\.\\(jade\\)\\|\\(pug\\)\\'")
-                ("Erb Files (%d)" ".\\.erb\\'"))
-    recentf-max-menu-items 100
-    recentf-max-saved-items 100
-    recentf-menu-filter 'recentf-arrange-by-rule
-    recentf-show-file-shortcuts-flag nil)
+        recentf-arrange-rules '(("Elisp files (%d)" ".\\.el\\'")
+                                ("Java files (%d)" ".\\.java\\'")
+                                ("C/C++ files (%d)" "c\\(pp\\)?\\'")
+                                ("SQL Files (%d)" ".\\.sql\\'")
+                                ("Tcl Files (%d)" ".\\.tcl\\'")
+                                ("Adp Files (%d)" ".\\.adp\\'")
+                                ("Css Files (%d)" ".\\.css\\'")
+                                ("Ruby Files (%d)" ".\\.rb\\'")
+                                ("Javascript Files (%d)" ".\\.jsx?\\'")
+                                ("Jade/Pug Files (%d)" ".\\.\\(jade\\)\\|\\(pug\\)\\'")
+                                ("Erb Files (%d)" ".\\.erb\\'"))
+        recentf-max-menu-items 100
+        recentf-max-saved-items 100
+        recentf-menu-filter 'recentf-arrange-by-rule
+        recentf-show-file-shortcuts-flag nil)
   (recentf-mode 1))
 
 ;; Projectile
@@ -763,13 +765,13 @@
   :demand t
   :bind
   (:map projectile-mode-map
-    ("C-c p" . projectile-command-map)
-    ("C-c p g" . consult-ripgrep))
+        ("C-c p" . projectile-command-map)
+        ("C-c p g" . consult-ripgrep))
   :config
   (add-to-list 'projectile-globally-ignored-directories "object_metadata")
   (add-to-list 'projectile-globally-ignored-directories "minerva_metadata")
   (setq projectile-generic-command
-    "find . -type f ! -ipath '*/object_metadata' ! -ipath '*/minerva_metadata' -print0")
+        "find . -type f ! -ipath '*/object_metadata' ! -ipath '*/minerva_metadata' -print0")
   (projectile-mode)
 
   (general-define-key
@@ -951,40 +953,40 @@
   :mode "\\.[cm]?js\\'" "\\.js\\.erb\\'"
   :config
   (add-hook 'js2-mode-hook
-        (lambda ()
-          (setq js2-mode-show-parse-errors nil)
-          (setq js2-mode-show-strict-warnings nil)
-          (push '("&&" . ?∧) prettify-symbols-alist)
-          (push '("||" . ?∨) prettify-symbols-alist)
-          (push '("!" . ?¬) prettify-symbols-alist)
-          (push '("==" . ?＝) prettify-symbols-alist)
-          (push '("===" . ?≡) prettify-symbols-alist)
-          (push '("!=" . ?≠) prettify-symbols-alist)
-          (push '("!==" . ?≢) prettify-symbols-alist)
-          (push '("null" . ?∅) prettify-symbols-alist)
-          (push '("function" . ?λ) prettify-symbols-alist)
-          (push '("return" . ?⇐) prettify-symbols-alist)
-          (push '("=>" . ?⇒) prettify-symbols-alist)
-          (push '("->" . ?→) prettify-symbols-alist))))
+            (lambda ()
+              (setq js2-mode-show-parse-errors nil)
+              (setq js2-mode-show-strict-warnings nil)
+              (push '("&&" . ?∧) prettify-symbols-alist)
+              (push '("||" . ?∨) prettify-symbols-alist)
+              (push '("!" . ?¬) prettify-symbols-alist)
+              (push '("==" . ?＝) prettify-symbols-alist)
+              (push '("===" . ?≡) prettify-symbols-alist)
+              (push '("!=" . ?≠) prettify-symbols-alist)
+              (push '("!==" . ?≢) prettify-symbols-alist)
+              (push '("null" . ?∅) prettify-symbols-alist)
+              (push '("function" . ?λ) prettify-symbols-alist)
+              (push '("return" . ?⇐) prettify-symbols-alist)
+              (push '("=>" . ?⇒) prettify-symbols-alist)
+              (push '("->" . ?→) prettify-symbols-alist))))
 
 (use-package rjsx-mode
   :config
   (add-hook 'rjsx-mode-hook
-        (lambda ()
-          (setq js2-mode-show-parse-errors nil)
-          (setq js2-mode-show-strict-warnings nil)
-          (push '("&&" . ?∧) prettify-symbols-alist)
-          (push '("||" . ?∨) prettify-symbols-alist)
-          (push '("!" . ?¬) prettify-symbols-alist)
-          (push '("==" . ?＝) prettify-symbols-alist)
-          (push '("===" . ?≡) prettify-symbols-alist)
-          (push '("!=" . ?≠) prettify-symbols-alist)
-          (push '("!==" . ?≢) prettify-symbols-alist)
-          (push '("null" . ?∅) prettify-symbols-alist)
-          (push '("function" . ?λ) prettify-symbols-alist)
-          (push '("return" . ?⇐) prettify-symbols-alist)
-          (push '("=>" . ?⇒) prettify-symbols-alist)
-          (push '("->" . ?→) prettify-symbols-alist))))
+            (lambda ()
+              (setq js2-mode-show-parse-errors nil)
+              (setq js2-mode-show-strict-warnings nil)
+              (push '("&&" . ?∧) prettify-symbols-alist)
+              (push '("||" . ?∨) prettify-symbols-alist)
+              (push '("!" . ?¬) prettify-symbols-alist)
+              (push '("==" . ?＝) prettify-symbols-alist)
+              (push '("===" . ?≡) prettify-symbols-alist)
+              (push '("!=" . ?≠) prettify-symbols-alist)
+              (push '("!==" . ?≢) prettify-symbols-alist)
+              (push '("null" . ?∅) prettify-symbols-alist)
+              (push '("function" . ?λ) prettify-symbols-alist)
+              (push '("return" . ?⇐) prettify-symbols-alist)
+              (push '("=>" . ?⇒) prettify-symbols-alist)
+              (push '("->" . ?→) prettify-symbols-alist))))
 
 ;; Snippets
 (use-package yasnippet
@@ -995,8 +997,8 @@
     (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
     (yas-global-mode 1)
     (add-hook 'term-mode-hook
-          (lambda()
-        (setq yas-dont-activate-functions t)))))
+              (lambda()
+                (setq yas-dont-activate-functions t)))))
 
 ;; Flycheck
 (use-package flycheck
@@ -1015,30 +1017,30 @@
    "Fn" '(flycheck-next-error :which-key "next error"))
 
   (setq-default flycheck-disabled-checkers
-        (append flycheck-disabled-checkers
-            '(javascript-jshint)))
+                (append flycheck-disabled-checkers
+                        '(javascript-jshint)))
 
   (defun kelsin/use-eslint-from-node-modules ()
     "Find eslint binary in node_modules folder if possible."
     (let* ((root (locate-dominating-file
-          (or (buffer-file-name) default-directory)
-          "node_modules"))
-       (eslint (and root
-            (expand-file-name "node_modules/eslint/bin/eslint.js"
-                      root))))
+                  (or (buffer-file-name) default-directory)
+                  "node_modules"))
+           (eslint (and root
+                        (expand-file-name "node_modules/eslint/bin/eslint.js"
+                                          root))))
       (when (and eslint (file-executable-p eslint))
-    (setq-local flycheck-javascript-eslint-executable eslint))))
+        (setq-local flycheck-javascript-eslint-executable eslint))))
 
   (add-hook 'flycheck-mode-hook #'kelsin/use-eslint-from-node-modules))
 
 ;; Copilot
-;(use-package copilot
-;  :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
-;  :ensure t
-;  :config
-;  (add-hook 'prog-mode-hook 'copilot-mode)
-;  (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
-;  (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion))
+                                        ;(use-package copilot
+                                        ;  :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
+                                        ;  :ensure t
+                                        ;  :config
+                                        ;  (add-hook 'prog-mode-hook 'copilot-mode)
+                                        ;  (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
+                                        ;  (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion))
 
 ;; Start up the server
 (use-package server

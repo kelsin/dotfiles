@@ -45,7 +45,21 @@ export default {
             match: /meet\.google\.com/i,
             browser: {
                 name: "Google Chrome",
-                profile: "Work",
+                profile: "Fivetran",
+            },
+        },
+        {
+            match: /5tran/i,
+            browser: {
+                name: "Google Chrome",
+                profile: "Fivetran",
+            },
+        },
+        {
+            match: /fivetran/i,
+            browser: {
+                name: "Google Chrome",
+                profile: "Fivetran",
             },
         },
         {
@@ -60,6 +74,13 @@ export default {
             browser: {
                 name: "Google Chrome",
                 profile: "Work",
+            },
+        },
+        {
+            match: /rippling\.com/,
+            browser: {
+                name: "Google Chrome",
+                profile: "Kelsin",
             },
         },
         {
@@ -99,6 +120,13 @@ export default {
         },
         {
             match: /twitch\.tv/,
+            browser: {
+                name: "Google Chrome",
+                profile: "Kelsin",
+            },
+        },
+        {
+            match: /bga\.li/,
             browser: {
                 name: "Google Chrome",
                 profile: "Kelsin",
