@@ -41,7 +41,7 @@
 [status]
   relativePaths = false
 [merge]
-  conflictstyle = diff3
+  conflictstyle = zdiff3
 [diff]
   colorMoved = default
 [diff "ruby"]
@@ -57,6 +57,8 @@
   diffFilter = delta --color-only
 [delta]
   navigate = true
+  dark = true
+  line-numbers = true
 [github]
   user = kelsin
 [user]
