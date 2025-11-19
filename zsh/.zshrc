@@ -28,7 +28,6 @@ fi
 
 # zplug "plugins/kubectl", from:oh-my-zsh
 zplug "sorin-ionescu/prezto", use:"modules/completion/init.zsh"
-zplug "tmuxinator/tmuxinator", use:"completion/tmuxinator.zsh"
 
 # Dircolors
 (( $+commands[gdircolors] )) && eval $(gdircolors ~/.dircolors)
@@ -64,11 +63,6 @@ fi
 
 # Work
 [ -f $HOME/.zshrc.$WORK.zsh ] && source $HOME/.zshrc.$WORK.zsh
-
-# direnv
-if (($+commands[direnv])); then
-  eval "$(direnv hook zsh)"
-fi
 
 # Added by dbt installer
 export PATH="$PATH:/Users/kelsin/.local/bin"

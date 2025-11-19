@@ -23,14 +23,9 @@ alias sw='telnet towel.blinkenlights.nl'
 alias t='tree -h --du'
 alias td='tree -h --du -d'
 
-# Make sure ls has colors and defaults to -h
-if ls --color -d . >/dev/null 2>&1; then
-    alias ls='ls --color=auto -h'
-    alias la='ls --color=auto -lah'
-else
-    alias ls='ls -h'
-    alias la='ls -lah'
-fi
+# Eza
+alias ls="eza --color=always --git --icons=always"
+alias la="eza --color=always --long --git --icons=always"
 
 # Docker
 alias dr='docker run -it --rm'

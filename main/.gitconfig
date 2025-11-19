@@ -40,6 +40,10 @@
   users = shortlog -sne
 [status]
   relativePaths = false
+[merge]
+  conflictstyle = diff3
+[diff]
+  colorMoved = default
 [diff "ruby"]
   funcname = ^ *\\(\\(class\\|module\\|def\\) .*\\)
 [branch]
@@ -47,7 +51,12 @@
 [core]
   excludesfile = /Users/cgiroir/.gitconfig.ignore
   autocrlf = input
+  pager = delta
   precomposeunicode = true
+[interactive]
+  diffFilter = delta --color-only
+[delta]
+  navigate = true
 [github]
   user = kelsin
 [user]
