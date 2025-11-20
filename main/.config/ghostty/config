@@ -1,1 +1,3 @@
 font-size = 20
+macos-titlebar-style = hidden
+background-opacity = 0.95

@@ -57,7 +57,7 @@ vim.keymap.set("n", "<leader>bw", "<cmd>bw<cr>", { desc = "Wipe Buffer" })
 
 -- Editing common files
 vim.keymap.set("n", "<leader>ev", ":e ~/.config/nvim/lua/kelsin/init.lua<CR>", { desc = "Edit neovim init.lua" })
-vim.keymap.set("n", "<leader>ep", ":e ~/.config/nvim/lua/plugins<CR>", { desc = "Edit neovim plugins" })
+vim.keymap.set("n", "<leader>ep", ":Telescope lazy_plugins<CR>", { desc = "Edit neovim plugins" })
 vim.keymap.set("n", "<leader>ez", ":e ~/.zshrc<CR>", { desc = "Edit .zshrc" })
 vim.keymap.set("n", "<leader>et", ":e ~/.tmux.conf<CR>", { desc = "Edit .tmux.conf" })
 

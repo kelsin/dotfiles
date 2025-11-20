@@ -20,6 +20,24 @@ return {
 
         -- Useful for getting pretty icons, but requires a Nerd Font.
         { "nvim-tree/nvim-web-devicons", enabled = vim.g.have_nerd_font },
+
+        -- Extensions
+
+        {
+            "dhruvmanila/browser-bookmarks.nvim",
+            version = "*",
+            -- Only required to override the default options
+            opts = {
+                -- Override default configuration values
+                selected_browser = "chrome",
+            },
+        },
+        { "nvim-telescope/telescope-dap.nvim" },
+        { "nvim-telescope/telescope-file-browser.nvim" },
+        { "nvim-telescope/telescope-project.nvim" },
+        { "nvim-telescope/telescope-symbols.nvim" },
+        { "polirritmico/telescope-lazy-plugins.nvim" },
+        { "smartpde/telescope-recent-files" },
     },
     config = function()
         require("telescope").setup({
@@ -29,8 +47,8 @@ return {
                     -- disables netrw and use telescope-file-browser in its place
                     hijack_netrw = true,
                 },
-                ["ui-select"] = {
-                    require("telescope.themes").get_dropdown(),
+                lazy_plugins = {
+                    lazy_config = vim.fn.stdpath("config") .. "/lua/kelsin/lazy.lua", -- Must be a valid path to the file containing the lazy spec and setup() call.
                 },
                 project = {
                     base_dirs = {
@@ -43,12 +61,16 @@ return {
                     search_by = "title",
                     sync_with_nvim_tree = true, -- default false
                 },
+                ["ui-select"] = {
+                    require("telescope.themes").get_dropdown(),
+                },
             },
         })
         pcall(require("telescope").load_extension, "bookmarks")
         pcall(require("telescope").load_extension, "dap")
         pcall(require("telescope").load_extension, "file_browser")
         pcall(require("telescope").load_extension, "fzf")
+        pcall(require("telescope").load_extension, "lazy_plugins")
         pcall(require("telescope").load_extension, "project")
         pcall(require("telescope").load_extension, "recent_files")
         pcall(require("telescope").load_extension, "ui-select")
@@ -77,12 +99,12 @@ return {
             ":lua require('telescope').extensions.project.project({ display_type = 'full' })<CR>",
             { desc = "projects" }
         )
-        vim.keymap.set("n", "<leader>fr", require("telescope").extensions.recent_files.pick, { desc = "recent files" })
+        vim.keymap.set("n", "<leader>fr", ext.recent_files.pick, { desc = "recent files" })
         vim.keymap.set("n", "<leader>gd", builtin.lsp_definitions, { desc = "definitions" })
         vim.keymap.set("n", "<leader>gi", builtin.lsp_implementations, { desc = "implementations" })
         vim.keymap.set("n", "<leader>gr", builtin.lsp_references, { desc = "references" })
         vim.keymap.set("n", "<leader>gt", builtin.treesitter, { desc = "treesitter" })
         vim.keymap.set("n", "<leader>is", builtin.symbols, { desc = "symbol" })
-        vim.keymap.set("n", "<leader>ob", require("telescope").extensions.bookmarks.bookmarks, { desc = "bookmark" })
+        vim.keymap.set("n", "<leader>ob", ext.bookmarks.bookmarks, { desc = "bookmark" })
     end,
 }
