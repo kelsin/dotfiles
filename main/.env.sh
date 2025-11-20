@@ -22,7 +22,7 @@ export ESHELL=/bin/bash
 [[ "$OSTYPE" == darwin* ]] && export BROWSER='open'
 
 # Less
-export LESS="-R -J -f -i -M -Q -S"
+export LESS="-R -J -f -i -M -Q -S -X -F"
 
 # Directory Colors
 export CLICOLOR=true

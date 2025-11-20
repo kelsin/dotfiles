@@ -1,3 +1,13 @@
+# Ensure git checkout
+function git-ensure {
+  FOLDER="${1}"
+  GITURL="${2}"
+
+  if [ ! -d "${FOLDER}" ]; then
+    git clone "${GITURL}" "${FOLDER}"
+  fi
+}
+
 # Set Title
 function set-title {
   case $TERM in

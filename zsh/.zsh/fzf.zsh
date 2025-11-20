@@ -28,9 +28,7 @@ if (($+commands[fzf])); then
     fd --type=d --hidden --exclude .git . "$1"
   }
 
-  if [ ! -d ~/src/fzf-git.sh ]; then
-    git clone git@github.com:junegunn/fzf-git.sh.git ~/src/fzf-git.sh
-  fi
+  git-ensure "$HOME/src/fzf-git.sh" "git@github.com:junegunn/fzf-git.sh.git"
 
   . ~/src/fzf-git.sh/fzf-git.sh
 fi
