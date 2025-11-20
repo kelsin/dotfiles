@@ -63,7 +63,6 @@ brew 'zoxide'
 
 # Apps
 cask '1password-cli'
-cask 'alacritty'
 cask 'aerospace'
 cask 'discord'
 # cask 'docker-desktop'
