@@ -1,3 +1,4 @@
+theme = catppuccin-mocha.conf
 font-size = 20
 macos-titlebar-style = hidden
 window-padding-x = 8

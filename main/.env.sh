@@ -60,5 +60,9 @@ export DIRENV_LOG_FORMAT=
 # Python
 export PYTEST_ADDOPTS="-W ignore::Warning"
 
+# Keyboards
+export KBD_CORNE="crkbd/rev4_1/standard"
+export KBD_PREONIC="preonic/rev3_drop"
+
 # WORK
 export WORK=tobiko
