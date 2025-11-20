@@ -45,9 +45,12 @@ return {
             { "<leader>b", group = "Buffer" },
             { "<leader>e", group = "Edit" },
             { "<leader>f", group = "Find" },
+            { "<leader>fd", group = "Debug" },
             { "<leader>g", group = "Goto" },
-            { "<leader>t", group = "Test" },
+            { "<leader>i", group = "Insert" },
             { "<leader>l", group = "Lsp" },
+            { "<leader>o", group = "Open" },
+            { "<leader>t", group = "Test" },
         },
     },
     keys = {

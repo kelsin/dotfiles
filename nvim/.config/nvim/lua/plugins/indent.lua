@@ -4,6 +4,21 @@ return {
         -- Enable `lukas-reineke/indent-blankline.nvim`
         -- See `:help ibl`
         main = "ibl",
-        opts = {},
+        opts = {
+            exclude = {
+                filetypes = {
+                    "lspinfo",
+                    "packer",
+                    "checkhealth",
+                    "help",
+                    "man",
+                    "gitcommit",
+                    "TelescopePrompt",
+                    "TelescopeResults",
+                    "",
+                    "dashboard",
+                },
+            },
+        },
     },
 }

@@ -32,17 +32,29 @@ return {
                 ["ui-select"] = {
                     require("telescope.themes").get_dropdown(),
                 },
+                project = {
+                    base_dirs = {
+                        { "~/src", max_depth = 2 },
+                    },
+                    ignore_missing_dirs = true, -- default: false
+                    hidden_files = true, -- default: false
+                    theme = "dropdown",
+                    order_by = "asc",
+                    search_by = "title",
+                    sync_with_nvim_tree = true, -- default false
+                },
             },
         })
+        pcall(require("telescope").load_extension, "bookmarks")
+        pcall(require("telescope").load_extension, "dap")
         pcall(require("telescope").load_extension, "file_browser")
         pcall(require("telescope").load_extension, "fzf")
+        pcall(require("telescope").load_extension, "project")
+        pcall(require("telescope").load_extension, "recent_files")
         pcall(require("telescope").load_extension, "ui-select")
 
         local builtin = require("telescope.builtin")
-        vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Telescope find files" })
-        vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Telescope live grep" })
-        vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Telescope buffers" })
-        vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Telescope help tags" })
+        local ext = require("telescope").extensions
         vim.keymap.set(
             "n",
             "<space>d",
@@ -50,9 +62,27 @@ return {
             { desc = "Open buffer directory" }
         )
         vim.keymap.set("n", "<space>D", ":Telescope file_browser<CR>", { desc = "Open project directory" })
-        vim.keymap.set("n", "<leader>gd", builtin.lsp_definitions, { desc = "Telescope definitions" })
-        vim.keymap.set("n", "<leader>gi", builtin.lsp_implementations, { desc = "Telescope implementations" })
-        vim.keymap.set("n", "<leader>gr", builtin.lsp_references, { desc = "Telescope references" })
-        vim.keymap.set("n", "<leader>gt", builtin.treesitter, { desc = "Telescope treesitter" })
+        vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "buffers" })
+        vim.keymap.set("n", "<leader>fdb", ext.dap.list_breakpoints, { desc = "breakpoints" })
+        vim.keymap.set("n", "<leader>fdc", ext.dap.commands, { desc = "commands" })
+        vim.keymap.set("n", "<leader>fdg", ext.dap.configurations, { desc = "configurations" })
+        vim.keymap.set("n", "<leader>fdf", ext.dap.frames, { desc = "frames" })
+        vim.keymap.set("n", "<leader>fdv", ext.dap.variables, { desc = "variables" })
+        vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "files" })
+        vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "grep" })
+        vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "help tags" })
+        vim.keymap.set(
+            "n",
+            "<leader>fp",
+            ":lua require('telescope').extensions.project.project({ display_type = 'full' })<CR>",
+            { desc = "projects" }
+        )
+        vim.keymap.set("n", "<leader>fr", require("telescope").extensions.recent_files.pick, { desc = "recent files" })
+        vim.keymap.set("n", "<leader>gd", builtin.lsp_definitions, { desc = "definitions" })
+        vim.keymap.set("n", "<leader>gi", builtin.lsp_implementations, { desc = "implementations" })
+        vim.keymap.set("n", "<leader>gr", builtin.lsp_references, { desc = "references" })
+        vim.keymap.set("n", "<leader>gt", builtin.treesitter, { desc = "treesitter" })
+        vim.keymap.set("n", "<leader>is", builtin.symbols, { desc = "symbol" })
+        vim.keymap.set("n", "<leader>ob", require("telescope").extensions.bookmarks.bookmarks, { desc = "bookmark" })
     end,
 }
