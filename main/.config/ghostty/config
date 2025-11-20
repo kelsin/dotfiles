@@ -1,3 +1,5 @@
 font-size = 20
 macos-titlebar-style = hidden
-background-opacity = 0.95
+window-padding-x = 8
+window-padding-y = 8
+window-padding-balance = true

@@ -124,7 +124,7 @@ symbol = " "
 symbol = " "
 
 [os]
-disabled = false
+disabled = true
 
 [os.symbols]
 Alpaquita = " "
@@ -206,7 +206,7 @@ symbol = "󱘗 "
 symbol = " "
 
 [shell]
-disabled = false
+disabled = true
 
 [status]
 disabled = false
