@@ -47,9 +47,6 @@ alias dcl='docker system prune -f -a && docker volume prune -f -a'
 # Whats My IP
 alias wmi='dig +short myip.opendns.com @resolver1.opendns.com'
 
-# Pretty Clear
-alias clear='clear && figlet $USER 2>/dev/null | lolcat 2>/dev/null'
-
 # Gource
 alias gitvid='gource --user-image-dir ~/src/avatars --key --highlight-all-users --hide filenames --seconds-per-day 0.1 --auto-skip-seconds 1 -1280x720 -o - | ffmpeg -y -r 60 -f image2pipe -vcodec ppm -i - -vcodec libvpx -b:v 10000K'
 
