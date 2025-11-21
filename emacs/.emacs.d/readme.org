@@ -338,33 +338,12 @@
 #+begin_src emacs-lisp :tangle ./init.el
 ;;; Theme and Font
 (setq-default line-spacing 3)
-(add-to-list 'default-frame-alist '(font . "SauceCodePro Nerd Font Mono-18"))
-;; (use-package base16-theme
-;;   :config
-;;   (load-theme 'base16-default-dark t))
-;; (use-package modus-themes
-;;   :config
-;;   (load-theme 'modus-vivendi))
-;; (use-package kaolin-themes
-;;   :after all-the-icons
-;;   :config
-;;   (load-theme 'kaolin-aurora t)
-;;   (kaolin-treemacs-theme))
-(use-package emacs
-  :config
-  (load-theme 'modus-vivendi))
-;; (add-to-list 'custom-theme-load-path "~/src/blizzard-colors/emacs")
-;; (load-theme 'blizzard 't)
-;; (use-package solarized-theme
-;;     :config
-;;     (load-theme 'solarized-dark t))
-;; (use-package zenburn-theme
-;;     :config
-;;     (load-theme 'zenburn t))
-;; (load-theme 'airbnb 't)
-;; (use-package spacemacs-theme
-;;     :config
-;;     (load-theme 'spacemacs-dark t))
+(add-to-list 'default-frame-alist '(font . "JetBrainsMono Nerd Font Mono-20"))
+(use-package catppuccin-theme
+  :init
+    (setq catppuccin-flavor 'mocha)
+  :hook
+    (after-init . (lambda () (load-theme 'catppuccin))))
 
 ;; CtrlF
 (use-package ctrlf
