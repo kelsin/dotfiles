@@ -7,12 +7,12 @@ source "${ZINIT_HOME}/zinit.zsh"
 bindkey -e
 
 # Plugins
-zinit light jeffreytse/zsh-vi-mode
 zinit light zdharma-continuum/fast-syntax-highlighting
 
 # Bash style word jumping
 autoload -U select-word-style
 select-word-style bash
+WORDCHARS=${WORDCHARS//[-_]}
 
 # Functions and Aliases
 [ -f ~/.functions.sh ] && . ~/.functions.sh
