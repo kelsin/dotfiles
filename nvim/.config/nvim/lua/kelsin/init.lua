@@ -56,7 +56,7 @@ vim.keymap.set("n", "<leader>bd", "<cmd>bd<cr>", { desc = "Delete Buffer" })
 vim.keymap.set("n", "<leader>bw", "<cmd>bw<cr>", { desc = "Wipe Buffer" })
 
 -- Editing common files
-vim.keymap.set("n", "<leader>eB", ":e ~/.dotfiles/Brewfile<CR>", { desc = "Edit Brewfile" })
+vim.keymap.set("n", "<leader>eb", ":e ~/.dotfiles/Brewfile<CR>", { desc = "Edit Brewfile" })
 vim.keymap.set("n", "<leader>eg", ":e ~/.config/ghostty/config<CR>", { desc = "Edit ghostty config" })
 vim.keymap.set("n", "<leader>ep", ":Telescope lazy_plugins<CR>", { desc = "Edit neovim plugins" })
 vim.keymap.set("n", "<leader>et", ":e ~/.tmux.conf<CR>", { desc = "Edit .tmux.conf" })

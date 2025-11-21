@@ -64,10 +64,8 @@ Plug 'skwp/vim-rspec'
 Plug 'tpope/vim-haml'
 
 " Style
-Plug 'kelsin/blizzard-colors', { 'rtp': 'vim' }
-Plug 'chriskempson/base16-vim'
+Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'ryanoasis/vim-devicons'
 " }}}
 
@@ -304,7 +302,7 @@ endif
 " Plugins {{{
 " Airline {{{
 let g:airline_powerline_fonts = 1
-let g:airline_theme='minimalist'
+let g:airline_theme='catppuccin_mocha'
 let g:airline#extensions#ale#enabled = 1
 " }}}
 
@@ -377,5 +375,5 @@ set guifont=Sauce\ Code\ Pro\ Nerd\ Font\ Complete:h20
 if (has("termguicolors"))
     set termguicolors
 endif
-colorscheme base16-default-dark
+colorscheme catppuccin_mocha
 " }}}

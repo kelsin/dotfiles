@@ -38,6 +38,7 @@ return {
         { "nvim-telescope/telescope-symbols.nvim" },
         { "polirritmico/telescope-lazy-plugins.nvim" },
         { "smartpde/telescope-recent-files" },
+        { "jvgrootveld/telescope-zoxide" },
     },
     config = function()
         require("telescope").setup({
@@ -74,6 +75,7 @@ return {
         pcall(require("telescope").load_extension, "project")
         pcall(require("telescope").load_extension, "recent_files")
         pcall(require("telescope").load_extension, "ui-select")
+        pcall(require("telescope").load_extension, "zoxide")
 
         local builtin = require("telescope.builtin")
         local ext = require("telescope").extensions
@@ -100,6 +102,7 @@ return {
             { desc = "projects" }
         )
         vim.keymap.set("n", "<leader>fr", ext.recent_files.pick, { desc = "recent files" })
+        vim.keymap.set("n", "<leader>fz", ext.zoxide.list, { desc = "zoxide" })
         vim.keymap.set("n", "<leader>gd", builtin.lsp_definitions, { desc = "definitions" })
         vim.keymap.set("n", "<leader>gi", builtin.lsp_implementations, { desc = "implementations" })
         vim.keymap.set("n", "<leader>gr", builtin.lsp_references, { desc = "references" })

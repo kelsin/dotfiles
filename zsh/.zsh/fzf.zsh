@@ -1,4 +1,6 @@
 if (($+commands[fzf])); then
+  export FZF_CTRL_R_COMMAND=""
+
   eval "$(fzf --zsh)"
 
   export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"

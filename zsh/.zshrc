@@ -1,14 +1,9 @@
 # Emacs Keybindings
-bindkey -e
+set -o vi
 
 # Bash style word jumping
 autoload -U select-word-style
 select-word-style bash
-
-# Completion
-if (( $+commands[brew] )); then
-	fpath=("`brew --prefix`/share/zsh/site-functions" $fpath)
-fi
 
 # Functions and Aliases
 [ -f ~/.functions.sh ] && . ~/.functions.sh
