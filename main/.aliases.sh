@@ -20,12 +20,12 @@ alias e='nvim'
 alias sw='telnet towel.blinkenlights.nl'
 
 # Tree
-alias ta='eza --color=always --icons=always --tree'
+alias ta='eza --color=always --icons=always --tree --follow-symlinks'
 alias t='ta --level 3'
 alias tree='t'
-alias tla='eza --color=always --icons=always --tree --long --git --total-size'
+alias tla='eza --color=always --icons=always --tree --long --git --total-size --follow-symlinks'
 alias tl='tla --level 3'
-alias tda='eza --color=always --icons=always --tree --no-permissions --no-user --no-time --git --long --total-size -D'
+alias tda='eza --color=always --icons=always --tree --no-permissions --no-user --no-time --git --long --total-size -D --follow-symlinks'
 alias td='tda --level 3'
 alias td1='tda --level 1'
 
