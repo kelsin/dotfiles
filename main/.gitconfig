@@ -55,10 +55,13 @@
   precomposeunicode = true
 [interactive]
   diffFilter = delta --color-only
+[include]
+  path = .config/catppuccin.gitconfig
 [delta]
-  navigate = true
   dark = true
+  features = catppuccin-mocha
   line-numbers = true
+  navigate = true
 [github]
   user = kelsin
 [user]
