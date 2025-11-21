@@ -54,6 +54,9 @@ export KUBECONFIG="$HOME/.kube/config"
 # Dev Helpers
 export PORT=3000
 
+# Bat
+export BAT_THEME="Catppuccin Mocha"
+
 # Silent direnv
 export DIRENV_LOG_FORMAT=
 
