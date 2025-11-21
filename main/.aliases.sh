@@ -2,22 +2,31 @@
 alias _='sudo'
 alias please='sudo'
 
-# Conda
-alias ca='conda activate'
-alias mm='micromamba'
-alias mma='micromamba activate'
-
-# Update bin
+# Update
 alias up='update'
 
-# No Vi
+# Whats My IP
+alias wmi='dig +short myip.opendns.com @resolver1.opendns.com'
+
+# Gource
+alias gitvid='gource --user-image-dir ~/src/avatars --key --highlight-all-users --hide filenames --seconds-per-day 0.1 --auto-skip-seconds 1 -1280x720 -o - | ffmpeg -y -r 60 -f image2pipe -vcodec ppm -i - -vcodec libvpx -b:v 10000K'
+
+# Proxy
+alias proxy='sudo npx local-ssl-proxy --source 443 --target $PORT'
+
+# Mac
+alias o='open'
+alias pbc='pbcopy'
+alias pbp='pbpaste'
+
+# File Download
+alias get='curl --continue-at - --location --progress-bar --remote-name --remote-time'
+
+# Neovim
 alias v='nvim'
 alias vi='nvim'
 alias vim='nvim'
 alias e='nvim'
-
-# StarWars
-alias sw='telnet towel.blinkenlights.nl'
 
 # Tree
 alias ta='eza --color=always --icons=always --tree --follow-symlinks'
@@ -40,33 +49,12 @@ alias ls="eza --git --color=always --icons=always"
 alias la="ls --long"
 alias lah="ls --long --total-size"
 
-# Docker
-alias dr='docker run -it --rm'
-alias dcl='docker system prune -f -a && docker volume prune -f -a'
-
-# Whats My IP
-alias wmi='dig +short myip.opendns.com @resolver1.opendns.com'
-
-# Gource
-alias gitvid='gource --user-image-dir ~/src/avatars --key --highlight-all-users --hide filenames --seconds-per-day 0.1 --auto-skip-seconds 1 -1280x720 -o - | ffmpeg -y -r 60 -f image2pipe -vcodec ppm -i - -vcodec libvpx -b:v 10000K'
-
-# Proxy
-alias proxy='sudo npx local-ssl-proxy --source 443 --target $PORT'
-
-# Mac
-alias o='open'
-alias pbc='pbcopy'
-alias pbp='pbpaste'
-
-# File Download
-alias get='curl --continue-at - --location --progress-bar --remote-name --remote-time'
-
 # Resource Usage
 alias df='df -kh'
 alias du='du -kh'
 
-# Use HTop
-alias top=htop
+# Use Bottom
+alias top=btm
 
 # Git
 alias gitk='gitk --all &'
@@ -100,6 +88,8 @@ alias ppw='pino-pretty --colorize --translateTime "yyyy-mm-dd HH:MM:ss.l" -s "le
 # Docker
 alias d='docker'
 alias dc='docker-compose'
+alias dr='docker run -it --rm'
+alias dcl='docker system prune -f -a && docker volume prune -f -a'
 alias ecrl='$(aws ecr get-login --no-include-email)'
 
 # Grep Colors
@@ -123,9 +113,6 @@ alias bubo='brew update && brew outdated'
 alias bubc='brew upgrade && brew cleanup'
 alias bubu='bubo && bubc'
 alias brewski='brew update && brew upgrade && brew cleanup; brew doctor'
-
-# Emacs
-alias pemacs='emacs -Q -l ~/.emacs.d/profile-dotemacs.el --eval "(setq profile-dotemacs-file (setq load-file-name \"~/.emacs.d/init.el\"))" -f profile-dotemacs'
 
 # Ember
 alias em='ember'
@@ -157,9 +144,6 @@ alias nrd='npm run dev'
 alias nird='ni && nrd'
 alias cov='open coverage/lcov-report/index.html'
 
-# Tmux
-alias mux=tmuxinator
-
 # Github CLI
 alias ghr="gh pr list --json labels,number | jq '.[] | select(.labels[].name==\"release: pending\") | .number'"
 alias ghvr='gh pr view $(ghr) -w'
@@ -167,6 +151,7 @@ alias ghcr='gh pr checks $(ghr) --required'
 alias ghmr='gh pr merge $(ghr) --auto --squash --delete-branch'
 alias ghc='gh pr create --fill'
 alias ghcm='git push && gh pr create --fill && gh pr merge --auto --squash --delete-branch'
+alias dash='gh dash'
 
 # 18xx Maker
 alias maker='pnpm --silent maker'
