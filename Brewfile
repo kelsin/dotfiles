@@ -12,6 +12,7 @@ brew 'asciinema'
 brew 'awscli'
 brew 'bat'
 brew 'borders'
+brew 'btop'
 brew 'cask'
 brew 'cmake'
 brew 'coreutils'
@@ -78,4 +79,5 @@ cask 'spotify'
 
 # Fonts
 cask 'font-hack-nerd-font'
+cask 'font-jetbrains-mono-nerd-font'
 cask 'font-sauce-code-pro-nerd-font'
