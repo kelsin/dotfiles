@@ -64,6 +64,17 @@ vim.opt.splitbelow = true
 -- No automatic comment insertion
 vim.cmd([[autocmd FileType * set formatoptions-=ro]])
 
+-- Highlight when yanking (copying) text
+--  Try it with `yap` in normal mode
+--  See `:help vim.hl.on_yank()`
+vim.api.nvim_create_autocmd("TextYankPost", {
+    desc = "Highlight when yanking (copying) text",
+    group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
+    callback = function()
+        vim.hl.on_yank()
+    end,
+})
+
 -- Autoread
 vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
     command = "if mode() != 'c' | checktime | endif",
