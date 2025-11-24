@@ -19,6 +19,7 @@ vim.opt.listchars = { eol = "", tab = "» ", trail = "·", nbsp = "␣" }
 
 vim.opt.cursorline = true
 vim.opt.inccommand = "split"
+vim.opt.wrap = false
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.scrolloff = 10

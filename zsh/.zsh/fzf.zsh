@@ -28,8 +28,4 @@ function _fzf_compgen_dir() {
 
 if (($+commands[fzf])); then
   eval "$(fzf --zsh)"
-
-  git-ensure "$HOME/src/fzf-git.sh" "git@github.com:junegunn/fzf-git.sh.git"
-
-  . ~/src/fzf-git.sh/fzf-git.sh
 fi

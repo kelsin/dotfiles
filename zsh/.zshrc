@@ -1,3 +1,5 @@
+# zmodload zsh/zprof
+
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 [ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
 [ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
@@ -7,7 +9,11 @@ source "${ZINIT_HOME}/zinit.zsh"
 bindkey -e
 
 # Plugins
+zinit ice lucid wait
 zinit light zdharma-continuum/fast-syntax-highlighting
+
+zinit ice lucid wait
+zinit light junegunn/fzf-git.sh
 
 # Bash style word jumping
 autoload -U select-word-style
@@ -30,3 +36,5 @@ done
 if (($+commands[starship])); then
   eval "$(starship init zsh)"
 fi
+
+# zprof

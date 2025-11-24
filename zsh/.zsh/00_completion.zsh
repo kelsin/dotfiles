@@ -9,15 +9,11 @@ unsetopt MENU_COMPLETE      # Do not autoselect the first completion entry.
 unsetopt FLOW_CONTROL       # Disable start/stop characters in shell editor.
 
 autoload -Uz compinit
-_comp_path="${XDG_CACHE_HOME:-$HOME/.cache}/zcompdump"
-if [[ $_comp_path(#qNmh-20) ]]; then
-  compinit -C -d "$_comp_path"
+if [ $(date +'%j') != $(stat -f '%Sm' -t '%j' ~/.zcompdump) ]; then
+  compinit
 else
-  mkdir -p "$_comp_path:h"
-  compinit -i -d "$_comp_path"
-  touch "$_comp_path"
+  compinit -C
 fi
-unset _comp_path
 
 # Defaults.
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}

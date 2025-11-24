@@ -1,0 +1,9 @@
+#!/usr/bin/env zsh
+
+# Load
+. $DOTFILES/rust/.zsh/rust.zsh
+
+echo Updating rustup
+rustup update
+
+echo Done updating rust
