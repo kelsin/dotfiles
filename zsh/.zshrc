@@ -25,6 +25,7 @@ WORDCHARS=${WORDCHARS//[-_]}
 [ -f ~/.aliases.sh ] && . ~/.aliases.sh
 
 # Load my local plugins
+
 for script in ~/.zsh/**/*.zsh; do
   . $script
 done
@@ -36,5 +37,10 @@ done
 if (($+commands[starship])); then
   eval "$(starship init zsh)"
 fi
+
+# Oh My Posh
+# if [ "${TERM_PROGRAM}" != "Apple_Terminal" ]; then
+#   eval "$(oh-my-posh init zsh)"
+# fi
 
 # zprof
