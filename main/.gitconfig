@@ -38,6 +38,7 @@
   subrm = submodule deinit
   upstream = !git fetch upstream && git checkout main && git merge upstream/main && git push
   users = shortlog -sne
+  w = worktree
 [status]
   relativePaths = false
 [merge]

@@ -1,0 +1,8 @@
+directories:
+  - ~/src
+profiles:
+  ai:
+    windows:
+      - name: claude
+        commands:
+          - claude

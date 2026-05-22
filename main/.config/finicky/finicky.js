@@ -6,16 +6,7 @@ export default {
     options: {
         checkForUpdates: true,
     },
-    rewrite: [
-        {
-            // Redirect all x.com urls to use xcancel.com
-            match: "x.com/*",
-            url: (url) => {
-                url.host = "xcancel.com";
-                return url;
-            },
-        },
-    ],
+    rewrite: [],
     handlers: [
         {
             match: (url) => url.protocol === "slack:",
@@ -60,6 +51,13 @@ export default {
             browser: {
                 name: "Google Chrome",
                 profile: "Fivetran",
+            },
+        },
+        {
+            match: /quack/i,
+            browser: {
+                name: "Google Chrome",
+                profile: "Work",
             },
         },
         {

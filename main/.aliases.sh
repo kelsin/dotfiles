@@ -77,6 +77,10 @@ alias kn='kubens'
 alias ke='k exec -it'
 alias k9m='k9s --context minikube'
 
+# Helmfile
+alias hf='helmfile'
+alias hi='helmfile --interactive'
+
 # Terraform
 alias tf='terraform'
 
