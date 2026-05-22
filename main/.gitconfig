@@ -21,10 +21,10 @@
   dm = !git branch --merged | egrep -v \"(^\\*|master|dev)\" | xargs git branch -d
   enable-hooks = config --unset core.hooksPath
   fr = restore -W -S
-  l = log --graph --decorate --oneline
-  la = log --graph --decorate --oneline --all
-  ls = log --graph --decorate --oneline --stat
-  lsa = log --graph --decorate --oneline --stat --all
+  l = log --graph --decorate --oneline --no-notes --grep=\"Notes added by\" --invert-grep
+  la = log --graph --decorate --oneline --all --no-notes --grep=\"Notes added by\" --invert-grep
+  ls = log --graph --decorate --oneline --stat --no-notes --grep=\"Notes added by\" --invert-grep
+  lsa = log --graph --decorate --oneline --stat --all --no-notes --grep=\"Notes added by\" --invert-grep
   marked-unchanged = !git ls-files -v | grep ^[a-z]
   mu = !git ls-files -v | grep ^[a-z]
   oc = checkout
