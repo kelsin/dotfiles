@@ -110,227 +110,228 @@
 ** Generic Settings
 
 #+begin_src emacs-lisp :tangle ./init.el
-;;; Generic Settings
+  ;;; Generic Settings
 
-;; Custom File
-(setq custom-file "~/.emacs.d/custom.el")
-(load custom-file)
+  ;; Custom File
+  (setq custom-file "~/.emacs.d/custom.el")
+  (if (file-exists-p custom-file)
+      (load custom-file))
 
-(setenv "LC_ALL" "en_US.UTF-8")
-(setenv "LANG" "en_US.UTF-8")
+  (setenv "LC_ALL" "en_US.UTF-8")
+  (setenv "LANG" "en_US.UTF-8")
 
-;; Splash screen
-(setq inhibit-splash-screen t)
+  ;; Splash screen
+  (setq inhibit-splash-screen t)
 
-;; Not needed
-(setopt display-time-default-load-average nil)
+  ;; Not needed
+  (setopt display-time-default-load-average nil)
 
-;; Disable file dialogs
-(setq use-file-dialog nil)
+  ;; Disable file dialogs
+  (setq use-file-dialog nil)
 
-;; Smooth Scrolling
-(pixel-scroll-precision-mode)
+  ;; Smooth Scrolling
+  (pixel-scroll-precision-mode)
 
-;; UTF-8
-(prefer-coding-system 'utf-8)
-(set-default-coding-systems 'utf-8)
-(set-terminal-coding-system 'utf-8)
-(set-keyboard-coding-system 'utf-8)
-(setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
+  ;; UTF-8
+  (prefer-coding-system 'utf-8)
+  (set-default-coding-systems 'utf-8)
+  (set-terminal-coding-system 'utf-8)
+  (set-keyboard-coding-system 'utf-8)
+  (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
 
-;; Mac Settings
-(if (and
-     (eq system-type 'darwin)
-     (featurep 'ns))
-    (setq ns-alternate-modifier 'super
-	  ns-command-modifier 'meta
-	  ns-extended-platform-support-mode t
-	  ns-pop-up-frames nil
-	  ns-use-qd-smoothing nil))
+  ;; Mac Settings
+  (if (and
+       (eq system-type 'darwin)
+       (featurep 'ns))
+      (setq ns-alternate-modifier 'super
+  	  ns-command-modifier 'meta
+  	  ns-extended-platform-support-mode t
+  	  ns-pop-up-frames nil
+  	  ns-use-qd-smoothing nil))
 
-;; Case Fold Search
-(setq case-fold-search t)
-(setq tags-case-fold-search t)
+  ;; Case Fold Search
+  (setq case-fold-search t)
+  (setq tags-case-fold-search t)
 
-;; Enable special commands
-(put 'set-goal-column 'disabled nil)
-(put 'narrow-to-region 'disabled nil)
-(put 'narrow-to-page 'disabled nil)
-(put 'downcase-region 'disabled nil)
-(put 'upcase-region 'disabled nil)
-(put 'dired-find-alternate-file 'disabled nil)
+  ;; Enable special commands
+  (put 'set-goal-column 'disabled nil)
+  (put 'narrow-to-region 'disabled nil)
+  (put 'narrow-to-page 'disabled nil)
+  (put 'downcase-region 'disabled nil)
+  (put 'upcase-region 'disabled nil)
+  (put 'dired-find-alternate-file 'disabled nil)
 
-;; Line numbers
-(setq-default display-line-numbers-type 'relative
-              display-line-numbers-current-absolute t
-              display-line-numbers-width 4
-              display-line-numbers-widen t)
-(add-hook 'prog-mode-hook #'display-line-numbers-mode)
+  ;; Line numbers
+  (setq-default display-line-numbers-type 'relative
+                display-line-numbers-current-absolute t
+                display-line-numbers-width 4
+                display-line-numbers-widen t)
+  (add-hook 'prog-mode-hook #'display-line-numbers-mode)
 
-;; Yellow bar cursor
-(add-to-list 'default-frame-alist '(cursor-type . bar))
-(add-to-list 'initial-frame-alist '(cursor-type . bar))
-(set-cursor-color "yellow")
+  ;; Yellow bar cursor
+  (add-to-list 'default-frame-alist '(cursor-type . bar))
+  (add-to-list 'initial-frame-alist '(cursor-type . bar))
+  (set-cursor-color "yellow")
 
-;; Ansi colors for compilation output
-(require 'ansi-color)
-(defun colorize-compilation-buffer ()
-  (ansi-color-apply-on-region compilation-filter-start (point)))
-(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+  ;; Ansi colors for compilation output
+  (require 'ansi-color)
+  (defun colorize-compilation-buffer ()
+    (ansi-color-apply-on-region compilation-filter-start (point)))
+  (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
-;; Ansi colors in shell mode
-(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+  ;; Ansi colors in shell mode
+  (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
-;; Don't warn me about loading large files (TAGS files)
-(setq large-file-warning-threshold nil)
+  ;; Don't warn me about loading large files (TAGS files)
+  (setq large-file-warning-threshold nil)
 
-;; Never use dialog windows
-(setq use-dialog-box nil)
+  ;; Never use dialog windows
+  (setq use-dialog-box nil)
 
-;; Set Shell to bash
-(setq shell-file-name "/bin/bash")
+  ;; Set Shell to bash
+  (setq shell-file-name "/bin/bash")
 
-(defun kelsin/add-to-path (item)
-  "Add an item to both the PATH environment variable and the emacs exec-path variable"
-  (interactive)
-  (setenv "PATH" (concat (expand-file-name item) ":" (getenv "PATH")))
-  (setq exec-path (split-string (getenv "PATH") path-separator)))
-(kelsin/add-to-path "~/.nodenv/shims")
-(kelsin/add-to-path "~/.rbenv/shims")
-(kelsin/add-to-path "~/.pyenv/shims")
-(kelsin/add-to-path "/usr/local/bin")
-(kelsin/add-to-path "/opt/homebrew/bin")
+  (defun kelsin/add-to-path (item)
+    "Add an item to both the PATH environment variable and the emacs exec-path variable"
+    (interactive)
+    (setenv "PATH" (concat (expand-file-name item) ":" (getenv "PATH")))
+    (setq exec-path (split-string (getenv "PATH") path-separator)))
+  (kelsin/add-to-path "~/.nodenv/shims")
+  (kelsin/add-to-path "~/.rbenv/shims")
+  (kelsin/add-to-path "~/.pyenv/shims")
+  (kelsin/add-to-path "/usr/local/bin")
+  (kelsin/add-to-path "/opt/homebrew/bin")
 
-;; Add a lisp folder and my functions package to the load path
-(add-to-list 'load-path "~/.emacs.d/lisp/")
-(add-to-list 'load-path "~/.emacs.d/kelsin/")
+  ;; Add a lisp folder and my functions package to the load path
+  (add-to-list 'load-path "~/.emacs.d/lisp/")
+  (add-to-list 'load-path "~/.emacs.d/kelsin/")
 
-;; Don't prompt for compile commands and auto jump to first error
-(setq compilation-read-command nil)
-(setq compilation-auto-jump-to-first-error 't)
-(setq compilation-scroll-output 'first-error)
-(setq compilation-window-height 10)
+  ;; Don't prompt for compile commands and auto jump to first error
+  (setq compilation-read-command nil)
+  (setq compilation-auto-jump-to-first-error 't)
+  (setq compilation-scroll-output 'first-error)
+  (setq compilation-window-height 10)
 
-;; Turn on column and line numbers in the mode line
-(setq column-number-mode t)
-(setq line-number-mode t)
+  ;; Turn on column and line numbers in the mode line
+  (setq column-number-mode t)
+  (setq line-number-mode t)
 
-;; Don't bother having to type yes ever
-(fset 'yes-or-no-p 'y-or-n-p)
+  ;; Don't bother having to type yes ever
+  (fset 'yes-or-no-p 'y-or-n-p)
 
-;; Truncate instead of wrapping lines
-(set-default 'truncate-lines t)
-(setq truncate-partial-width-windows 't)
+  ;; Truncate instead of wrapping lines
+  (set-default 'truncate-lines t)
+  (setq truncate-partial-width-windows 't)
 
-;; Highlight where the marked region is
-(setq transient-mark-mode t)
+  ;; Highlight where the marked region is
+  (setq transient-mark-mode t)
 
-;; Fill test to 80 columns
-(set-default 'fill-column 80)
+  ;; Fill test to 80 columns
+  (set-default 'fill-column 80)
 
-;; Auto load compressed files correctly
-(auto-compression-mode 1)
+  ;; Auto load compressed files correctly
+  (auto-compression-mode 1)
 
-;; No annoying beep or flashes
-(setq ring-bell-function 'ignore)
+  ;; No annoying beep or flashes
+  (setq ring-bell-function 'ignore)
 
-;; Scrolling
-(setq
- scroll-margin 1
- scroll-step 1
- scroll-conservatively 10000
- scroll-preserve-screen-position 1)
-(setq mouse-wheel-follow-mouse 't)
-(setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
+  ;; Scrolling
+  (setq
+   scroll-margin 1
+   scroll-step 1
+   scroll-conservatively 10000
+   scroll-preserve-screen-position 1)
+  (setq mouse-wheel-follow-mouse 't)
+  (setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
 
-;; Enable recursive minibuffers
-(setq enable-recursive-minibuffers t)
+  ;; Enable recursive minibuffers
+  (setq enable-recursive-minibuffers t)
 
-;; Hide commands in M-x which do not work in the current mode
-(setq read-extended-command-predicate #'command-completion-default-include-p)
+  ;; Hide commands in M-x which do not work in the current mode
+  (setq read-extended-command-predicate #'command-completion-default-include-p)
 
-;; Expiration Date of Buffers
-(setq clean-buffer-list-delay-general 1)
+  ;; Expiration Date of Buffers
+  (setq clean-buffer-list-delay-general 1)
 
-;; Diminish Mode
-(use-package diminish)
+  ;; Diminish Mode
+  (use-package diminish)
 
-;; Saving place in buffers
-(use-package saveplace
-  :config
-  (save-place-mode 1))
+  ;; Saving place in buffers
+  (use-package saveplace
+    :config
+    (save-place-mode 1))
 
-;; Clean up startup and splash screen
-(setq
- inhibit-splash-screen t
- inhibit-startup-echo-area-message t
- inhibit-startup-message t
- initial-scratch-message nil)
+  ;; Clean up startup and splash screen
+  (setq
+   inhibit-splash-screen t
+   inhibit-startup-echo-area-message t
+   inhibit-startup-message t
+   initial-scratch-message nil)
 
-;; No backup files
-(setq make-backup-files nil)
+  ;; No backup files
+  (setq make-backup-files nil)
 
-;; Set paren style
-(show-paren-mode t)
-(setq show-paren-style 'parenthesis)
+  ;; Set paren style
+  (show-paren-mode t)
+  (setq show-paren-style 'parenthesis)
 
-;; Reindent then newline and indent
-(global-set-key (kbd "M-RET") 'reindent-then-newline-and-indent)
+  ;; Reindent then newline and indent
+  (global-set-key (kbd "M-RET") 'reindent-then-newline-and-indent)
 
-;; No suspend in terminal
-(global-unset-key (kbd "C-z"))
+  ;; No suspend in terminal
+  (global-unset-key (kbd "C-z"))
 
-;; Set preferred code/tab style
-(setq
- c-basic-offset 4
- c-offsets-alist '((substatement-open . 0)
-		   (brace-list-open . 0)
-		   (member-init-cont . 0)
-		   (arglist-intro . +)
-		   (arglist-close . 0)
-		   (inlambda . 0)
-		   (case-label . +)
-		   (statement-case-open . 0))
- css-indent-offset 4
- mail-indentation-spaces 4
- ruby-indent-level 4
- sh-basic-offset 4
- tab-width 4
- lisp-backquote-indentation nil
- indent-tabs-mode nil)
-(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+  ;; Set preferred code/tab style
+  (setq
+   c-basic-offset 4
+   c-offsets-alist '((substatement-open . 0)
+  		   (brace-list-open . 0)
+  		   (member-init-cont . 0)
+  		   (arglist-intro . +)
+  		   (arglist-close . 0)
+  		   (inlambda . 0)
+  		   (case-label . +)
+  		   (statement-case-open . 0))
+   css-indent-offset 4
+   mail-indentation-spaces 4
+   ruby-indent-level 4
+   sh-basic-offset 4
+   tab-width 4
+   lisp-backquote-indentation nil
+   indent-tabs-mode nil)
+  (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
-;; Visible Bell
-(setq visible-bell t)
+  ;; Visible Bell
+  (setq visible-bell t)
 
-;; Default to better frame titles
-(setq frame-title-format
-      (concat  "%b - emacs@" (system-name)))
+  ;; Default to better frame titles
+  (setq frame-title-format
+        (concat  "%b - emacs@" (system-name)))
 
-;; Default to unified diffs
-(setq diff-switches "-u")
+  ;; Default to unified diffs
+  (setq diff-switches "-u")
 
-;; Make files with #! at the beginning executable on save
-(add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
+  ;; Make files with #! at the beginning executable on save
+  (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
-;; WDired
-(setq wdired-allow-to-change-permissions 't)
+  ;; WDired
+  (setq wdired-allow-to-change-permissions 't)
 
-;; Disable VC
-(setq vc-handled-backends nil)
+  ;; Disable VC
+  (setq vc-handled-backends nil)
 
-;; Don't auto save
-(setq auto-save-default nil)
-(setq create-lockfiles nil)
+  ;; Don't auto save
+  (setq auto-save-default nil)
+  (setq create-lockfiles nil)
 
-;; Dired human readable
-(setq dired-listing-switches "-alh")
+  ;; Dired human readable
+  (setq dired-listing-switches "-alh")
 
-;; Backup files into temp
-(setq backup-directory-alist
-      `((".*" . ,temporary-file-directory)))
-(setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
+  ;; Backup files into temp
+  (setq backup-directory-alist
+        `((".*" . ,temporary-file-directory)))
+  (setq auto-save-file-name-transforms
+        `((".*" ,temporary-file-directory t)))
 #+end_src
 
 ** Theme and Font

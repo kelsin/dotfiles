@@ -99,3 +99,5 @@
   path = .gitconfig.airbnb
 [feature]
   manyFiles = true
+[checkout]
+  workers = 4
