@@ -1,11 +1,9 @@
-tap 'derailed/k9s'
-tap 'FelixKratz/formulae'
-tap 'jandedobbeleer/oh-my-posh'
-tap 'jimeh/emacs-builds'
-tap 'nikitabobko/tap'
-tap 'pantsbuild/tap'
-tap 'pulumi/tap'
-tap 'zdcthomas/tools'
+tap 'derailed/k9s', trusted: true
+tap 'FelixKratz/formulae', trusted: true
+tap 'jandedobbeleer/oh-my-posh', trusted: true
+tap 'jimeh/emacs-builds', trusted: true
+tap 'nikitabobko/tap', trusted: true
+tap 'zdcthomas/tools', trusted: true
 
 brew '7zip'
 brew 'agg'
@@ -49,7 +47,6 @@ brew 'openssl'
 brew 'patchutils'
 brew 'pkg-config'
 brew 'pnpm'
-brew 'pulumi'
 brew 'rcm'
 brew 'reattach-to-user-namespace'
 brew 'ripgrep'
@@ -78,7 +75,6 @@ cask 'ghostty'
 cask 'mactex'
 cask 'ngrok'
 cask 'notion'
-cask 'pants'
 cask 'slack'
 cask 'spotify'
 

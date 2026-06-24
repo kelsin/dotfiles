@@ -54,6 +54,7 @@
   autocrlf = input
   pager = delta
   precomposeunicode = true
+  fsmonitor = true
 [interactive]
   diffFilter = delta --color-only
 [include]
@@ -94,3 +95,7 @@
   gpgsign = true
 [includeIf "gitdir:~/src/tobiko/"]
   path = .gitconfig.tobiko
+[includeIf "gitdir:~/src/airbnb/"]
+  path = .gitconfig.airbnb
+[feature]
+  manyFiles = true
