@@ -39,7 +39,7 @@ alias td='tda --level 3'
 alias td1='tda --level 1'
 
 # Zoxide
-alias cd='z'
+[ -z "$CLAUDECODE" ] && alias cd='z'
 
 # Bat
 alias cat='bat'
