@@ -1,7 +1,7 @@
 ---
 name: cleanup-branch
-description: This skill should be used when the user asks to "clean up this branch", "clean up my branch", "delete this branch", "I'm done with this PR", or otherwise wants the local branch for a PR removed once that PR is closed/merged, followed by checking out the default branch and pulling the latest changes. Only deletes the LOCAL branch — never touches the remote branch or the PR itself.
-version: 0.1.0
+description: This skill should be used when the user asks to "clean up this branch", "clean up my branch", "delete this branch", "I'm done with this PR", "I'm done with this", "that's done" / "that wraps this up" / "all set here" (said about the current branch/PR work), or otherwise wants the local branch for a PR removed once that PR is closed/merged, followed by checking out the default branch and pulling the latest changes. Only deletes the LOCAL branch — never touches the remote branch or the PR itself.
+version: 0.2.0
 ---
 
 # Clean Up Branch
@@ -57,6 +57,10 @@ Only fall back to the manual steps below if a script is missing or its `STATUS=E
 ## Step 3: Pull latest
 
 1. `git pull` on the now-checked-out default branch to bring in the latest remote changes (including whatever landed from the just-cleaned-up PR).
+
+## Step 4: Prompt to clear context
+
+1. Once cleanup succeeds (`STATUS=OK`), tell the user the branch is cleaned up and the default branch is current, then suggest running `/clear` before starting new work. This is a suggestion only — there is no hook or tool by which the agent can clear its own context; only the user typing `/clear` actually does it. Do not claim to have cleared context or imply it happened automatically.
 
 ## Notes
 
