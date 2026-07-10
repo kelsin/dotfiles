@@ -1,6 +1,6 @@
 ---
 name: create-pr
-description: This skill should be used when the user asks to "open a PR", "create a PR for this", "open a pull request for this", "update the PR", "sync the PR description", or otherwise wants a pull request opened, reused, or refreshed with new pushed commits for the current branch, which must already be pushed to the remote. Also used internally by the ship-it skill as its third step.
+description: This skill should be used when the user asks to "open a PR", "create a PR for this", "open a pull request for this", "update the PR", "sync the PR description", or otherwise wants a pull request opened, reused, or refreshed with new pushed commits for the current branch, which must already be pushed to the remote. Also used internally by the ship-it skill as its fourth step.
 version: 0.2.0
 ---
 
