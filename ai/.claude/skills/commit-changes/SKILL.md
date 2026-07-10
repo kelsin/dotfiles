@@ -8,6 +8,25 @@ version: 0.1.0
 
 Run pre-flight checks, ensure a suitable branch, then stage and commit local changes. Do not pause for confirmation between steps unless genuinely blocked (e.g. pre-flight checks fail, no clean way to proceed).
 
+## Fast path: run the scripts first
+
+Two scripts cover the mechanical parts of this skill; writing the commit message and branch slug from the diff is still the agent's job, so neither script does that.
+
+**`scripts/preflight.sh`** — read-only. Runs the nothing-to-commit check, gh-account lookup, test/lint detection+run, a filename-based secret scan, and default-branch detection in one call instead of 5-8 separate commands. Run it first, always. Read the last output block for a `STATUS=` line:
+
+- `STATUS=OK` — proceed. Facts are in the `KEY=value` lines (`GH_USERNAME`, `DEFAULT_BRANCH`, `CURRENT_BRANCH`, `ON_DEFAULT`, `TEST_COMMAND`, `SECRET_HITS`) plus a diff summary at the bottom — use these instead of running `git diff`/`git status` separately. If `SECRET_HITS` > 0, review the listed files' actual contents (the scan is filename-based only) and decide with the user whether to exclude them.
+- `STATUS=NOTHING` — no changes to commit. Stop and report that.
+- `STATUS=TEST_FAILED` — the detected test/lint command failed; its output is included. Stop and surface it — do not commit broken code.
+- `STATUS=ERROR` — unexpected failure; the `MESSAGE=` line has why. Fall back to the manual steps below.
+
+**`scripts/commit.sh`** — mutating. Takes the branch name (only when `ON_DEFAULT=1`, per Step 2) and any paths to exclude (from the secret scan or user request) as flags, and the finished commit message on stdin. It stages everything except excluded paths and commits — it does not generate the message or slug. Example:
+```bash
+echo "feat(auth): add token refresh" | scripts/commit.sh --branch "$GH_USERNAME/add-token-refresh"
+```
+Read its `STATUS=` line: `OK` (done — report the branch/commit SHA), `HOOK_FAILED` (a commit hook rejected it — surface the output, don't retry with `--no-verify`), or `ERROR`.
+
+Only fall back to the manual steps below if a script is missing or its `STATUS=ERROR`/`HOOK_FAILED` needs manual diagnosis. The steps below remain the authoritative description of the judgment calls (message wording, slug, secret handling) the scripts defer to you.
+
 ## Step 1: Pre-flight
 
 1. Run `git status` to confirm there are staged/unstaged/untracked changes. If there is nothing to commit, stop and report that.

@@ -8,6 +8,29 @@ version: 0.2.0
 
 Open a pull request for the current branch against the repo's default branch. If an open PR already exists, refresh its description to reflect any commits pushed since it was last updated instead of leaving it stale.
 
+## Fast path: run the scripts first
+
+Two scripts cover the mechanical parts of this skill; writing the title, Summary bullets, and Test Plan from the diff is still the agent's job, so neither script does that.
+
+**`scripts/pr-state.sh`** — read-only. Determines the default branch, checks for an existing PR, and (when a description needs to be written or rewritten) gathers the commit log and diff against the default branch — collapsing Step 1, Step 2.1, and the context-gathering in Steps 2/3 into one call. Run it first, always. Read the last output block for a `STATUS=` line:
+
+- `STATUS=NO_PR` — no open PR exists (none found, or the existing one is `MERGED`/`CLOSED`). Go to Step 3; the commit log and diff are already printed below the status.
+- `STATUS=OPEN_CURRENT` — an open PR exists and already matches local `HEAD`. Report `PR_URL` and stop — do not edit it.
+- `STATUS=OPEN_BEHIND` — an open PR exists but is behind local `HEAD`. Go to Step 2 using the printed `PR_NUMBER`, commit log, and diff.
+- `STATUS=ERROR` — unexpected failure; `MESSAGE=` has why. Fall back to the manual steps below.
+
+**`scripts/pr-write.sh`** — mutating. Takes an already-written title and body and creates or updates the PR — it does not generate content. Usage:
+```bash
+# create
+printf '## Summary\n- ...\n\n## Test Plan\n- [ ] ...\n' | scripts/pr-write.sh create --title "<title>"
+
+# update (title optional — omit to leave it as-is)
+printf '## Summary\n- ...\n' | scripts/pr-write.sh update <pr-number> --title "<title>"
+```
+Read its `STATUS=` line: `OK` (done — `PR_URL` printed, report it) or `ERROR` (`MESSAGE=` plus raw `gh` output).
+
+Only fall back to the manual steps below if a script is missing or its `STATUS=ERROR` needs manual diagnosis. The steps below remain the authoritative description of the judgment calls (title wording, Summary/Test Plan content) the scripts defer to you.
+
 ## Step 1: Determine PR state
 
 1. Check whether a PR already exists for the current branch: `gh pr view --json url,state,number,headRefOid`.

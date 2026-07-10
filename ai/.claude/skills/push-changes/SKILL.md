@@ -8,6 +8,23 @@ version: 0.2.0
 
 Push the current branch to the remote with upstream tracking. Force-push only when the local history was intentionally rewritten (e.g. by the `rebase-branch` skill) — never as a reflexive fix for a rejected push.
 
+## Fast path: run the script first
+
+Run `scripts/push-branch.sh` to do the actual push instead of running `git push` by hand. It determines the default branch, guards against pushing to it unintentionally, runs the push, and classifies the result — collapsing what would otherwise be 2-3 separate commands plus manual stderr-reading into one call. It does **not** decide whether to force-push or push to the default branch; those are judgment calls from Step 1 below that only the agent/user can make, so pass them in as flags:
+
+- Plain push (the default case): `scripts/push-branch.sh`
+- Force-push, only after confirming with the user per Step 1.2: `scripts/push-branch.sh --force`
+- Push to the default branch, only if the user explicitly asked for it: `scripts/push-branch.sh --allow-default` (combine with `--force` if both apply)
+
+Read the last output block for a `STATUS=` line:
+
+- `STATUS=OK` — pushed successfully. Report the branch and whether it was forced.
+- `STATUS=ON_DEFAULT` — current branch is the default branch and `--allow-default` wasn't passed. Confirm with the user before retrying with that flag.
+- `STATUS=REJECTED` — a non-force push was rejected (remote has commits you don't). Per the Notes below, investigate (e.g. `git log origin/<branch> --oneline`) rather than retrying with `--force`.
+- `STATUS=ERROR` — an unexpected git failure; the `MESSAGE=` and git output show why.
+
+Only fall back to running `git push` by hand if the script is missing or `STATUS=ERROR` needs manual diagnosis. Step 1 below is the authoritative description of the judgment calls the script defers to you.
+
 ## Step 1: Push
 
 1. Confirm the current branch is not the repo's default branch (check `git remote show origin | grep 'HEAD branch'` or `gh repo view --json defaultBranchRef`). Pushing directly to the default branch should only happen if the user explicitly asked for that.
