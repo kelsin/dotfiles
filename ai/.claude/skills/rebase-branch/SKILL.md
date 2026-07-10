@@ -20,7 +20,7 @@ Pull the latest remote state into both the current branch and the local default 
 
 1. Fetch both remote-tracking refs in one go: `git fetch origin <default-branch> <current-branch>`.
 2. Update the local default branch to match its remote without checking it out: `git fetch origin <default-branch>:<default-branch>`.
-   - This only succeeds as a fast-forward. If it's rejected, the local default branch has commits the remote doesn't (unusual — likely stray local work on that branch). Stop and surface this to the user rather than forcing it (pop the Step 1.1 stash first, if any).
+   - This only succeeds as a fast-forward. If it's rejected, the local default branch has commits the remote doesn't (unusual — likely stray local work on that branch). The local default branch should always mirror the remote, so force it to match: `git fetch origin +<default-branch>:<default-branch>`. This only rewrites the local default branch ref (never the current branch), so it's safe to do without asking — any stray local commits on the default branch are recoverable via reflog if the user actually wanted them.
 3. Update the current branch to match its remote counterpart, if one exists: `git merge --ff-only origin/<current-branch>`.
    - If the current branch has no upstream (never pushed), there's nothing to fast-forward — skip this.
    - If the ff-only merge fails, the local and remote copies of the current branch have diverged (e.g. someone else pushed to it). Stop and surface this rather than guessing which side is authoritative (pop the Step 1.1 stash first, if any).
