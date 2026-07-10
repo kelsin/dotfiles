@@ -38,3 +38,6 @@ emacs/.emacs.d/url
 
 # XMonad Ignores
 xmonad/.xmonad/*.errors
+
+# AI Ignores
+ai/.claude/agents/global
