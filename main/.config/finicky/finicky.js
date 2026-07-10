@@ -33,24 +33,10 @@ export default {
             browser: "Music",
         },
         {
-            match: /meet\.google\.com/i,
+            match: /globalprotect/i,
             browser: {
                 name: "Google Chrome",
-                profile: "Fivetran",
-            },
-        },
-        {
-            match: /5tran/i,
-            browser: {
-                name: "Google Chrome",
-                profile: "Fivetran",
-            },
-        },
-        {
-            match: /fivetran/i,
-            browser: {
-                name: "Google Chrome",
-                profile: "Fivetran",
+                profile: "Work",
             },
         },
         {

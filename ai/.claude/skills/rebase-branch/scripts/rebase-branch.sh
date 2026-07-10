@@ -88,12 +88,25 @@ fi
 
 if git show-ref --verify --quiet "refs/remotes/origin/$CURRENT_BRANCH"; then
   if ! git merge --ff-only "origin/$CURRENT_BRANCH" >/dev/null 2>&1; then
-    [[ $STASHED -eq 1 ]] && git stash pop >/dev/null 2>&1
-    echo "STATUS=DIVERGED_CURRENT"
-    echo "DEFAULT_BRANCH=$DEFAULT_BRANCH"
-    echo "CURRENT_BRANCH=$CURRENT_BRANCH"
-    echo "STASHED=$STASHED"
-    exit 4
+    # ff-only failed for one of two reasons:
+    #   (a) genuine divergence — someone else pushed new commits to the branch, or
+    #   (b) the branch was already rebased locally and not yet re-pushed, so the
+    #       remote just holds stale copies of our own pre-rebase commits.
+    # Any remote commit NOT already patch-present on HEAD means (a); a clean
+    # result here means (b), which is safe to proceed past (the later
+    # force-push overwrites the stale remote copies).
+    NOVEL="$(git log --cherry-pick --right-only --no-merges --oneline \
+      "HEAD...origin/$CURRENT_BRANCH" 2>/dev/null)"
+    if [[ -n "$NOVEL" ]]; then
+      [[ $STASHED -eq 1 ]] && git stash pop >/dev/null 2>&1
+      echo "STATUS=DIVERGED_CURRENT"
+      echo "DEFAULT_BRANCH=$DEFAULT_BRANCH"
+      echo "CURRENT_BRANCH=$CURRENT_BRANCH"
+      echo "STASHED=$STASHED"
+      echo "--- remote-only commits not present locally ---"
+      echo "$NOVEL"
+      exit 4
+    fi
   fi
 fi
 

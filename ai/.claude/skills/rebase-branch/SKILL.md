@@ -14,7 +14,7 @@ Run `scripts/rebase-branch.sh` before doing any of Steps 1-4 by hand. It perform
 
 - `STATUS=OK` — done. Skip straight to Step 5 (Report) using the commits it already printed.
 - `STATUS=NOOP_DEFAULT` — current branch is the default branch; nothing to do. Report this to the user.
-- `STATUS=DIVERGED_CURRENT` — the current branch has diverged from its remote counterpart (Step 2.3's case). Stop and surface this; don't guess which side is authoritative.
+- `STATUS=DIVERGED_CURRENT` — the current branch has remote-only commits not present locally (Step 2.3's case), printed after the `---` marker. Stop and surface this; don't guess which side is authoritative.
 - `STATUS=REBASE_CONFLICT` — the rebase (Step 3) stopped on a real conflict. The working tree is left mid-rebase with conflict markers; resolve using Step 3's judgment rules, then continue by hand (`git add`, `git rebase --continue`).
 - `STATUS=STASH_CONFLICT` — the rebase succeeded but reapplying the autostash (Step 4) conflicted. Resolve using Step 4's judgment rules.
 - `STATUS=ERROR` — an unexpected git failure; the `MESSAGE=` line has the raw error. Fall back to the manual steps below to diagnose.
@@ -36,7 +36,9 @@ Only fall back to running Steps 1-4 by hand if the script is missing, or `STATUS
    - This only succeeds as a fast-forward. If it's rejected, the local default branch has commits the remote doesn't (unusual — likely stray local work on that branch). The local default branch should always mirror the remote, so force it to match: `git fetch origin +<default-branch>:<default-branch>`. This only rewrites the local default branch ref (never the current branch), so it's safe to do without asking — any stray local commits on the default branch are recoverable via reflog if the user actually wanted them.
 3. Update the current branch to match its remote counterpart, if one exists: `git merge --ff-only origin/<current-branch>`.
    - If the current branch has no upstream (never pushed), there's nothing to fast-forward — skip this.
-   - If the ff-only merge fails, the local and remote copies of the current branch have diverged (e.g. someone else pushed to it). Stop and surface this rather than guessing which side is authoritative (pop the Step 1.1 stash first, if any).
+   - If the ff-only merge fails, that alone isn't proof of a genuine divergence — it also fails when the branch was already rebased locally and not yet re-pushed, which just leaves stale copies of your own pre-rebase commits on the remote (common in this skill's own workflow). Check whether the remote actually has commits not already present locally: `git log --cherry-pick --right-only --no-merges --oneline HEAD...origin/<current-branch>`.
+     - Non-empty output means real remote-only work (e.g. someone else pushed to it). Stop and surface this rather than guessing which side is authoritative (pop the Step 1.1 stash first, if any).
+     - Empty output means the remote only holds stale, already-superseded copies of local commits. Proceed to Step 3 — the eventual force-push (via `push-changes`) overwrites them.
 
 ## Step 3: Rebase
 
