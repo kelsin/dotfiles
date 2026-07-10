@@ -30,7 +30,7 @@ vim.opt.breakindent = true
 vim.opt.mouse = "a"
 vim.opt.swapfile = false
 vim.opt.backup = false
-vim.opt.undodir = os.getenv("HOME") .. "/.config/nvim/undodir"
+vim.opt.undodir = vim.fn.stdpath("state") .. "/undo"
 vim.opt.undofile = true
 
 -- Sync clipboard between OS and Neovim.
