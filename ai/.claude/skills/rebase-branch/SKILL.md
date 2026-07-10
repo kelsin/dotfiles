@@ -59,10 +59,9 @@ Only fall back to running Steps 1-4 by hand if the script is missing, or `STATUS
 ## Step 5: Report
 
 1. Run `git log <default-branch>..HEAD --oneline` to show the user the rebased commits now sitting on top of the default branch.
-2. Note that this rewrote the branch's history, so pushing it now requires `--force-with-lease` — the `push-changes` skill treats a rebase performed earlier in the session as license to do that automatically; no separate confirmation is needed for the force-push itself.
+2. Note that this rewrote the branch's history, so pushing it now requires a plain force push (`git push --force`, per user preference — some repos change too often for `--force-with-lease`'s staleness check to be practical). Because plain `--force` has no built-in check against clobbering someone else's concurrent push, the `push-changes` skill still confirms with the user before force-pushing, even for a rebase performed earlier in the same session.
 
 ## Notes
 
-- Never use plain `--force` anywhere in this flow.
 - Never skip hooks (`--no-verify`) or bypass signing.
 - If uncommitted changes, a diverged branch, or an unresolvable conflict blocks progress, stop and surface the actual state rather than working around it silently.
