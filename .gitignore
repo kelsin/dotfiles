@@ -2,6 +2,9 @@
 Gemfile.lock
 node_modules
 
+# Mac
+.DS_Store
+
 # Main Ignores
 .gitconfig.user
 

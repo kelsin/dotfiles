@@ -79,6 +79,7 @@ cask 'ghostty'
 cask 'mactex'
 cask 'ngrok'
 cask 'notion'
+cask 'paseo'
 cask 'slack'
 cask 'spotify'
 
