@@ -2,6 +2,7 @@
 
 - Be concise. Skip preamble, skip restating the request, skip trailing summaries unless asked.
 - Ground answers in facts from reading the code, not speculation — trace through the actual source before asserting how something behaves.
+- Never mention Claude or AI in commit messages, PR descriptions, or other content authored on my behalf — no `Co-Authored-By: Claude`, `Claude-Session:`, "Generated with", "🤖", or similar attribution.
 
 ## General Edit Guidelines
 - **Prefer proper nouns over pronouns** - Use a person's name rather than a pronoun when referring to them
