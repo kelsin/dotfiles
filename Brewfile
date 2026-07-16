@@ -82,6 +82,7 @@ cask 'notion'
 cask 'paseo'
 cask 'slack'
 cask 'spotify'
+cask 'tailscale-app'
 
 # Fonts
 cask 'font-hack-nerd-font'
