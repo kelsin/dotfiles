@@ -40,6 +40,20 @@ export default {
             },
         },
         {
+            match: /asana/i,
+            browser: {
+                name: "Google Chrome",
+                profile: "Work",
+            },
+        },
+        {
+            match: /air\.bb/i,
+            browser: {
+                name: "Google Chrome",
+                profile: "Work",
+            },
+        },
+        {
             match: /airbnb/i,
             browser: {
                 name: "Google Chrome",

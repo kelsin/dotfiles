@@ -71,7 +71,7 @@ alias nh='DGLAUTH=kelsin:a49Q83A8CrbvEowxTZnn ssh nao'
 alias em='ember'
 
 # Kubectl
-alias k='kubectl'
+alias kl='kubectl'
 alias kc='kubectx'
 alias kn='kubens'
 alias ke='k exec -it'

@@ -47,3 +47,7 @@ function forever {
 function issue {
   gh issue view -w $(git branch --show-current | sed 's/[^0-9]//g')
 }
+
+function sync-roms {
+  python3 <(aws --profile "${ROMS_PROFILE:-roms-readonly}" s3 cp s3://roms.valefor.com/sync-roms.py -) "$@"
+}
