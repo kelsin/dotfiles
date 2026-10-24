@@ -20,6 +20,19 @@
 
 set -uo pipefail
 
+# Non-interactive guards: never wait on a prompt, editor, or pager.
+export GIT_TERMINAL_PROMPT=0 GIT_EDITOR=true GIT_SEQUENCE_EDITOR=true GIT_PAGER=cat PAGER=cat
+export GH_PROMPT_DISABLED=1 GH_PAGER=cat GH_NO_UPDATE_NOTIFIER=1 GH_SPINNER_DISABLED=1
+export GIT_SSH_COMMAND="ssh -o BatchMode=yes -o ConnectTimeout=15"
+
+# to <seconds> <cmd...> — bounded run; exit status 124 means it timed out.
+to() {
+  local secs="$1"; shift
+  if command -v timeout >/dev/null 2>&1; then timeout "$secs" "$@"
+  elif command -v gtimeout >/dev/null 2>&1; then gtimeout "$secs" "$@"
+  else "$@"; fi
+}
+
 die() {
   echo "STATUS=ERROR"
   echo "MESSAGE=$1"
@@ -41,10 +54,11 @@ case "$MODE" in
       esac
     done
     [[ -z "$TITLE" ]] && die "--title is required for create"
+    [[ -t 0 ]] && die "PR body must be piped on stdin"
     BODY="$(cat)"
     [[ -z "$BODY" ]] && die "no PR body provided on stdin"
 
-    OUTPUT="$(gh pr create --title "$TITLE" --body "$BODY" 2>&1)"
+    OUTPUT="$(to 60 gh pr create --title "$TITLE" --body "$BODY" 2>&1 </dev/null)"
     if [[ $? -ne 0 ]]; then
       echo "STATUS=ERROR"
       echo "MESSAGE=gh pr create failed"
@@ -67,13 +81,14 @@ case "$MODE" in
         *) die "unknown argument: $1" ;;
       esac
     done
+    [[ -t 0 ]] && die "PR body must be piped on stdin"
     BODY="$(cat)"
     [[ -z "$BODY" ]] && die "no PR body provided on stdin"
 
     EDIT_ARGS=("$NUMBER" --body "$BODY")
     [[ -n "$TITLE" ]] && EDIT_ARGS+=(--title "$TITLE")
 
-    OUTPUT="$(gh pr edit "${EDIT_ARGS[@]}" 2>&1)"
+    OUTPUT="$(to 60 gh pr edit "${EDIT_ARGS[@]}" 2>&1 </dev/null)"
     if [[ $? -ne 0 ]]; then
       echo "STATUS=ERROR"
       echo "MESSAGE=gh pr edit failed"

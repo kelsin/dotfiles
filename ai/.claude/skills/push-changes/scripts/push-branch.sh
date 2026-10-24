@@ -10,10 +10,9 @@
 # Usage:
 #   push-branch.sh [--force] [--allow-default]
 #
-#   --force          Force-push (git push --force). Only pass this after
-#                     confirming with the user, per the skill's Step 1.2 —
-#                     plain --force has no built-in check against clobbering
-#                     a concurrent remote update, unlike --force-with-lease.
+#   --force          Force-push (git push --force-with-lease). Only pass this
+#                     after the skill's Step 1.2 judgment (confirm with the
+#                     user when run standalone; ship-it skips the prompt).
 #   --allow-default  Allow pushing when the current branch IS the repo's
 #                     default branch. Only pass this if the user explicitly
 #                     asked for that; otherwise the script stops rather than
@@ -32,6 +31,28 @@
 # judgment calls stay with the agent/user, per the skill's rules.
 
 set -uo pipefail
+
+# Non-interactive guards: never wait on a prompt, editor, or pager.
+export GIT_TERMINAL_PROMPT=0 GIT_EDITOR=true GIT_SEQUENCE_EDITOR=true GIT_PAGER=cat PAGER=cat
+export GH_PROMPT_DISABLED=1 GH_PAGER=cat GH_NO_UPDATE_NOTIFIER=1 GH_SPINNER_DISABLED=1
+export GIT_SSH_COMMAND="ssh -o BatchMode=yes -o ConnectTimeout=15"
+
+# to <seconds> <cmd...> — bounded run; exit status 124 means it timed out.
+to() {
+  local secs="$1"; shift
+  if command -v timeout >/dev/null 2>&1; then timeout "$secs" "$@"
+  elif command -v gtimeout >/dev/null 2>&1; then gtimeout "$secs" "$@"
+  else "$@"; fi
+}
+
+# Local lookup first; `git remote show` hits the network, so it's only a fallback.
+default_branch() {
+  local b
+  b="$(git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null | sed 's#^origin/##')"
+  [[ -z "$b" ]] && b="$(to 20 git remote show origin 2>/dev/null </dev/null | sed -n 's/.*HEAD branch: //p')"
+  [[ -z "$b" ]] && b="$(to 20 gh repo view --json defaultBranchRef -q .defaultBranchRef.name 2>/dev/null </dev/null || true)"
+  printf '%s' "$b"
+}
 
 FORCE=0
 ALLOW_DEFAULT=0
@@ -55,10 +76,7 @@ die() {
 command -v git >/dev/null || die "git not found"
 git rev-parse --is-inside-work-tree >/dev/null 2>&1 || die "not inside a git repository"
 
-DEFAULT_BRANCH="$(git remote show origin 2>/dev/null | sed -n 's/.*HEAD branch: //p')"
-if [[ -z "$DEFAULT_BRANCH" ]]; then
-  DEFAULT_BRANCH="$(gh repo view --json defaultBranchRef -q .defaultBranchRef.name 2>/dev/null || true)"
-fi
+DEFAULT_BRANCH="$(default_branch)"
 [[ -z "$DEFAULT_BRANCH" ]] && die "could not determine default branch"
 
 CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
@@ -70,10 +88,19 @@ if [[ "$CURRENT_BRANCH" == "$DEFAULT_BRANCH" && $ALLOW_DEFAULT -eq 0 ]]; then
 fi
 
 PUSH_ARGS=(-u origin "$CURRENT_BRANCH")
-[[ $FORCE -eq 1 ]] && PUSH_ARGS=(--force "${PUSH_ARGS[@]}")
+[[ $FORCE -eq 1 ]] && PUSH_ARGS=(--force-with-lease "${PUSH_ARGS[@]}")
 
-if ! git push "${PUSH_ARGS[@]}" >"$ERRFILE" 2>&1; then
+to 180 git push "${PUSH_ARGS[@]}" </dev/null >"$ERRFILE" 2>&1
+PUSH_RC=$?
+if [[ $PUSH_RC -ne 0 ]]; then
   OUTPUT="$(cat "$ERRFILE")"
+  if [[ $PUSH_RC -eq 124 ]]; then
+    echo "STATUS=ERROR"
+    echo "MESSAGE=push timed out after 180s — pre-push hook, SSH approval, or network"
+    echo "--- git output ---"
+    echo "$OUTPUT"
+    exit 1
+  fi
   if [[ $FORCE -eq 0 ]] && grep -qi "rejected\|non-fast-forward\|fetch first" <<<"$OUTPUT"; then
     echo "STATUS=REJECTED"
     echo "CURRENT_BRANCH=$CURRENT_BRANCH"

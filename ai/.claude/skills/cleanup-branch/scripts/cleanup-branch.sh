@@ -33,6 +33,19 @@
 
 set -uo pipefail
 
+# Non-interactive guards: never wait on a prompt, editor, or pager.
+export GIT_TERMINAL_PROMPT=0 GIT_EDITOR=true GIT_SEQUENCE_EDITOR=true GIT_PAGER=cat PAGER=cat
+export GH_PROMPT_DISABLED=1 GH_PAGER=cat GH_NO_UPDATE_NOTIFIER=1 GH_SPINNER_DISABLED=1
+export GIT_SSH_COMMAND="ssh -o BatchMode=yes -o ConnectTimeout=15"
+
+# to <seconds> <cmd...> — bounded run; exit status 124 means it timed out.
+to() {
+  local secs="$1"; shift
+  if command -v timeout >/dev/null 2>&1; then timeout "$secs" "$@"
+  elif command -v gtimeout >/dev/null 2>&1; then gtimeout "$secs" "$@"
+  else "$@"; fi
+}
+
 die() {
   echo "STATUS=ERROR"
   echo "MESSAGE=$1"
@@ -60,7 +73,7 @@ git rev-parse --is-inside-work-tree >/dev/null 2>&1 || die "not inside a git rep
 ERRFILE="$(mktemp -t cleanup-branch-err)"
 trap 'rm -f "$ERRFILE"' EXIT
 
-git checkout "$DEFAULT_BRANCH" >"$ERRFILE" 2>&1 || die "checkout failed: $(cat "$ERRFILE")"
+to 60 git checkout "$DEFAULT_BRANCH" </dev/null >"$ERRFILE" 2>&1 || die "checkout failed: $(cat "$ERRFILE")"
 
 DELETE_FLAG="-d"
 [[ $FORCE -eq 1 ]] && DELETE_FLAG="-D"
@@ -77,7 +90,7 @@ if ! git branch "$DELETE_FLAG" "$BRANCH" >"$ERRFILE" 2>&1; then
   die "branch delete failed: $OUTPUT"
 fi
 
-if ! git pull >"$ERRFILE" 2>&1; then
+if ! to 60 git pull --ff-only --no-edit </dev/null >"$ERRFILE" 2>&1; then
   echo "STATUS=ERROR"
   echo "MESSAGE=pull failed after branch delete"
   echo "--- git output ---"

@@ -15,7 +15,7 @@ Run `scripts/rebase-branch.sh` before doing any of Steps 1-4 by hand. It perform
 - `STATUS=OK` — done. Skip straight to Step 5 (Report) using the commits it already printed.
 - `STATUS=NOOP_DEFAULT` — current branch is the default branch; nothing to do. Report this to the user.
 - `STATUS=DIVERGED_CURRENT` — the current branch has remote-only commits not present locally (Step 2.3's case), printed after the `---` marker. Stop and surface this; don't guess which side is authoritative.
-- `STATUS=REBASE_CONFLICT` — the rebase (Step 3) stopped on a real conflict. The working tree is left mid-rebase with conflict markers; resolve using Step 3's judgment rules, then continue by hand (`git add`, `git rebase --continue`).
+- `STATUS=REBASE_CONFLICT` — the rebase (Step 3) stopped on a real conflict. The working tree is left mid-rebase with conflict markers; resolve using Step 3's judgment rules, then continue by hand (`git add`, `GIT_EDITOR=true git rebase --continue`). If the script reports `rebase already in progress`, don't rerun it — resolve and continue by hand.
 - `STATUS=STASH_CONFLICT` — the rebase succeeded but reapplying the autostash (Step 4) conflicted. Resolve using Step 4's judgment rules.
 - `STATUS=ERROR` — an unexpected git failure; the `MESSAGE=` line has the raw error. Fall back to the manual steps below to diagnose.
 
@@ -26,7 +26,7 @@ Only fall back to running Steps 1-4 by hand if the script is missing, or `STATUS
 1. Run `git status` to check for uncommitted changes (staged, unstaged, or untracked).
    - If there are any, always stash them rather than asking: `git stash push -u -m "rebase-branch: autostash"`. Note that a stash was created — it must be popped in Step 4.
    - If there are none, skip the stash; there's nothing to reapply later.
-2. Determine the default branch name (e.g. `main`): `git remote show origin | grep 'HEAD branch'` or `gh repo view --json defaultBranchRef`.
+2. Determine the default branch name (e.g. `main`): `git symbolic-ref --short refs/remotes/origin/HEAD` (strip `origin/`) or `gh repo view --json defaultBranchRef`.
 3. Confirm the current branch is not the default branch itself — rebasing it onto itself is a no-op. If they're the same, stop and report that (but pop the stash from Step 1.1 first, if one was created, so the user's working tree isn't left stashed).
 
 ## Step 2: Pull latest into both branches
@@ -36,7 +36,7 @@ Only fall back to running Steps 1-4 by hand if the script is missing, or `STATUS
    - This only succeeds as a fast-forward. If it's rejected, the local default branch has commits the remote doesn't (unusual — likely stray local work on that branch). The local default branch should always mirror the remote, so force it to match: `git fetch origin +<default-branch>:<default-branch>`. This only rewrites the local default branch ref (never the current branch), so it's safe to do without asking — any stray local commits on the default branch are recoverable via reflog if the user actually wanted them.
 3. Update the current branch to match its remote counterpart, if one exists: `git merge --ff-only origin/<current-branch>`.
    - If the current branch has no upstream (never pushed), there's nothing to fast-forward — skip this.
-   - If the ff-only merge fails, that alone isn't proof of a genuine divergence — it also fails when the branch was already rebased locally and not yet re-pushed, which just leaves stale copies of your own pre-rebase commits on the remote (common in this skill's own workflow). Check whether the remote actually has commits not already present locally: `git log --cherry-pick --right-only --no-merges --oneline HEAD...origin/<current-branch>`.
+   - If the ff-only merge fails, that alone isn't proof of a genuine divergence — it also fails when the branch was already rebased locally and not yet re-pushed, which just leaves stale copies of your own pre-rebase commits on the remote (common in this skill's own workflow). Check whether the remote actually has commits not already present locally: `git --no-pager log --cherry-pick --right-only --no-merges --oneline HEAD...origin/<current-branch>`.
      - Non-empty output means real remote-only work (e.g. someone else pushed to it). Stop and surface this rather than guessing which side is authoritative (pop the Step 1.1 stash first, if any).
      - Empty output means the remote only holds stale, already-superseded copies of local commits. Proceed to Step 3 — the eventual force-push (via `push-changes`) overwrites them.
 
@@ -46,10 +46,10 @@ Only fall back to running Steps 1-4 by hand if the script is missing, or `STATUS
    - This must happen while the working tree is still clean from Step 1's stash — `git rebase` refuses outright to even start if there are any uncommitted changes (staged or not), tracked-file conflict or not. Reapplying the stash before rebasing (as opposed to after) would make every stashed run fail for this reason, not because of an actual conflict.
 2. If it completes cleanly, proceed to Step 4.
 3. If it stops on a conflict:
-   - Inspect the conflicting hunks (`git diff` shows conflict markers).
+   - Inspect the conflicting hunks (`git --no-pager diff` shows conflict markers).
    - Resolve automatically only when the resolution is unambiguous — e.g. identical changes on both sides, a clean addition on one side with no overlapping change on the other, or whitespace-only differences. Base the resolution on the actual surrounding code, not a guess.
    - When the correct resolution isn't obvious — both sides changed the same logic differently, a semantic conflict that doesn't show up as textual markers, or a deleted-vs-modified file — stop and ask the user, showing the specific conflicting hunks, rather than picking a side.
-   - After resolving a hunk, `git add` the file(s) and continue with `git rebase --continue`.
+   - After resolving a hunk, `git add` the file(s) and continue with `GIT_EDITOR=true git rebase --continue` (without it git opens an editor and hangs).
 4. Only use `git rebase --skip` if the user confirms a commit's changes are now fully redundant. Never use `git rebase --abort` unless the user asks for it — that would discard conflict-resolution work already done.
 
 ## Step 4: Reapply stashed changes
@@ -60,8 +60,8 @@ Only fall back to running Steps 1-4 by hand if the script is missing, or `STATUS
 
 ## Step 5: Report
 
-1. Run `git log <default-branch>..HEAD --oneline` to show the user the rebased commits now sitting on top of the default branch.
-2. Note that this rewrote the branch's history, so pushing it now requires a plain force push (`git push --force`, per user preference — some repos change too often for `--force-with-lease`'s staleness check to be practical). Because plain `--force` has no built-in check against clobbering someone else's concurrent push, the `push-changes` skill still confirms with the user before force-pushing, even for a rebase performed earlier in the same session.
+1. Run `git --no-pager log <default-branch>..HEAD --oneline` to show the user the rebased commits now sitting on top of the default branch.
+2. Note that this rewrote the branch's history, so pushing it now requires a force push, done as `--force-with-lease` (this script fetches the branch first, so the lease is current). The `push-changes` skill confirms with the user before force-pushing when run standalone; `ship-it` does not.
 
 ## Notes
 

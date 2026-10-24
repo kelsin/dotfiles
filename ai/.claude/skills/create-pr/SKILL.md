@@ -40,7 +40,7 @@ Only fall back to the manual steps below if a script is missing or its `STATUS=E
 
 ## Step 2: Update an existing open PR
 
-1. Gather updated context: `git log <default-branch>..HEAD --oneline` and `git diff <default-branch>...HEAD`.
+1. Gather updated context: `git --no-pager log <default-branch>..HEAD --oneline` and `git --no-pager diff <default-branch>...HEAD`.
 2. Regenerate the Summary and Test Plan from the full accumulated diff/commits on the branch (not just the newly pushed ones, so the description stays a coherent whole) and update the PR in place:
    ```bash
    gh pr edit <number> --body "$(cat <<'EOF'
@@ -59,7 +59,7 @@ Only fall back to the manual steps below if a script is missing or its `STATUS=E
 
 ## Step 3: Create a new PR
 
-1. Gather context for the PR body: `git log <default-branch>..HEAD --oneline` and `git diff <default-branch>...HEAD`.
+1. Gather context for the PR body: `git --no-pager log <default-branch>..HEAD --oneline` and `git --no-pager diff <default-branch>...HEAD`.
 2. Create the PR against the repo's default branch, ready for review (not draft):
    ```bash
    gh pr create --title "<short title, under 70 chars>" --body "$(cat <<'EOF'

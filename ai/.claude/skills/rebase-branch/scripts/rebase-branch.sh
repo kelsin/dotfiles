@@ -26,6 +26,28 @@
 
 set -uo pipefail
 
+# Non-interactive guards: never wait on a prompt, editor, or pager.
+export GIT_TERMINAL_PROMPT=0 GIT_EDITOR=true GIT_SEQUENCE_EDITOR=true GIT_PAGER=cat PAGER=cat
+export GH_PROMPT_DISABLED=1 GH_PAGER=cat GH_NO_UPDATE_NOTIFIER=1 GH_SPINNER_DISABLED=1
+export GIT_SSH_COMMAND="ssh -o BatchMode=yes -o ConnectTimeout=15"
+
+# to <seconds> <cmd...> — bounded run; exit status 124 means it timed out.
+to() {
+  local secs="$1"; shift
+  if command -v timeout >/dev/null 2>&1; then timeout "$secs" "$@"
+  elif command -v gtimeout >/dev/null 2>&1; then gtimeout "$secs" "$@"
+  else "$@"; fi
+}
+
+# Local lookup first; `git remote show` hits the network, so it's only a fallback.
+default_branch() {
+  local b
+  b="$(git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null | sed 's#^origin/##')"
+  [[ -z "$b" ]] && b="$(to 20 git remote show origin 2>/dev/null </dev/null | sed -n 's/.*HEAD branch: //p')"
+  [[ -z "$b" ]] && b="$(to 20 gh repo view --json defaultBranchRef -q .defaultBranchRef.name 2>/dev/null </dev/null || true)"
+  printf '%s' "$b"
+}
+
 ERRFILE="$(mktemp -t rebase-branch-err)"
 trap 'rm -f "$ERRFILE"' EXIT
 
@@ -50,6 +72,13 @@ conflicting_files() {
 command -v git >/dev/null || die "git not found"
 git rev-parse --is-inside-work-tree >/dev/null 2>&1 || die "not inside a git repository"
 
+# A previous run that hit conflicts leaves the rebase in progress; rerunning
+# would misreport it (or stash a conflicted index).
+if [[ -d "$(git rev-parse --git-path rebase-merge)" || -d "$(git rev-parse --git-path rebase-apply)" ]]; then
+  die "rebase already in progress — resolve conflicts then run GIT_EDITOR=true git rebase --continue, or git rebase --abort"
+fi
+[[ -f "$(git rev-parse --git-path index.lock)" ]] && die "index.lock exists — another git process is running (or was killed); check before removing it"
+
 STASHED=0
 
 # --- Step 1: Pre-flight ---
@@ -60,10 +89,7 @@ if [[ -n "$(git status --porcelain)" ]]; then
   STASHED=1
 fi
 
-DEFAULT_BRANCH="$(git remote show origin 2>/dev/null | sed -n 's/.*HEAD branch: //p')"
-if [[ -z "$DEFAULT_BRANCH" ]]; then
-  DEFAULT_BRANCH="$(gh repo view --json defaultBranchRef -q .defaultBranchRef.name 2>/dev/null || true)"
-fi
+DEFAULT_BRANCH="$(default_branch)"
 if [[ -z "$DEFAULT_BRANCH" ]]; then
   [[ $STASHED -eq 1 ]] && git stash pop >/dev/null 2>&1
   die "could not determine default branch"
@@ -79,11 +105,11 @@ fi
 
 # --- Step 2: Pull latest into both branches ---
 
-git fetch origin "$DEFAULT_BRANCH" "$CURRENT_BRANCH" >/dev/null 2>&1
+to 60 git fetch origin "$DEFAULT_BRANCH" "$CURRENT_BRANCH" </dev/null >/dev/null 2>&1
 
-if ! git fetch origin "$DEFAULT_BRANCH:$DEFAULT_BRANCH" >/dev/null 2>&1; then
+if ! to 60 git fetch origin "$DEFAULT_BRANCH:$DEFAULT_BRANCH" </dev/null >/dev/null 2>&1; then
   # Local default diverged from remote — it should always mirror remote, so force it.
-  require_clean_exit git fetch origin "+$DEFAULT_BRANCH:$DEFAULT_BRANCH"
+  require_clean_exit to 60 git fetch origin "+$DEFAULT_BRANCH:$DEFAULT_BRANCH"
 fi
 
 if git show-ref --verify --quiet "refs/remotes/origin/$CURRENT_BRANCH"; then
@@ -112,7 +138,12 @@ fi
 
 # --- Step 3: Rebase (must happen before the stash is reapplied) ---
 
-if ! git rebase "$DEFAULT_BRANCH" >/dev/null 2>"$ERRFILE"; then
+to 300 git rebase "$DEFAULT_BRANCH" </dev/null >/dev/null 2>"$ERRFILE"
+REBASE_RC=$?
+if [[ $REBASE_RC -eq 124 ]]; then
+  die "rebase timed out after 300s — likely waiting on a 1Password signing approval; a rebase may be left in progress (git rebase --abort to reset)"
+fi
+if [[ $REBASE_RC -ne 0 ]]; then
   echo "STATUS=REBASE_CONFLICT"
   echo "DEFAULT_BRANCH=$DEFAULT_BRANCH"
   echo "CURRENT_BRANCH=$CURRENT_BRANCH"

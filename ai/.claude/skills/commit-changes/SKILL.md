@@ -17,13 +17,14 @@ Two scripts cover the mechanical parts of this skill; writing the commit message
 - `STATUS=OK` — proceed. Facts are in the `KEY=value` lines (`GH_USERNAME`, `DEFAULT_BRANCH`, `CURRENT_BRANCH`, `ON_DEFAULT`, `TEST_COMMAND`, `SECRET_HITS`) plus a diff summary at the bottom — use these instead of running `git diff`/`git status` separately. If `SECRET_HITS` > 0, review the listed files' actual contents (the scan is filename-based only) and decide with the user whether to exclude them.
 - `STATUS=NOTHING` — no changes to commit. Stop and report that.
 - `STATUS=TEST_FAILED` — the detected test/lint command failed; its output is included. Stop and surface it — do not commit broken code.
+- `STATUS=TEST_TIMEOUT` — the test/lint command ran past the timeout (watch mode or a prompt). Stop and report; don't retry in a loop.
 - `STATUS=ERROR` — unexpected failure; the `MESSAGE=` line has why. Fall back to the manual steps below.
 
 **`scripts/commit.sh`** — mutating. Takes the branch name (only when `ON_DEFAULT=1`, per Step 2) and any paths to exclude (from the secret scan or user request) as flags, and the finished commit message on stdin. It stages everything except excluded paths and commits — it does not generate the message or slug. Example:
 ```bash
 echo "feat(auth): add token refresh" | scripts/commit.sh --branch "$GH_USERNAME/add-token-refresh"
 ```
-Read its `STATUS=` line: `OK` (done — report the branch/commit SHA), `HOOK_FAILED` (a commit hook rejected it — surface the output, don't retry with `--no-verify`), or `ERROR`.
+Read its `STATUS=` line: `OK` (done — report the branch/commit SHA), `HOOK_FAILED` (a commit hook rejected it — surface the output, don't retry with `--no-verify`), `SIGN_TIMEOUT` (the commit hung for 120s — almost always a pending 1Password signing approval; tell the user to unlock/approve 1Password and then retry once, don't retry blind or bypass signing), or `ERROR`.
 
 Only fall back to the manual steps below if a script is missing or its `STATUS=ERROR`/`HOOK_FAILED` needs manual diagnosis. The steps below remain the authoritative description of the judgment calls (message wording, slug, secret handling) the scripts defer to you.
 
@@ -37,11 +38,11 @@ Only fall back to the manual steps below if a script is missing or its `STATUS=E
    - Make-based: `Makefile` with a `test` or `lint` target.
    - Other common conventions (`tox.ini`, `justfile`, etc.) if present.
    If found, run it. If it fails, stop and surface the failure output — do not commit broken code.
-4. Scan the diff (`git diff` and untracked files) for likely secrets before staging anything: `.env` files, private keys (`*.pem`, `id_rsa`), credential files, tokens embedded in code. If found, exclude them from staging and warn the user rather than committing them silently.
+4. Scan the diff (`git --no-pager diff` and untracked files) for likely secrets before staging anything: `.env` files, private keys (`*.pem`, `id_rsa`), credential files, tokens embedded in code. If found, exclude them from staging and warn the user rather than committing them silently.
 
 ## Step 2: Branching
 
-1. Determine the repo's default branch: `git remote show origin | grep 'HEAD branch'` or `gh repo view --json defaultBranchRef`.
+1. Determine the repo's default branch: `git symbolic-ref --short refs/remotes/origin/HEAD` (strip `origin/`) or `gh repo view --json defaultBranchRef`.
 2. If the current branch IS the default branch:
    - Generate a branch name as `<gh-username>/<slug>`, where `<gh-username>` is the account identified in Step 1.2 and `<slug>` is a 1-3 word kebab-case summary of the change (derived from the diff content, not a generic word like "update").
    - Create and switch to it: `git checkout -b <branch-name>`.
@@ -50,7 +51,7 @@ Only fall back to the manual steps below if a script is missing or its `STATUS=E
 ## Step 3: Stage and commit
 
 1. Stage everything: `git add -A` (minus anything excluded for secrets in Step 1.4).
-2. Review `git diff --staged` to understand the actual change.
+2. Review `git --no-pager diff --staged` to understand the actual change.
 3. Write the commit message using [Conventional Commits](https://www.conventionalcommits.org) format: `<type>[optional scope]: <description>`.
    - `type` is one of: `feat`, `fix`, `refactor`, `perf`, `test`, `docs`, `build`, `ci`, `chore`, `revert`. Pick the one that matches the actual change — `feat` for new capability, `fix` for a bug fix, `refactor` for restructuring with no behavior change, etc.
    - `scope` is optional — a short noun for the affected area (e.g. `auth`, `api`, package/module name), derived from the diff. Omit it if nothing specific stands out.

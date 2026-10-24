@@ -30,6 +30,28 @@
 
 set -uo pipefail
 
+# Non-interactive guards: never wait on a prompt, editor, or pager.
+export GIT_TERMINAL_PROMPT=0 GIT_EDITOR=true GIT_SEQUENCE_EDITOR=true GIT_PAGER=cat PAGER=cat
+export GH_PROMPT_DISABLED=1 GH_PAGER=cat GH_NO_UPDATE_NOTIFIER=1 GH_SPINNER_DISABLED=1
+export GIT_SSH_COMMAND="ssh -o BatchMode=yes -o ConnectTimeout=15"
+
+# to <seconds> <cmd...> — bounded run; exit status 124 means it timed out.
+to() {
+  local secs="$1"; shift
+  if command -v timeout >/dev/null 2>&1; then timeout "$secs" "$@"
+  elif command -v gtimeout >/dev/null 2>&1; then gtimeout "$secs" "$@"
+  else "$@"; fi
+}
+
+# Local lookup first; `git remote show` hits the network, so it's only a fallback.
+default_branch() {
+  local b
+  b="$(git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null | sed 's#^origin/##')"
+  [[ -z "$b" ]] && b="$(to 20 git remote show origin 2>/dev/null </dev/null | sed -n 's/.*HEAD branch: //p')"
+  [[ -z "$b" ]] && b="$(to 20 gh repo view --json defaultBranchRef -q .defaultBranchRef.name 2>/dev/null </dev/null || true)"
+  printf '%s' "$b"
+}
+
 die() {
   echo "STATUS=ERROR"
   echo "MESSAGE=$1"
@@ -40,10 +62,7 @@ command -v git >/dev/null || die "git not found"
 command -v gh >/dev/null || die "gh not found"
 git rev-parse --is-inside-work-tree >/dev/null 2>&1 || die "not inside a git repository"
 
-DEFAULT_BRANCH="$(git remote show origin 2>/dev/null | sed -n 's/.*HEAD branch: //p')"
-if [[ -z "$DEFAULT_BRANCH" ]]; then
-  DEFAULT_BRANCH="$(gh repo view --json defaultBranchRef -q .defaultBranchRef.name 2>/dev/null || true)"
-fi
+DEFAULT_BRANCH="$(default_branch)"
 [[ -z "$DEFAULT_BRANCH" ]] && die "could not determine default branch"
 
 COMMITS="$(git log "$DEFAULT_BRANCH..HEAD" --oneline)"
@@ -56,7 +75,7 @@ print_context() {
   git diff "$DEFAULT_BRANCH...HEAD"
 }
 
-PR_JSON="$(gh pr view --json url,state,number 2>&1)"
+PR_JSON="$(to 30 gh pr view --json url,state,number 2>&1 </dev/null)"
 if [[ $? -ne 0 ]]; then
   if grep -qi "no pull requests found" <<<"$PR_JSON"; then
     if [[ -z "$COMMITS" ]]; then

@@ -56,7 +56,7 @@ Only fall back to the manual steps below if a script is missing or its `STATUS=E
 
 ## Step 3: Pull latest
 
-1. `git pull` on the now-checked-out default branch to bring in the latest remote changes (including whatever landed from the just-cleaned-up PR).
+1. `git pull --ff-only --no-edit` on the now-checked-out default branch to bring in the latest remote changes (including whatever landed from the just-cleaned-up PR).
 
 ## Step 4: Prompt to clear context
 
