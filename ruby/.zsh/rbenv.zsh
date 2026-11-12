@@ -12,9 +12,6 @@ if [ ! -d "$HOME/.rbenv" ]; then
     # Install ruby-build
     mkdir -p "$(rbenv root)"/plugins
     git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
-
-    # Install default ruby
-    rbenv install `cat $HOME/.ruby-version`
 fi
 
 if (( $+commands[rbenv] )) ; then

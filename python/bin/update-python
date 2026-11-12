@@ -11,7 +11,4 @@ git -C "$(pyenv root)" pull
 echo Upgrading pyenv-virtualenv
 git -C "$(pyenv root)"/plugins/pyenv-virtualenv pull
 
-# Install the current python
-pyenv install -s `cat $HOME/.python-version`
-
 echo Done updating python
