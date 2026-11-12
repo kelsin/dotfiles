@@ -45,3 +45,6 @@ xmonad/.xmonad/*.errors
 
 # AI Ignores
 ai/.claude/agents/global
+.claude/settings.local.json
+.claude/worktrees/
+CLAUDE.local.md

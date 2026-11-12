@@ -159,3 +159,6 @@ alias dash='gh dash'
 
 # 18xx Maker
 alias maker='pnpm --silent maker'
+
+# sync-roms
+alias sr='sync-roms'
