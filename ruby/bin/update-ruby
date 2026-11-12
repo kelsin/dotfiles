@@ -11,19 +11,6 @@ git -C "$(rbenv root)" pull
 echo Upgrading rbenv-build
 git -C "$(rbenv root)"/plugins/ruby-build pull
 
-# Install the current ruby
-rbenv install -s `cat $HOME/.ruby-version`
-
-# Update gems
-echo "Updating gems"
-rbenv shell `cat $HOME/.ruby-version`
-gem update --system
-gem update
-
-# Make sure bundler is installed
-echo "Installing bundler"
-gem install bundler
-
 # Rehash
 rbenv rehash
 
